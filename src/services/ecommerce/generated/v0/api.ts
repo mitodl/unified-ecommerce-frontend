@@ -12,16 +12,32 @@
  * Do not edit the class manually.
  */
 
-
-import type { Configuration } from './configuration';
-import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
-import globalAxios from 'axios';
+import type { Configuration } from "./configuration";
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios";
+import globalAxios from "axios";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
-import type { RequestArgs } from './base';
+import {
+  DUMMY_BASE_URL,
+  assertParamExists,
+  setApiKeyToObject,
+  setBasicAuthToObject,
+  setBearerAuthToObject,
+  setOAuthToObject,
+  setSearchParams,
+  serializeDataIfNeeded,
+  toPathString,
+  createRequestFunction,
+} from "./common";
+import type { RequestArgs } from "./base";
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
+import {
+  BASE_PATH,
+  COLLECTION_FORMATS,
+  BaseAPI,
+  RequiredError,
+  operationServerMap,
+} from "./base";
 
 /**
  * Basket item model serializer with product information
@@ -29,36 +45,36 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
  * @interface BasketItemWithProduct
  */
 export interface BasketItemWithProduct {
-    /**
-     *
-     * @type {Nested}
-     * @memberof BasketItemWithProduct
-     */
-    'basket': Nested;
-    /**
-     *
-     * @type {Product}
-     * @memberof BasketItemWithProduct
-     */
-    'product': Product;
-    /**
-     *
-     * @type {number}
-     * @memberof BasketItemWithProduct
-     */
-    'id': number;
-    /**
-     * Return the total price of the basket item with discounts.
-     * @type {number}
-     * @memberof BasketItemWithProduct
-     */
-    'price': number;
-    /**
-     * Get the price of the basket item with applicable discounts.  Returns:     Decimal: The price of the basket item reduced by an applicable discount.
-     * @type {number}
-     * @memberof BasketItemWithProduct
-     */
-    'discounted_price': number;
+  /**
+   *
+   * @type {Nested}
+   * @memberof BasketItemWithProduct
+   */
+  basket: Nested;
+  /**
+   *
+   * @type {Product}
+   * @memberof BasketItemWithProduct
+   */
+  product: Product;
+  /**
+   *
+   * @type {number}
+   * @memberof BasketItemWithProduct
+   */
+  id: number;
+  /**
+   * Return the total price of the basket item with discounts.
+   * @type {number}
+   * @memberof BasketItemWithProduct
+   */
+  price: number;
+  /**
+   * Get the price of the basket item with applicable discounts.  Returns:     Decimal: The price of the basket item reduced by an applicable discount.
+   * @type {number}
+   * @memberof BasketItemWithProduct
+   */
+  discounted_price: number;
 }
 /**
  * Basket model serializer with items and products
@@ -66,30 +82,30 @@ export interface BasketItemWithProduct {
  * @interface BasketWithProduct
  */
 export interface BasketWithProduct {
-    /**
-     *
-     * @type {number}
-     * @memberof BasketWithProduct
-     */
-    'id': number;
-    /**
-     *
-     * @type {number}
-     * @memberof BasketWithProduct
-     */
-    'user': number;
-    /**
-     *
-     * @type {Array<BasketItemWithProduct>}
-     * @memberof BasketWithProduct
-     */
-    'basket_items': Array<BasketItemWithProduct>;
-    /**
-     * Get the total price for the basket
-     * @type {number}
-     * @memberof BasketWithProduct
-     */
-    'total_price': number;
+  /**
+   *
+   * @type {number}
+   * @memberof BasketWithProduct
+   */
+  id: number;
+  /**
+   *
+   * @type {number}
+   * @memberof BasketWithProduct
+   */
+  user: number;
+  /**
+   *
+   * @type {Array<BasketItemWithProduct>}
+   * @memberof BasketWithProduct
+   */
+  basket_items: Array<BasketItemWithProduct>;
+  /**
+   * Get the total price for the basket
+   * @type {number}
+   * @memberof BasketWithProduct
+   */
+  total_price: number;
 }
 /**
  * Serializer for IntegratedSystem model.
@@ -97,30 +113,30 @@ export interface BasketWithProduct {
  * @interface IntegratedSystem
  */
 export interface IntegratedSystem {
-    /**
-     *
-     * @type {number}
-     * @memberof IntegratedSystem
-     */
-    'id': number;
-    /**
-     *
-     * @type {string}
-     * @memberof IntegratedSystem
-     */
-    'name': string;
-    /**
-     *
-     * @type {string}
-     * @memberof IntegratedSystem
-     */
-    'slug'?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof IntegratedSystem
-     */
-    'description'?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof IntegratedSystem
+   */
+  id: number;
+  /**
+   *
+   * @type {string}
+   * @memberof IntegratedSystem
+   */
+  name: string;
+  /**
+   *
+   * @type {string}
+   * @memberof IntegratedSystem
+   */
+  slug?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof IntegratedSystem
+   */
+  description?: string;
 }
 /**
  * Serializer for IntegratedSystem model.
@@ -128,24 +144,24 @@ export interface IntegratedSystem {
  * @interface IntegratedSystemRequest
  */
 export interface IntegratedSystemRequest {
-    /**
-     *
-     * @type {string}
-     * @memberof IntegratedSystemRequest
-     */
-    'name': string;
-    /**
-     *
-     * @type {string}
-     * @memberof IntegratedSystemRequest
-     */
-    'slug'?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof IntegratedSystemRequest
-     */
-    'description'?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof IntegratedSystemRequest
+   */
+  name: string;
+  /**
+   *
+   * @type {string}
+   * @memberof IntegratedSystemRequest
+   */
+  slug?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof IntegratedSystemRequest
+   */
+  description?: string;
 }
 /**
  * Serializes a line item for an order.
@@ -153,42 +169,42 @@ export interface IntegratedSystemRequest {
  * @interface Line
  */
 export interface Line {
-    /**
-     *
-     * @type {number}
-     * @memberof Line
-     */
-    'id': number;
-    /**
-     *
-     * @type {number}
-     * @memberof Line
-     */
-    'quantity': number;
-    /**
-     * Return the item description
-     * @type {string}
-     * @memberof Line
-     */
-    'item_description': string;
-    /**
-     *
-     * @type {string}
-     * @memberof Line
-     */
-    'unit_price': string;
-    /**
-     *
-     * @type {string}
-     * @memberof Line
-     */
-    'total_price': string;
-    /**
-     *
-     * @type {Product}
-     * @memberof Line
-     */
-    'product': Product;
+  /**
+   *
+   * @type {number}
+   * @memberof Line
+   */
+  id: number;
+  /**
+   *
+   * @type {number}
+   * @memberof Line
+   */
+  quantity: number;
+  /**
+   * Return the item description
+   * @type {string}
+   * @memberof Line
+   */
+  item_description: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Line
+   */
+  unit_price: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Line
+   */
+  total_price: string;
+  /**
+   *
+   * @type {Product}
+   * @memberof Line
+   */
+  product: Product;
 }
 /**
  *
@@ -196,80 +212,79 @@ export interface Line {
  * @interface Nested
  */
 export interface Nested {
-    /**
-     *
-     * @type {number}
-     * @memberof Nested
-     */
-    'id': number;
-    /**
-     *
-     * @type {string}
-     * @memberof Nested
-     */
-    'created_on': string;
-    /**
-     *
-     * @type {string}
-     * @memberof Nested
-     */
-    'updated_on': string;
-    /**
-     * The IP address of the user.
-     * @type {string}
-     * @memberof Nested
-     */
-    'user_ip'?: string;
-    /**
-     * The country code for the user for this basket for tax purposes.
-     * @type {string}
-     * @memberof Nested
-     */
-    'user_taxable_country_code'?: string | null;
-    /**
-     *
-     * @type {UserTaxableGeolocationTypeEnum}
-     * @memberof Nested
-     */
-    'user_taxable_geolocation_type'?: UserTaxableGeolocationTypeEnum;
-    /**
-     * The country code for the user for this basket for blocked items.
-     * @type {string}
-     * @memberof Nested
-     */
-    'user_blockable_country_code'?: string | null;
-    /**
-     * How the user\'s location was determined for blocked items.
-     * @type {string}
-     * @memberof Nested
-     */
-    'user_blockable_geolocation_type'?: string;
-    /**
-     *
-     * @type {number}
-     * @memberof Nested
-     */
-    'user': number;
-    /**
-     *
-     * @type {number}
-     * @memberof Nested
-     */
-    'integrated_system': number;
-    /**
-     * The tax rate assessed for this basket.
-     * @type {number}
-     * @memberof Nested
-     */
-    'tax_rate'?: number | null;
-    /**
-     *
-     * @type {Array<number>}
-     * @memberof Nested
-     */
-    'discounts': Array<number>;
+  /**
+   *
+   * @type {number}
+   * @memberof Nested
+   */
+  id: number;
+  /**
+   *
+   * @type {string}
+   * @memberof Nested
+   */
+  created_on: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Nested
+   */
+  updated_on: string;
+  /**
+   * The IP address of the user.
+   * @type {string}
+   * @memberof Nested
+   */
+  user_ip?: string;
+  /**
+   * The country code for the user for this basket for tax purposes.
+   * @type {string}
+   * @memberof Nested
+   */
+  user_taxable_country_code?: string | null;
+  /**
+   *
+   * @type {UserTaxableGeolocationTypeEnum}
+   * @memberof Nested
+   */
+  user_taxable_geolocation_type?: UserTaxableGeolocationTypeEnum;
+  /**
+   * The country code for the user for this basket for blocked items.
+   * @type {string}
+   * @memberof Nested
+   */
+  user_blockable_country_code?: string | null;
+  /**
+   * How the user\'s location was determined for blocked items.
+   * @type {string}
+   * @memberof Nested
+   */
+  user_blockable_geolocation_type?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof Nested
+   */
+  user: number;
+  /**
+   *
+   * @type {number}
+   * @memberof Nested
+   */
+  integrated_system: number;
+  /**
+   * The tax rate assessed for this basket.
+   * @type {number}
+   * @memberof Nested
+   */
+  tax_rate?: number | null;
+  /**
+   *
+   * @type {Array<number>}
+   * @memberof Nested
+   */
+  discounts: Array<number>;
 }
-
 
 /**
  * Serializer for order history.
@@ -277,56 +292,55 @@ export interface Nested {
  * @interface OrderHistory
  */
 export interface OrderHistory {
-    /**
-     *
-     * @type {number}
-     * @memberof OrderHistory
-     */
-    'id': number;
-    /**
-     *
-     * @type {StateEnum}
-     * @memberof OrderHistory
-     */
-    'state'?: StateEnum;
-    /**
-     *
-     * @type {string}
-     * @memberof OrderHistory
-     */
-    'reference_number'?: string;
-    /**
-     *
-     * @type {number}
-     * @memberof OrderHistory
-     */
-    'purchaser': number;
-    /**
-     *
-     * @type {string}
-     * @memberof OrderHistory
-     */
-    'total_price_paid': string;
-    /**
-     *
-     * @type {Array<Line>}
-     * @memberof OrderHistory
-     */
-    'lines': Array<Line>;
-    /**
-     *
-     * @type {string}
-     * @memberof OrderHistory
-     */
-    'created_on': string;
-    /**
-     *
-     * @type {string}
-     * @memberof OrderHistory
-     */
-    'updated_on': string;
+  /**
+   *
+   * @type {number}
+   * @memberof OrderHistory
+   */
+  id: number;
+  /**
+   *
+   * @type {StateEnum}
+   * @memberof OrderHistory
+   */
+  state?: StateEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof OrderHistory
+   */
+  reference_number?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof OrderHistory
+   */
+  purchaser: number;
+  /**
+   *
+   * @type {string}
+   * @memberof OrderHistory
+   */
+  total_price_paid: string;
+  /**
+   *
+   * @type {Array<Line>}
+   * @memberof OrderHistory
+   */
+  lines: Array<Line>;
+  /**
+   *
+   * @type {string}
+   * @memberof OrderHistory
+   */
+  created_on: string;
+  /**
+   *
+   * @type {string}
+   * @memberof OrderHistory
+   */
+  updated_on: string;
 }
-
 
 /**
  *
@@ -334,30 +348,30 @@ export interface OrderHistory {
  * @interface PaginatedBasketWithProductList
  */
 export interface PaginatedBasketWithProductList {
-    /**
-     *
-     * @type {number}
-     * @memberof PaginatedBasketWithProductList
-     */
-    'count': number;
-    /**
-     *
-     * @type {string}
-     * @memberof PaginatedBasketWithProductList
-     */
-    'next'?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof PaginatedBasketWithProductList
-     */
-    'previous'?: string | null;
-    /**
-     *
-     * @type {Array<BasketWithProduct>}
-     * @memberof PaginatedBasketWithProductList
-     */
-    'results': Array<BasketWithProduct>;
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedBasketWithProductList
+   */
+  count: number;
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedBasketWithProductList
+   */
+  next?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedBasketWithProductList
+   */
+  previous?: string | null;
+  /**
+   *
+   * @type {Array<BasketWithProduct>}
+   * @memberof PaginatedBasketWithProductList
+   */
+  results: Array<BasketWithProduct>;
 }
 /**
  *
@@ -365,30 +379,30 @@ export interface PaginatedBasketWithProductList {
  * @interface PaginatedIntegratedSystemList
  */
 export interface PaginatedIntegratedSystemList {
-    /**
-     *
-     * @type {number}
-     * @memberof PaginatedIntegratedSystemList
-     */
-    'count': number;
-    /**
-     *
-     * @type {string}
-     * @memberof PaginatedIntegratedSystemList
-     */
-    'next'?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof PaginatedIntegratedSystemList
-     */
-    'previous'?: string | null;
-    /**
-     *
-     * @type {Array<IntegratedSystem>}
-     * @memberof PaginatedIntegratedSystemList
-     */
-    'results': Array<IntegratedSystem>;
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedIntegratedSystemList
+   */
+  count: number;
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedIntegratedSystemList
+   */
+  next?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedIntegratedSystemList
+   */
+  previous?: string | null;
+  /**
+   *
+   * @type {Array<IntegratedSystem>}
+   * @memberof PaginatedIntegratedSystemList
+   */
+  results: Array<IntegratedSystem>;
 }
 /**
  *
@@ -396,30 +410,30 @@ export interface PaginatedIntegratedSystemList {
  * @interface PaginatedOrderHistoryList
  */
 export interface PaginatedOrderHistoryList {
-    /**
-     *
-     * @type {number}
-     * @memberof PaginatedOrderHistoryList
-     */
-    'count': number;
-    /**
-     *
-     * @type {string}
-     * @memberof PaginatedOrderHistoryList
-     */
-    'next'?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof PaginatedOrderHistoryList
-     */
-    'previous'?: string | null;
-    /**
-     *
-     * @type {Array<OrderHistory>}
-     * @memberof PaginatedOrderHistoryList
-     */
-    'results': Array<OrderHistory>;
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedOrderHistoryList
+   */
+  count: number;
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedOrderHistoryList
+   */
+  next?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedOrderHistoryList
+   */
+  previous?: string | null;
+  /**
+   *
+   * @type {Array<OrderHistory>}
+   * @memberof PaginatedOrderHistoryList
+   */
+  results: Array<OrderHistory>;
 }
 /**
  *
@@ -427,30 +441,30 @@ export interface PaginatedOrderHistoryList {
  * @interface PaginatedProductList
  */
 export interface PaginatedProductList {
-    /**
-     *
-     * @type {number}
-     * @memberof PaginatedProductList
-     */
-    'count': number;
-    /**
-     *
-     * @type {string}
-     * @memberof PaginatedProductList
-     */
-    'next'?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof PaginatedProductList
-     */
-    'previous'?: string | null;
-    /**
-     *
-     * @type {Array<Product>}
-     * @memberof PaginatedProductList
-     */
-    'results': Array<Product>;
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedProductList
+   */
+  count: number;
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedProductList
+   */
+  next?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedProductList
+   */
+  previous?: string | null;
+  /**
+   *
+   * @type {Array<Product>}
+   * @memberof PaginatedProductList
+   */
+  results: Array<Product>;
 }
 /**
  * Serializer for IntegratedSystem model.
@@ -458,24 +472,24 @@ export interface PaginatedProductList {
  * @interface PatchedIntegratedSystemRequest
  */
 export interface PatchedIntegratedSystemRequest {
-    /**
-     *
-     * @type {string}
-     * @memberof PatchedIntegratedSystemRequest
-     */
-    'name'?: string;
-    /**
-     *
-     * @type {string}
-     * @memberof PatchedIntegratedSystemRequest
-     */
-    'slug'?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof PatchedIntegratedSystemRequest
-     */
-    'description'?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedIntegratedSystemRequest
+   */
+  name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedIntegratedSystemRequest
+   */
+  slug?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedIntegratedSystemRequest
+   */
+  description?: string;
 }
 /**
  * Serializer for Product model.
@@ -483,42 +497,42 @@ export interface PatchedIntegratedSystemRequest {
  * @interface PatchedProductRequest
  */
 export interface PatchedProductRequest {
-    /**
-     * SKU of the product.
-     * @type {string}
-     * @memberof PatchedProductRequest
-     */
-    'sku'?: string;
-    /**
-     * Short name of the product, displayed in carts/etc.
-     * @type {string}
-     * @memberof PatchedProductRequest
-     */
-    'name'?: string;
-    /**
-     * Price (decimal to two places)
-     * @type {string}
-     * @memberof PatchedProductRequest
-     */
-    'price'?: string;
-    /**
-     * Long description of the product.
-     * @type {string}
-     * @memberof PatchedProductRequest
-     */
-    'description'?: string;
-    /**
-     * System-specific data for the product (in JSON).
-     * @type {any}
-     * @memberof PatchedProductRequest
-     */
-    'system_data'?: any | null;
-    /**
-     * Owner system of the product.
-     * @type {number}
-     * @memberof PatchedProductRequest
-     */
-    'system'?: number;
+  /**
+   * SKU of the product.
+   * @type {string}
+   * @memberof PatchedProductRequest
+   */
+  sku?: string;
+  /**
+   * Short name of the product, displayed in carts/etc.
+   * @type {string}
+   * @memberof PatchedProductRequest
+   */
+  name?: string;
+  /**
+   * Price (decimal to two places)
+   * @type {string}
+   * @memberof PatchedProductRequest
+   */
+  price?: string;
+  /**
+   * Long description of the product.
+   * @type {string}
+   * @memberof PatchedProductRequest
+   */
+  description?: string;
+  /**
+   * System-specific data for the product (in JSON).
+   * @type {any}
+   * @memberof PatchedProductRequest
+   */
+  system_data?: any | null;
+  /**
+   * Owner system of the product.
+   * @type {number}
+   * @memberof PatchedProductRequest
+   */
+  system?: number;
 }
 /**
  * Serializer for Product model.
@@ -526,72 +540,72 @@ export interface PatchedProductRequest {
  * @interface Product
  */
 export interface Product {
-    /**
-     *
-     * @type {number}
-     * @memberof Product
-     */
-    'id': number;
-    /**
-     *
-     * @type {string}
-     * @memberof Product
-     */
-    'deleted_on': string | null;
-    /**
-     *
-     * @type {boolean}
-     * @memberof Product
-     */
-    'deleted_by_cascade': boolean;
-    /**
-     *
-     * @type {string}
-     * @memberof Product
-     */
-    'created_on': string;
-    /**
-     *
-     * @type {string}
-     * @memberof Product
-     */
-    'updated_on': string;
-    /**
-     * SKU of the product.
-     * @type {string}
-     * @memberof Product
-     */
-    'sku': string;
-    /**
-     * Short name of the product, displayed in carts/etc.
-     * @type {string}
-     * @memberof Product
-     */
-    'name': string;
-    /**
-     * Price (decimal to two places)
-     * @type {string}
-     * @memberof Product
-     */
-    'price': string;
-    /**
-     * Long description of the product.
-     * @type {string}
-     * @memberof Product
-     */
-    'description': string;
-    /**
-     * System-specific data for the product (in JSON).
-     * @type {any}
-     * @memberof Product
-     */
-    'system_data'?: any | null;
-    /**
-     * Owner system of the product.
-     * @type {number}
-     * @memberof Product
-     */
-    'system': number;
+  /**
+   *
+   * @type {number}
+   * @memberof Product
+   */
+  id: number;
+  /**
+   *
+   * @type {string}
+   * @memberof Product
+   */
+  deleted_on: string | null;
+  /**
+   *
+   * @type {boolean}
+   * @memberof Product
+   */
+  deleted_by_cascade: boolean;
+  /**
+   *
+   * @type {string}
+   * @memberof Product
+   */
+  created_on: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Product
+   */
+  updated_on: string;
+  /**
+   * SKU of the product.
+   * @type {string}
+   * @memberof Product
+   */
+  sku: string;
+  /**
+   * Short name of the product, displayed in carts/etc.
+   * @type {string}
+   * @memberof Product
+   */
+  name: string;
+  /**
+   * Price (decimal to two places)
+   * @type {string}
+   * @memberof Product
+   */
+  price: string;
+  /**
+   * Long description of the product.
+   * @type {string}
+   * @memberof Product
+   */
+  description: string;
+  /**
+   * System-specific data for the product (in JSON).
+   * @type {any}
+   * @memberof Product
+   */
+  system_data?: any | null;
+  /**
+   * Owner system of the product.
+   * @type {number}
+   * @memberof Product
+   */
+  system: number;
 }
 /**
  * Serializer for Product model.
@@ -599,42 +613,42 @@ export interface Product {
  * @interface ProductRequest
  */
 export interface ProductRequest {
-    /**
-     * SKU of the product.
-     * @type {string}
-     * @memberof ProductRequest
-     */
-    'sku': string;
-    /**
-     * Short name of the product, displayed in carts/etc.
-     * @type {string}
-     * @memberof ProductRequest
-     */
-    'name': string;
-    /**
-     * Price (decimal to two places)
-     * @type {string}
-     * @memberof ProductRequest
-     */
-    'price': string;
-    /**
-     * Long description of the product.
-     * @type {string}
-     * @memberof ProductRequest
-     */
-    'description': string;
-    /**
-     * System-specific data for the product (in JSON).
-     * @type {any}
-     * @memberof ProductRequest
-     */
-    'system_data'?: any | null;
-    /**
-     * Owner system of the product.
-     * @type {number}
-     * @memberof ProductRequest
-     */
-    'system': number;
+  /**
+   * SKU of the product.
+   * @type {string}
+   * @memberof ProductRequest
+   */
+  sku: string;
+  /**
+   * Short name of the product, displayed in carts/etc.
+   * @type {string}
+   * @memberof ProductRequest
+   */
+  name: string;
+  /**
+   * Price (decimal to two places)
+   * @type {string}
+   * @memberof ProductRequest
+   */
+  price: string;
+  /**
+   * Long description of the product.
+   * @type {string}
+   * @memberof ProductRequest
+   */
+  description: string;
+  /**
+   * System-specific data for the product (in JSON).
+   * @type {any}
+   * @memberof ProductRequest
+   */
+  system_data?: any | null;
+  /**
+   * Owner system of the product.
+   * @type {number}
+   * @memberof ProductRequest
+   */
+  system: number;
 }
 /**
  * * `pending` - Pending * `fulfilled` - Fulfilled * `canceled` - Canceled * `refunded` - Refunded * `declined` - Declined * `errored` - Errored * `review` - Review
@@ -643,48 +657,47 @@ export interface ProductRequest {
  */
 
 export const StateEnumDescriptions = {
-    'pending': "Pending",
-    'fulfilled': "Fulfilled",
-    'canceled': "Canceled",
-    'refunded': "Refunded",
-    'declined': "Declined",
-    'errored': "Errored",
-    'review': "Review",
+  pending: "Pending",
+  fulfilled: "Fulfilled",
+  canceled: "Canceled",
+  refunded: "Refunded",
+  declined: "Declined",
+  errored: "Errored",
+  review: "Review",
 } as const;
 
 export const StateEnum = {
-    /**
-    * Pending
-    */
-    Pending: 'pending',
-    /**
-    * Fulfilled
-    */
-    Fulfilled: 'fulfilled',
-    /**
-    * Canceled
-    */
-    Canceled: 'canceled',
-    /**
-    * Refunded
-    */
-    Refunded: 'refunded',
-    /**
-    * Declined
-    */
-    Declined: 'declined',
-    /**
-    * Errored
-    */
-    Errored: 'errored',
-    /**
-    * Review
-    */
-    Review: 'review'
+  /**
+   * Pending
+   */
+  Pending: "pending",
+  /**
+   * Fulfilled
+   */
+  Fulfilled: "fulfilled",
+  /**
+   * Canceled
+   */
+  Canceled: "canceled",
+  /**
+   * Refunded
+   */
+  Refunded: "refunded",
+  /**
+   * Declined
+   */
+  Declined: "declined",
+  /**
+   * Errored
+   */
+  Errored: "errored",
+  /**
+   * Review
+   */
+  Review: "review",
 } as const;
 
-export type StateEnum = typeof StateEnum[keyof typeof StateEnum];
-
+export type StateEnum = (typeof StateEnum)[keyof typeof StateEnum];
 
 /**
  * Serializer for User model.
@@ -692,36 +705,36 @@ export type StateEnum = typeof StateEnum[keyof typeof StateEnum];
  * @interface User
  */
 export interface User {
-    /**
-     *
-     * @type {number}
-     * @memberof User
-     */
-    'id': number;
-    /**
-     * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
-     * @type {string}
-     * @memberof User
-     */
-    'username': string;
-    /**
-     *
-     * @type {string}
-     * @memberof User
-     */
-    'email'?: string;
-    /**
-     *
-     * @type {string}
-     * @memberof User
-     */
-    'first_name'?: string;
-    /**
-     *
-     * @type {string}
-     * @memberof User
-     */
-    'last_name'?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof User
+   */
+  id: number;
+  /**
+   * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+   * @type {string}
+   * @memberof User
+   */
+  username: string;
+  /**
+   *
+   * @type {string}
+   * @memberof User
+   */
+  email?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof User
+   */
+  first_name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof User
+   */
+  last_name?: string;
 }
 /**
  * * `profile` - profile * `geoip` - geoip * `none` - none
@@ -730,759 +743,1250 @@ export interface User {
  */
 
 export const UserTaxableGeolocationTypeEnumDescriptions = {
-    'profile': "profile",
-    'geoip': "geoip",
-    'none': "none",
+  profile: "profile",
+  geoip: "geoip",
+  none: "none",
 } as const;
 
 export const UserTaxableGeolocationTypeEnum = {
-    /**
-    * profile
-    */
-    Profile: 'profile',
-    /**
-    * geoip
-    */
-    Geoip: 'geoip',
-    /**
-    * none
-    */
-    None: 'none'
+  /**
+   * profile
+   */
+  Profile: "profile",
+  /**
+   * geoip
+   */
+  Geoip: "geoip",
+  /**
+   * none
+   */
+  None: "none",
 } as const;
 
-export type UserTaxableGeolocationTypeEnum = typeof UserTaxableGeolocationTypeEnum[keyof typeof UserTaxableGeolocationTypeEnum];
-
-
+export type UserTaxableGeolocationTypeEnum =
+  (typeof UserTaxableGeolocationTypeEnum)[keyof typeof UserTaxableGeolocationTypeEnum];
 
 /**
  * MetaApi - axios parameter creator
  * @export
  */
-export const MetaApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {IntegratedSystemRequest} IntegratedSystemRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemCreate: async (IntegratedSystemRequest: IntegratedSystemRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'IntegratedSystemRequest' is not null or undefined
-            assertParamExists('metaIntegratedSystemCreate', 'IntegratedSystemRequest', IntegratedSystemRequest)
-            const localVarPath = `/api/v0/meta/integrated_system/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(IntegratedSystemRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} id A unique integer value identifying this integrated system.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemDestroy: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('metaIntegratedSystemDestroy', 'id', id)
-            const localVarPath = `/api/v0/meta/integrated_system/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} [limit] Number of results to return per page.
-         * @param {number} [offset] The initial index from which to return the results.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemList: async (limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v0/meta/integrated_system/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} id A unique integer value identifying this integrated system.
-         * @param {PatchedIntegratedSystemRequest} [PatchedIntegratedSystemRequest]
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemPartialUpdate: async (id: number, PatchedIntegratedSystemRequest?: PatchedIntegratedSystemRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('metaIntegratedSystemPartialUpdate', 'id', id)
-            const localVarPath = `/api/v0/meta/integrated_system/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(PatchedIntegratedSystemRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} id A unique integer value identifying this integrated system.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('metaIntegratedSystemRetrieve', 'id', id)
-            const localVarPath = `/api/v0/meta/integrated_system/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} id A unique integer value identifying this integrated system.
-         * @param {IntegratedSystemRequest} IntegratedSystemRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemUpdate: async (id: number, IntegratedSystemRequest: IntegratedSystemRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('metaIntegratedSystemUpdate', 'id', id)
-            // verify required parameter 'IntegratedSystemRequest' is not null or undefined
-            assertParamExists('metaIntegratedSystemUpdate', 'IntegratedSystemRequest', IntegratedSystemRequest)
-            const localVarPath = `/api/v0/meta/integrated_system/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(IntegratedSystemRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for Product model.
-         * @param {ProductRequest} ProductRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductCreate: async (ProductRequest: ProductRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'ProductRequest' is not null or undefined
-            assertParamExists('metaProductCreate', 'ProductRequest', ProductRequest)
-            const localVarPath = `/api/v0/meta/product/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ProductRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} id A unique integer value identifying this product.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductDestroy: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('metaProductDestroy', 'id', id)
-            const localVarPath = `/api/v0/meta/product/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} [limit] Number of results to return per page.
-         * @param {string} [name]
-         * @param {number} [offset] The initial index from which to return the results.
-         * @param {string} [system__slug]
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductList: async (limit?: number, name?: string, offset?: number, system__slug?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v0/meta/product/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (name !== undefined) {
-                localVarQueryParameter['name'] = name;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-            if (system__slug !== undefined) {
-                localVarQueryParameter['system__slug'] = system__slug;
-            }
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} id A unique integer value identifying this product.
-         * @param {PatchedProductRequest} [PatchedProductRequest]
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductPartialUpdate: async (id: number, PatchedProductRequest?: PatchedProductRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('metaProductPartialUpdate', 'id', id)
-            const localVarPath = `/api/v0/meta/product/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(PatchedProductRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} id A unique integer value identifying this product.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('metaProductRetrieve', 'id', id)
-            const localVarPath = `/api/v0/meta/product/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} id A unique integer value identifying this product.
-         * @param {ProductRequest} ProductRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductUpdate: async (id: number, ProductRequest: ProductRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('metaProductUpdate', 'id', id)
-            // verify required parameter 'ProductRequest' is not null or undefined
-            assertParamExists('metaProductUpdate', 'ProductRequest', ProductRequest)
-            const localVarPath = `/api/v0/meta/product/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ProductRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
+export const MetaApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {IntegratedSystemRequest} IntegratedSystemRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemCreate: async (
+      IntegratedSystemRequest: IntegratedSystemRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'IntegratedSystemRequest' is not null or undefined
+      assertParamExists(
+        "metaIntegratedSystemCreate",
+        "IntegratedSystemRequest",
+        IntegratedSystemRequest,
+      );
+      const localVarPath = `/api/v0/meta/integrated_system/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        IntegratedSystemRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} id A unique integer value identifying this integrated system.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemDestroy: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("metaIntegratedSystemDestroy", "id", id);
+      const localVarPath = `/api/v0/meta/integrated_system/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemList: async (
+      limit?: number,
+      offset?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/meta/integrated_system/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} id A unique integer value identifying this integrated system.
+     * @param {PatchedIntegratedSystemRequest} [PatchedIntegratedSystemRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemPartialUpdate: async (
+      id: number,
+      PatchedIntegratedSystemRequest?: PatchedIntegratedSystemRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("metaIntegratedSystemPartialUpdate", "id", id);
+      const localVarPath = `/api/v0/meta/integrated_system/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedIntegratedSystemRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} id A unique integer value identifying this integrated system.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("metaIntegratedSystemRetrieve", "id", id);
+      const localVarPath = `/api/v0/meta/integrated_system/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} id A unique integer value identifying this integrated system.
+     * @param {IntegratedSystemRequest} IntegratedSystemRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemUpdate: async (
+      id: number,
+      IntegratedSystemRequest: IntegratedSystemRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("metaIntegratedSystemUpdate", "id", id);
+      // verify required parameter 'IntegratedSystemRequest' is not null or undefined
+      assertParamExists(
+        "metaIntegratedSystemUpdate",
+        "IntegratedSystemRequest",
+        IntegratedSystemRequest,
+      );
+      const localVarPath = `/api/v0/meta/integrated_system/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        IntegratedSystemRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for Product model.
+     * @param {ProductRequest} ProductRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductCreate: async (
+      ProductRequest: ProductRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'ProductRequest' is not null or undefined
+      assertParamExists("metaProductCreate", "ProductRequest", ProductRequest);
+      const localVarPath = `/api/v0/meta/product/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        ProductRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} id A unique integer value identifying this product.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductDestroy: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("metaProductDestroy", "id", id);
+      const localVarPath = `/api/v0/meta/product/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [system__slug]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductList: async (
+      limit?: number,
+      name?: string,
+      offset?: number,
+      system__slug?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/meta/product/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit;
+      }
+
+      if (name !== undefined) {
+        localVarQueryParameter["name"] = name;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset;
+      }
+
+      if (system__slug !== undefined) {
+        localVarQueryParameter["system__slug"] = system__slug;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} id A unique integer value identifying this product.
+     * @param {PatchedProductRequest} [PatchedProductRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductPartialUpdate: async (
+      id: number,
+      PatchedProductRequest?: PatchedProductRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("metaProductPartialUpdate", "id", id);
+      const localVarPath = `/api/v0/meta/product/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedProductRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} id A unique integer value identifying this product.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("metaProductRetrieve", "id", id);
+      const localVarPath = `/api/v0/meta/product/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} id A unique integer value identifying this product.
+     * @param {ProductRequest} ProductRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductUpdate: async (
+      id: number,
+      ProductRequest: ProductRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("metaProductUpdate", "id", id);
+      // verify required parameter 'ProductRequest' is not null or undefined
+      assertParamExists("metaProductUpdate", "ProductRequest", ProductRequest);
+      const localVarPath = `/api/v0/meta/product/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        ProductRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
 };
 
 /**
  * MetaApi - functional programming interface
  * @export
  */
-export const MetaApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = MetaApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {IntegratedSystemRequest} IntegratedSystemRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaIntegratedSystemCreate(IntegratedSystemRequest: IntegratedSystemRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IntegratedSystem>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaIntegratedSystemCreate(IntegratedSystemRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaIntegratedSystemCreate']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} id A unique integer value identifying this integrated system.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaIntegratedSystemDestroy(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaIntegratedSystemDestroy(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaIntegratedSystemDestroy']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} [limit] Number of results to return per page.
-         * @param {number} [offset] The initial index from which to return the results.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaIntegratedSystemList(limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedIntegratedSystemList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaIntegratedSystemList(limit, offset, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaIntegratedSystemList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} id A unique integer value identifying this integrated system.
-         * @param {PatchedIntegratedSystemRequest} [PatchedIntegratedSystemRequest]
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaIntegratedSystemPartialUpdate(id: number, PatchedIntegratedSystemRequest?: PatchedIntegratedSystemRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IntegratedSystem>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaIntegratedSystemPartialUpdate(id, PatchedIntegratedSystemRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaIntegratedSystemPartialUpdate']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} id A unique integer value identifying this integrated system.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaIntegratedSystemRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IntegratedSystem>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaIntegratedSystemRetrieve(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaIntegratedSystemRetrieve']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {number} id A unique integer value identifying this integrated system.
-         * @param {IntegratedSystemRequest} IntegratedSystemRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaIntegratedSystemUpdate(id: number, IntegratedSystemRequest: IntegratedSystemRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IntegratedSystem>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaIntegratedSystemUpdate(id, IntegratedSystemRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaIntegratedSystemUpdate']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for Product model.
-         * @param {ProductRequest} ProductRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaProductCreate(ProductRequest: ProductRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaProductCreate(ProductRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaProductCreate']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} id A unique integer value identifying this product.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaProductDestroy(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaProductDestroy(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaProductDestroy']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} [limit] Number of results to return per page.
-         * @param {string} [name]
-         * @param {number} [offset] The initial index from which to return the results.
-         * @param {string} [system__slug]
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaProductList(limit?: number, name?: string, offset?: number, system__slug?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedProductList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaProductList(limit, name, offset, system__slug, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaProductList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} id A unique integer value identifying this product.
-         * @param {PatchedProductRequest} [PatchedProductRequest]
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaProductPartialUpdate(id: number, PatchedProductRequest?: PatchedProductRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaProductPartialUpdate(id, PatchedProductRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaProductPartialUpdate']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} id A unique integer value identifying this product.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaProductRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaProductRetrieve(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaProductRetrieve']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Viewset for Product model.
-         * @param {number} id A unique integer value identifying this product.
-         * @param {ProductRequest} ProductRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async metaProductUpdate(id: number, ProductRequest: ProductRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.metaProductUpdate(id, ProductRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MetaApi.metaProductUpdate']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-    }
+export const MetaApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = MetaApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {IntegratedSystemRequest} IntegratedSystemRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaIntegratedSystemCreate(
+      IntegratedSystemRequest: IntegratedSystemRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<IntegratedSystem>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaIntegratedSystemCreate(
+          IntegratedSystemRequest,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaIntegratedSystemCreate"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} id A unique integer value identifying this integrated system.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaIntegratedSystemDestroy(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaIntegratedSystemDestroy(
+          id,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaIntegratedSystemDestroy"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaIntegratedSystemList(
+      limit?: number,
+      offset?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedIntegratedSystemList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaIntegratedSystemList(
+          limit,
+          offset,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaIntegratedSystemList"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} id A unique integer value identifying this integrated system.
+     * @param {PatchedIntegratedSystemRequest} [PatchedIntegratedSystemRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaIntegratedSystemPartialUpdate(
+      id: number,
+      PatchedIntegratedSystemRequest?: PatchedIntegratedSystemRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<IntegratedSystem>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaIntegratedSystemPartialUpdate(
+          id,
+          PatchedIntegratedSystemRequest,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaIntegratedSystemPartialUpdate"]?.[index]
+          ?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} id A unique integer value identifying this integrated system.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaIntegratedSystemRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<IntegratedSystem>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaIntegratedSystemRetrieve(
+          id,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaIntegratedSystemRetrieve"]?.[index]
+          ?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {number} id A unique integer value identifying this integrated system.
+     * @param {IntegratedSystemRequest} IntegratedSystemRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaIntegratedSystemUpdate(
+      id: number,
+      IntegratedSystemRequest: IntegratedSystemRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<IntegratedSystem>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaIntegratedSystemUpdate(
+          id,
+          IntegratedSystemRequest,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaIntegratedSystemUpdate"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for Product model.
+     * @param {ProductRequest} ProductRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaProductCreate(
+      ProductRequest: ProductRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaProductCreate(
+          ProductRequest,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaProductCreate"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} id A unique integer value identifying this product.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaProductDestroy(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaProductDestroy(id, options);
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaProductDestroy"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {string} [name]
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {string} [system__slug]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaProductList(
+      limit?: number,
+      name?: string,
+      offset?: number,
+      system__slug?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedProductList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.metaProductList(
+        limit,
+        name,
+        offset,
+        system__slug,
+        options,
+      );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaProductList"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} id A unique integer value identifying this product.
+     * @param {PatchedProductRequest} [PatchedProductRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaProductPartialUpdate(
+      id: number,
+      PatchedProductRequest?: PatchedProductRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaProductPartialUpdate(
+          id,
+          PatchedProductRequest,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaProductPartialUpdate"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} id A unique integer value identifying this product.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaProductRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaProductRetrieve(id, options);
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaProductRetrieve"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Viewset for Product model.
+     * @param {number} id A unique integer value identifying this product.
+     * @param {ProductRequest} ProductRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metaProductUpdate(
+      id: number,
+      ProductRequest: ProductRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.metaProductUpdate(
+          id,
+          ProductRequest,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["MetaApi.metaProductUpdate"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+  };
 };
 
 /**
  * MetaApi - factory interface
  * @export
  */
-export const MetaApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = MetaApiFp(configuration)
-    return {
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {MetaApiMetaIntegratedSystemCreateRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemCreate(requestParameters: MetaApiMetaIntegratedSystemCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<IntegratedSystem> {
-            return localVarFp.metaIntegratedSystemCreate(requestParameters.IntegratedSystemRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {MetaApiMetaIntegratedSystemDestroyRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemDestroy(requestParameters: MetaApiMetaIntegratedSystemDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.metaIntegratedSystemDestroy(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {MetaApiMetaIntegratedSystemListRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemList(requestParameters: MetaApiMetaIntegratedSystemListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedIntegratedSystemList> {
-            return localVarFp.metaIntegratedSystemList(requestParameters.limit, requestParameters.offset, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {MetaApiMetaIntegratedSystemPartialUpdateRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemPartialUpdate(requestParameters: MetaApiMetaIntegratedSystemPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<IntegratedSystem> {
-            return localVarFp.metaIntegratedSystemPartialUpdate(requestParameters.id, requestParameters.PatchedIntegratedSystemRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {MetaApiMetaIntegratedSystemRetrieveRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemRetrieve(requestParameters: MetaApiMetaIntegratedSystemRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<IntegratedSystem> {
-            return localVarFp.metaIntegratedSystemRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for IntegratedSystem model.
-         * @param {MetaApiMetaIntegratedSystemUpdateRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaIntegratedSystemUpdate(requestParameters: MetaApiMetaIntegratedSystemUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<IntegratedSystem> {
-            return localVarFp.metaIntegratedSystemUpdate(requestParameters.id, requestParameters.IntegratedSystemRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for Product model.
-         * @param {MetaApiMetaProductCreateRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductCreate(requestParameters: MetaApiMetaProductCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Product> {
-            return localVarFp.metaProductCreate(requestParameters.ProductRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for Product model.
-         * @param {MetaApiMetaProductDestroyRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductDestroy(requestParameters: MetaApiMetaProductDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.metaProductDestroy(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for Product model.
-         * @param {MetaApiMetaProductListRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductList(requestParameters: MetaApiMetaProductListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedProductList> {
-            return localVarFp.metaProductList(requestParameters.limit, requestParameters.name, requestParameters.offset, requestParameters.system__slug, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for Product model.
-         * @param {MetaApiMetaProductPartialUpdateRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductPartialUpdate(requestParameters: MetaApiMetaProductPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Product> {
-            return localVarFp.metaProductPartialUpdate(requestParameters.id, requestParameters.PatchedProductRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for Product model.
-         * @param {MetaApiMetaProductRetrieveRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductRetrieve(requestParameters: MetaApiMetaProductRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<Product> {
-            return localVarFp.metaProductRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Viewset for Product model.
-         * @param {MetaApiMetaProductUpdateRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        metaProductUpdate(requestParameters: MetaApiMetaProductUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Product> {
-            return localVarFp.metaProductUpdate(requestParameters.id, requestParameters.ProductRequest, options).then((request) => request(axios, basePath));
-        },
-    };
+export const MetaApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = MetaApiFp(configuration);
+  return {
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {MetaApiMetaIntegratedSystemCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemCreate(
+      requestParameters: MetaApiMetaIntegratedSystemCreateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<IntegratedSystem> {
+      return localVarFp
+        .metaIntegratedSystemCreate(
+          requestParameters.IntegratedSystemRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {MetaApiMetaIntegratedSystemDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemDestroy(
+      requestParameters: MetaApiMetaIntegratedSystemDestroyRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .metaIntegratedSystemDestroy(requestParameters.id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {MetaApiMetaIntegratedSystemListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemList(
+      requestParameters: MetaApiMetaIntegratedSystemListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedIntegratedSystemList> {
+      return localVarFp
+        .metaIntegratedSystemList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {MetaApiMetaIntegratedSystemPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemPartialUpdate(
+      requestParameters: MetaApiMetaIntegratedSystemPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<IntegratedSystem> {
+      return localVarFp
+        .metaIntegratedSystemPartialUpdate(
+          requestParameters.id,
+          requestParameters.PatchedIntegratedSystemRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {MetaApiMetaIntegratedSystemRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemRetrieve(
+      requestParameters: MetaApiMetaIntegratedSystemRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<IntegratedSystem> {
+      return localVarFp
+        .metaIntegratedSystemRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for IntegratedSystem model.
+     * @param {MetaApiMetaIntegratedSystemUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaIntegratedSystemUpdate(
+      requestParameters: MetaApiMetaIntegratedSystemUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<IntegratedSystem> {
+      return localVarFp
+        .metaIntegratedSystemUpdate(
+          requestParameters.id,
+          requestParameters.IntegratedSystemRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for Product model.
+     * @param {MetaApiMetaProductCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductCreate(
+      requestParameters: MetaApiMetaProductCreateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Product> {
+      return localVarFp
+        .metaProductCreate(requestParameters.ProductRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for Product model.
+     * @param {MetaApiMetaProductDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductDestroy(
+      requestParameters: MetaApiMetaProductDestroyRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .metaProductDestroy(requestParameters.id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for Product model.
+     * @param {MetaApiMetaProductListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductList(
+      requestParameters: MetaApiMetaProductListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedProductList> {
+      return localVarFp
+        .metaProductList(
+          requestParameters.limit,
+          requestParameters.name,
+          requestParameters.offset,
+          requestParameters.system__slug,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for Product model.
+     * @param {MetaApiMetaProductPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductPartialUpdate(
+      requestParameters: MetaApiMetaProductPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Product> {
+      return localVarFp
+        .metaProductPartialUpdate(
+          requestParameters.id,
+          requestParameters.PatchedProductRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for Product model.
+     * @param {MetaApiMetaProductRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductRetrieve(
+      requestParameters: MetaApiMetaProductRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Product> {
+      return localVarFp
+        .metaProductRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Viewset for Product model.
+     * @param {MetaApiMetaProductUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metaProductUpdate(
+      requestParameters: MetaApiMetaProductUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Product> {
+      return localVarFp
+        .metaProductUpdate(
+          requestParameters.id,
+          requestParameters.ProductRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+  };
 };
 
 /**
@@ -1491,12 +1995,12 @@ export const MetaApiFactory = function (configuration?: Configuration, basePath?
  * @interface MetaApiMetaIntegratedSystemCreateRequest
  */
 export interface MetaApiMetaIntegratedSystemCreateRequest {
-    /**
-     *
-     * @type {IntegratedSystemRequest}
-     * @memberof MetaApiMetaIntegratedSystemCreate
-     */
-    readonly IntegratedSystemRequest: IntegratedSystemRequest
+  /**
+   *
+   * @type {IntegratedSystemRequest}
+   * @memberof MetaApiMetaIntegratedSystemCreate
+   */
+  readonly IntegratedSystemRequest: IntegratedSystemRequest;
 }
 
 /**
@@ -1505,12 +2009,12 @@ export interface MetaApiMetaIntegratedSystemCreateRequest {
  * @interface MetaApiMetaIntegratedSystemDestroyRequest
  */
 export interface MetaApiMetaIntegratedSystemDestroyRequest {
-    /**
-     * A unique integer value identifying this integrated system.
-     * @type {number}
-     * @memberof MetaApiMetaIntegratedSystemDestroy
-     */
-    readonly id: number
+  /**
+   * A unique integer value identifying this integrated system.
+   * @type {number}
+   * @memberof MetaApiMetaIntegratedSystemDestroy
+   */
+  readonly id: number;
 }
 
 /**
@@ -1519,19 +2023,19 @@ export interface MetaApiMetaIntegratedSystemDestroyRequest {
  * @interface MetaApiMetaIntegratedSystemListRequest
  */
 export interface MetaApiMetaIntegratedSystemListRequest {
-    /**
-     * Number of results to return per page.
-     * @type {number}
-     * @memberof MetaApiMetaIntegratedSystemList
-     */
-    readonly limit?: number
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof MetaApiMetaIntegratedSystemList
+   */
+  readonly limit?: number;
 
-    /**
-     * The initial index from which to return the results.
-     * @type {number}
-     * @memberof MetaApiMetaIntegratedSystemList
-     */
-    readonly offset?: number
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof MetaApiMetaIntegratedSystemList
+   */
+  readonly offset?: number;
 }
 
 /**
@@ -1540,19 +2044,19 @@ export interface MetaApiMetaIntegratedSystemListRequest {
  * @interface MetaApiMetaIntegratedSystemPartialUpdateRequest
  */
 export interface MetaApiMetaIntegratedSystemPartialUpdateRequest {
-    /**
-     * A unique integer value identifying this integrated system.
-     * @type {number}
-     * @memberof MetaApiMetaIntegratedSystemPartialUpdate
-     */
-    readonly id: number
+  /**
+   * A unique integer value identifying this integrated system.
+   * @type {number}
+   * @memberof MetaApiMetaIntegratedSystemPartialUpdate
+   */
+  readonly id: number;
 
-    /**
-     *
-     * @type {PatchedIntegratedSystemRequest}
-     * @memberof MetaApiMetaIntegratedSystemPartialUpdate
-     */
-    readonly PatchedIntegratedSystemRequest?: PatchedIntegratedSystemRequest
+  /**
+   *
+   * @type {PatchedIntegratedSystemRequest}
+   * @memberof MetaApiMetaIntegratedSystemPartialUpdate
+   */
+  readonly PatchedIntegratedSystemRequest?: PatchedIntegratedSystemRequest;
 }
 
 /**
@@ -1561,12 +2065,12 @@ export interface MetaApiMetaIntegratedSystemPartialUpdateRequest {
  * @interface MetaApiMetaIntegratedSystemRetrieveRequest
  */
 export interface MetaApiMetaIntegratedSystemRetrieveRequest {
-    /**
-     * A unique integer value identifying this integrated system.
-     * @type {number}
-     * @memberof MetaApiMetaIntegratedSystemRetrieve
-     */
-    readonly id: number
+  /**
+   * A unique integer value identifying this integrated system.
+   * @type {number}
+   * @memberof MetaApiMetaIntegratedSystemRetrieve
+   */
+  readonly id: number;
 }
 
 /**
@@ -1575,19 +2079,19 @@ export interface MetaApiMetaIntegratedSystemRetrieveRequest {
  * @interface MetaApiMetaIntegratedSystemUpdateRequest
  */
 export interface MetaApiMetaIntegratedSystemUpdateRequest {
-    /**
-     * A unique integer value identifying this integrated system.
-     * @type {number}
-     * @memberof MetaApiMetaIntegratedSystemUpdate
-     */
-    readonly id: number
+  /**
+   * A unique integer value identifying this integrated system.
+   * @type {number}
+   * @memberof MetaApiMetaIntegratedSystemUpdate
+   */
+  readonly id: number;
 
-    /**
-     *
-     * @type {IntegratedSystemRequest}
-     * @memberof MetaApiMetaIntegratedSystemUpdate
-     */
-    readonly IntegratedSystemRequest: IntegratedSystemRequest
+  /**
+   *
+   * @type {IntegratedSystemRequest}
+   * @memberof MetaApiMetaIntegratedSystemUpdate
+   */
+  readonly IntegratedSystemRequest: IntegratedSystemRequest;
 }
 
 /**
@@ -1596,12 +2100,12 @@ export interface MetaApiMetaIntegratedSystemUpdateRequest {
  * @interface MetaApiMetaProductCreateRequest
  */
 export interface MetaApiMetaProductCreateRequest {
-    /**
-     *
-     * @type {ProductRequest}
-     * @memberof MetaApiMetaProductCreate
-     */
-    readonly ProductRequest: ProductRequest
+  /**
+   *
+   * @type {ProductRequest}
+   * @memberof MetaApiMetaProductCreate
+   */
+  readonly ProductRequest: ProductRequest;
 }
 
 /**
@@ -1610,12 +2114,12 @@ export interface MetaApiMetaProductCreateRequest {
  * @interface MetaApiMetaProductDestroyRequest
  */
 export interface MetaApiMetaProductDestroyRequest {
-    /**
-     * A unique integer value identifying this product.
-     * @type {number}
-     * @memberof MetaApiMetaProductDestroy
-     */
-    readonly id: number
+  /**
+   * A unique integer value identifying this product.
+   * @type {number}
+   * @memberof MetaApiMetaProductDestroy
+   */
+  readonly id: number;
 }
 
 /**
@@ -1624,33 +2128,33 @@ export interface MetaApiMetaProductDestroyRequest {
  * @interface MetaApiMetaProductListRequest
  */
 export interface MetaApiMetaProductListRequest {
-    /**
-     * Number of results to return per page.
-     * @type {number}
-     * @memberof MetaApiMetaProductList
-     */
-    readonly limit?: number
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof MetaApiMetaProductList
+   */
+  readonly limit?: number;
 
-    /**
-     *
-     * @type {string}
-     * @memberof MetaApiMetaProductList
-     */
-    readonly name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof MetaApiMetaProductList
+   */
+  readonly name?: string;
 
-    /**
-     * The initial index from which to return the results.
-     * @type {number}
-     * @memberof MetaApiMetaProductList
-     */
-    readonly offset?: number
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof MetaApiMetaProductList
+   */
+  readonly offset?: number;
 
-    /**
-     *
-     * @type {string}
-     * @memberof MetaApiMetaProductList
-     */
-    readonly system__slug?: string
+  /**
+   *
+   * @type {string}
+   * @memberof MetaApiMetaProductList
+   */
+  readonly system__slug?: string;
 }
 
 /**
@@ -1659,19 +2163,19 @@ export interface MetaApiMetaProductListRequest {
  * @interface MetaApiMetaProductPartialUpdateRequest
  */
 export interface MetaApiMetaProductPartialUpdateRequest {
-    /**
-     * A unique integer value identifying this product.
-     * @type {number}
-     * @memberof MetaApiMetaProductPartialUpdate
-     */
-    readonly id: number
+  /**
+   * A unique integer value identifying this product.
+   * @type {number}
+   * @memberof MetaApiMetaProductPartialUpdate
+   */
+  readonly id: number;
 
-    /**
-     *
-     * @type {PatchedProductRequest}
-     * @memberof MetaApiMetaProductPartialUpdate
-     */
-    readonly PatchedProductRequest?: PatchedProductRequest
+  /**
+   *
+   * @type {PatchedProductRequest}
+   * @memberof MetaApiMetaProductPartialUpdate
+   */
+  readonly PatchedProductRequest?: PatchedProductRequest;
 }
 
 /**
@@ -1680,12 +2184,12 @@ export interface MetaApiMetaProductPartialUpdateRequest {
  * @interface MetaApiMetaProductRetrieveRequest
  */
 export interface MetaApiMetaProductRetrieveRequest {
-    /**
-     * A unique integer value identifying this product.
-     * @type {number}
-     * @memberof MetaApiMetaProductRetrieve
-     */
-    readonly id: number
+  /**
+   * A unique integer value identifying this product.
+   * @type {number}
+   * @memberof MetaApiMetaProductRetrieve
+   */
+  readonly id: number;
 }
 
 /**
@@ -1694,19 +2198,19 @@ export interface MetaApiMetaProductRetrieveRequest {
  * @interface MetaApiMetaProductUpdateRequest
  */
 export interface MetaApiMetaProductUpdateRequest {
-    /**
-     * A unique integer value identifying this product.
-     * @type {number}
-     * @memberof MetaApiMetaProductUpdate
-     */
-    readonly id: number
+  /**
+   * A unique integer value identifying this product.
+   * @type {number}
+   * @memberof MetaApiMetaProductUpdate
+   */
+  readonly id: number;
 
-    /**
-     *
-     * @type {ProductRequest}
-     * @memberof MetaApiMetaProductUpdate
-     */
-    readonly ProductRequest: ProductRequest
+  /**
+   *
+   * @type {ProductRequest}
+   * @memberof MetaApiMetaProductUpdate
+   */
+  readonly ProductRequest: ProductRequest;
 }
 
 /**
@@ -1716,571 +2220,954 @@ export interface MetaApiMetaProductUpdateRequest {
  * @extends {BaseAPI}
  */
 export class MetaApi extends BaseAPI {
-    /**
-     * Viewset for IntegratedSystem model.
-     * @param {MetaApiMetaIntegratedSystemCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaIntegratedSystemCreate(requestParameters: MetaApiMetaIntegratedSystemCreateRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaIntegratedSystemCreate(requestParameters.IntegratedSystemRequest, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for IntegratedSystem model.
+   * @param {MetaApiMetaIntegratedSystemCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaIntegratedSystemCreate(
+    requestParameters: MetaApiMetaIntegratedSystemCreateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaIntegratedSystemCreate(
+        requestParameters.IntegratedSystemRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for IntegratedSystem model.
-     * @param {MetaApiMetaIntegratedSystemDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaIntegratedSystemDestroy(requestParameters: MetaApiMetaIntegratedSystemDestroyRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaIntegratedSystemDestroy(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for IntegratedSystem model.
+   * @param {MetaApiMetaIntegratedSystemDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaIntegratedSystemDestroy(
+    requestParameters: MetaApiMetaIntegratedSystemDestroyRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaIntegratedSystemDestroy(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for IntegratedSystem model.
-     * @param {MetaApiMetaIntegratedSystemListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaIntegratedSystemList(requestParameters: MetaApiMetaIntegratedSystemListRequest = {}, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaIntegratedSystemList(requestParameters.limit, requestParameters.offset, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for IntegratedSystem model.
+   * @param {MetaApiMetaIntegratedSystemListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaIntegratedSystemList(
+    requestParameters: MetaApiMetaIntegratedSystemListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaIntegratedSystemList(
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for IntegratedSystem model.
-     * @param {MetaApiMetaIntegratedSystemPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaIntegratedSystemPartialUpdate(requestParameters: MetaApiMetaIntegratedSystemPartialUpdateRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaIntegratedSystemPartialUpdate(requestParameters.id, requestParameters.PatchedIntegratedSystemRequest, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for IntegratedSystem model.
+   * @param {MetaApiMetaIntegratedSystemPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaIntegratedSystemPartialUpdate(
+    requestParameters: MetaApiMetaIntegratedSystemPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaIntegratedSystemPartialUpdate(
+        requestParameters.id,
+        requestParameters.PatchedIntegratedSystemRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for IntegratedSystem model.
-     * @param {MetaApiMetaIntegratedSystemRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaIntegratedSystemRetrieve(requestParameters: MetaApiMetaIntegratedSystemRetrieveRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaIntegratedSystemRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for IntegratedSystem model.
+   * @param {MetaApiMetaIntegratedSystemRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaIntegratedSystemRetrieve(
+    requestParameters: MetaApiMetaIntegratedSystemRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaIntegratedSystemRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for IntegratedSystem model.
-     * @param {MetaApiMetaIntegratedSystemUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaIntegratedSystemUpdate(requestParameters: MetaApiMetaIntegratedSystemUpdateRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaIntegratedSystemUpdate(requestParameters.id, requestParameters.IntegratedSystemRequest, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for IntegratedSystem model.
+   * @param {MetaApiMetaIntegratedSystemUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaIntegratedSystemUpdate(
+    requestParameters: MetaApiMetaIntegratedSystemUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaIntegratedSystemUpdate(
+        requestParameters.id,
+        requestParameters.IntegratedSystemRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for Product model.
-     * @param {MetaApiMetaProductCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaProductCreate(requestParameters: MetaApiMetaProductCreateRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaProductCreate(requestParameters.ProductRequest, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for Product model.
+   * @param {MetaApiMetaProductCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaProductCreate(
+    requestParameters: MetaApiMetaProductCreateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaProductCreate(requestParameters.ProductRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for Product model.
-     * @param {MetaApiMetaProductDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaProductDestroy(requestParameters: MetaApiMetaProductDestroyRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaProductDestroy(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for Product model.
+   * @param {MetaApiMetaProductDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaProductDestroy(
+    requestParameters: MetaApiMetaProductDestroyRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaProductDestroy(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for Product model.
-     * @param {MetaApiMetaProductListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaProductList(requestParameters: MetaApiMetaProductListRequest = {}, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaProductList(requestParameters.limit, requestParameters.name, requestParameters.offset, requestParameters.system__slug, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for Product model.
+   * @param {MetaApiMetaProductListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaProductList(
+    requestParameters: MetaApiMetaProductListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaProductList(
+        requestParameters.limit,
+        requestParameters.name,
+        requestParameters.offset,
+        requestParameters.system__slug,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for Product model.
-     * @param {MetaApiMetaProductPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaProductPartialUpdate(requestParameters: MetaApiMetaProductPartialUpdateRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaProductPartialUpdate(requestParameters.id, requestParameters.PatchedProductRequest, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for Product model.
+   * @param {MetaApiMetaProductPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaProductPartialUpdate(
+    requestParameters: MetaApiMetaProductPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaProductPartialUpdate(
+        requestParameters.id,
+        requestParameters.PatchedProductRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for Product model.
-     * @param {MetaApiMetaProductRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaProductRetrieve(requestParameters: MetaApiMetaProductRetrieveRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaProductRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for Product model.
+   * @param {MetaApiMetaProductRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaProductRetrieve(
+    requestParameters: MetaApiMetaProductRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaProductRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Viewset for Product model.
-     * @param {MetaApiMetaProductUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MetaApi
-     */
-    public metaProductUpdate(requestParameters: MetaApiMetaProductUpdateRequest, options?: RawAxiosRequestConfig) {
-        return MetaApiFp(this.configuration).metaProductUpdate(requestParameters.id, requestParameters.ProductRequest, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Viewset for Product model.
+   * @param {MetaApiMetaProductUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MetaApi
+   */
+  public metaProductUpdate(
+    requestParameters: MetaApiMetaProductUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return MetaApiFp(this.configuration)
+      .metaProductUpdate(
+        requestParameters.id,
+        requestParameters.ProductRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 }
-
-
 
 /**
  * PaymentsApi - axios parameter creator
  * @export
  */
-export const PaymentsApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * Creates or updates a basket for the current user, adding the discount if valid.
-         * @param {string} system_slug
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsAddDiscountCreate: async (system_slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'system_slug' is not null or undefined
-            assertParamExists('paymentsBasketsAddDiscountCreate', 'system_slug', system_slug)
-            const localVarPath = `/api/v0/payments/baskets/add_discount/{system_slug}/`
-                .replace(`{${"system_slug"}}`, encodeURIComponent(String(system_slug)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+export const PaymentsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Creates or updates a basket for the current user, adding the discount if valid.
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsAddDiscountCreate: async (
+      system_slug: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'system_slug' is not null or undefined
+      assertParamExists(
+        "paymentsBasketsAddDiscountCreate",
+        "system_slug",
+        system_slug,
+      );
+      const localVarPath =
+        `/api/v0/payments/baskets/add_discount/{system_slug}/`.replace(
+          `{${"system_slug"}}`,
+          encodeURIComponent(String(system_slug)),
+        );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Clears the basket for the current user.
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsClearDestroy: async (
+      system_slug: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'system_slug' is not null or undefined
+      assertParamExists(
+        "paymentsBasketsClearDestroy",
+        "system_slug",
+        system_slug,
+      );
+      const localVarPath =
+        `/api/v0/payments/baskets/clear/{system_slug}/`.replace(
+          `{${"system_slug"}}`,
+          encodeURIComponent(String(system_slug)),
+        );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Clears the basket for the current user.
-         * @param {string} system_slug
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsClearDestroy: async (system_slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'system_slug' is not null or undefined
-            assertParamExists('paymentsBasketsClearDestroy', 'system_slug', system_slug)
-            const localVarPath = `/api/v0/payments/baskets/clear/{system_slug}/`
-                .replace(`{${"system_slug"}}`, encodeURIComponent(String(system_slug)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Creates or updates a basket for the current user, adding the selected product.
+     * @param {string} sku
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsCreateFromProductCreate: async (
+      sku: string,
+      system_slug: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'sku' is not null or undefined
+      assertParamExists("paymentsBasketsCreateFromProductCreate", "sku", sku);
+      // verify required parameter 'system_slug' is not null or undefined
+      assertParamExists(
+        "paymentsBasketsCreateFromProductCreate",
+        "system_slug",
+        system_slug,
+      );
+      const localVarPath =
+        `/api/v0/payments/baskets/create_from_product/{system_slug}/{sku}/`
+          .replace(`{${"sku"}}`, encodeURIComponent(String(sku)))
+          .replace(
+            `{${"system_slug"}}`,
+            encodeURIComponent(String(system_slug)),
+          );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
 
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Retrives the current user\'s baskets, one per system.
+     * @param {number} [integrated_system]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsList: async (
+      integrated_system?: number,
+      limit?: number,
+      offset?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/payments/baskets/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Creates or updates a basket for the current user, adding the selected product.
-         * @param {string} sku
-         * @param {string} system_slug
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsCreateFromProductCreate: async (sku: string, system_slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'sku' is not null or undefined
-            assertParamExists('paymentsBasketsCreateFromProductCreate', 'sku', sku)
-            // verify required parameter 'system_slug' is not null or undefined
-            assertParamExists('paymentsBasketsCreateFromProductCreate', 'system_slug', system_slug)
-            const localVarPath = `/api/v0/payments/baskets/create_from_product/{system_slug}/{sku}/`
-                .replace(`{${"sku"}}`, encodeURIComponent(String(sku)))
-                .replace(`{${"system_slug"}}`, encodeURIComponent(String(system_slug)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      if (integrated_system !== undefined) {
+        localVarQueryParameter["integrated_system"] = integrated_system;
+      }
 
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit;
+      }
 
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset;
+      }
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Retrives the current user\'s baskets, one per system.
-         * @param {number} [integrated_system]
-         * @param {number} [limit] Number of results to return per page.
-         * @param {number} [offset] The initial index from which to return the results.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsList: async (integrated_system?: number, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v0/payments/baskets/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Retrieve a basket for the current user.
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("paymentsBasketsRetrieve", "id", id);
+      const localVarPath = `/api/v0/payments/baskets/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            if (integrated_system !== undefined) {
-                localVarQueryParameter['integrated_system'] = integrated_system;
-            }
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Retrives the current user\'s completed orders.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsOrdersHistoryList: async (
+      limit?: number,
+      offset?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/payments/orders/history/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
 
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit;
+      }
 
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset;
+      }
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Retrieve a basket for the current user.
-         * @param {number} id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('paymentsBasketsRetrieve', 'id', id)
-            const localVarPath = `/api/v0/payments/baskets/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Retrieve a completed order for the current user.
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsOrdersHistoryRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("paymentsOrdersHistoryRetrieve", "id", id);
+      const localVarPath = `/api/v0/payments/orders/history/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Retrives the current user\'s completed orders.
-         * @param {number} [limit] Number of results to return per page.
-         * @param {number} [offset] The initial index from which to return the results.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsOrdersHistoryList: async (limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v0/payments/orders/history/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Retrieve a completed order for the current user.
-         * @param {number} id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsOrdersHistoryRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('paymentsOrdersHistoryRetrieve', 'id', id)
-            const localVarPath = `/api/v0/payments/orders/history/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
 };
 
 /**
  * PaymentsApi - functional programming interface
  * @export
  */
-export const PaymentsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = PaymentsApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * Creates or updates a basket for the current user, adding the discount if valid.
-         * @param {string} system_slug
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async paymentsBasketsAddDiscountCreate(system_slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BasketWithProduct>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsBasketsAddDiscountCreate(system_slug, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentsApi.paymentsBasketsAddDiscountCreate']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Clears the basket for the current user.
-         * @param {string} system_slug
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async paymentsBasketsClearDestroy(system_slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsBasketsClearDestroy(system_slug, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentsApi.paymentsBasketsClearDestroy']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Creates or updates a basket for the current user, adding the selected product.
-         * @param {string} sku
-         * @param {string} system_slug
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async paymentsBasketsCreateFromProductCreate(sku: string, system_slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BasketWithProduct>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsBasketsCreateFromProductCreate(sku, system_slug, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentsApi.paymentsBasketsCreateFromProductCreate']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Retrives the current user\'s baskets, one per system.
-         * @param {number} [integrated_system]
-         * @param {number} [limit] Number of results to return per page.
-         * @param {number} [offset] The initial index from which to return the results.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async paymentsBasketsList(integrated_system?: number, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedBasketWithProductList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsBasketsList(integrated_system, limit, offset, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentsApi.paymentsBasketsList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Retrieve a basket for the current user.
-         * @param {number} id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async paymentsBasketsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BasketWithProduct>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsBasketsRetrieve(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentsApi.paymentsBasketsRetrieve']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Retrives the current user\'s completed orders.
-         * @param {number} [limit] Number of results to return per page.
-         * @param {number} [offset] The initial index from which to return the results.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async paymentsOrdersHistoryList(limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedOrderHistoryList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsOrdersHistoryList(limit, offset, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentsApi.paymentsOrdersHistoryList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Retrieve a completed order for the current user.
-         * @param {number} id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async paymentsOrdersHistoryRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrderHistory>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsOrdersHistoryRetrieve(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentsApi.paymentsOrdersHistoryRetrieve']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-    }
+export const PaymentsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = PaymentsApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * Creates or updates a basket for the current user, adding the discount if valid.
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsBasketsAddDiscountCreate(
+      system_slug: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<BasketWithProduct>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsBasketsAddDiscountCreate(
+          system_slug,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["PaymentsApi.paymentsBasketsAddDiscountCreate"]?.[
+          index
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Clears the basket for the current user.
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsBasketsClearDestroy(
+      system_slug: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsBasketsClearDestroy(
+          system_slug,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["PaymentsApi.paymentsBasketsClearDestroy"]?.[index]
+          ?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Creates or updates a basket for the current user, adding the selected product.
+     * @param {string} sku
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsBasketsCreateFromProductCreate(
+      sku: string,
+      system_slug: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<BasketWithProduct>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsBasketsCreateFromProductCreate(
+          sku,
+          system_slug,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap[
+          "PaymentsApi.paymentsBasketsCreateFromProductCreate"
+        ]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Retrives the current user\'s baskets, one per system.
+     * @param {number} [integrated_system]
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsBasketsList(
+      integrated_system?: number,
+      limit?: number,
+      offset?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedBasketWithProductList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsBasketsList(
+          integrated_system,
+          limit,
+          offset,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["PaymentsApi.paymentsBasketsList"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Retrieve a basket for the current user.
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsBasketsRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<BasketWithProduct>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsBasketsRetrieve(id, options);
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["PaymentsApi.paymentsBasketsRetrieve"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Retrives the current user\'s completed orders.
+     * @param {number} [limit] Number of results to return per page.
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsOrdersHistoryList(
+      limit?: number,
+      offset?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedOrderHistoryList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsOrdersHistoryList(
+          limit,
+          offset,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["PaymentsApi.paymentsOrdersHistoryList"]?.[index]
+          ?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Retrieve a completed order for the current user.
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsOrdersHistoryRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrderHistory>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsOrdersHistoryRetrieve(
+          id,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["PaymentsApi.paymentsOrdersHistoryRetrieve"]?.[index]
+          ?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+  };
 };
 
 /**
  * PaymentsApi - factory interface
  * @export
  */
-export const PaymentsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = PaymentsApiFp(configuration)
-    return {
-        /**
-         * Creates or updates a basket for the current user, adding the discount if valid.
-         * @param {PaymentsApiPaymentsBasketsAddDiscountCreateRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsAddDiscountCreate(requestParameters: PaymentsApiPaymentsBasketsAddDiscountCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<BasketWithProduct> {
-            return localVarFp.paymentsBasketsAddDiscountCreate(requestParameters.system_slug, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Clears the basket for the current user.
-         * @param {PaymentsApiPaymentsBasketsClearDestroyRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsClearDestroy(requestParameters: PaymentsApiPaymentsBasketsClearDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.paymentsBasketsClearDestroy(requestParameters.system_slug, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Creates or updates a basket for the current user, adding the selected product.
-         * @param {PaymentsApiPaymentsBasketsCreateFromProductCreateRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsCreateFromProductCreate(requestParameters: PaymentsApiPaymentsBasketsCreateFromProductCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<BasketWithProduct> {
-            return localVarFp.paymentsBasketsCreateFromProductCreate(requestParameters.sku, requestParameters.system_slug, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Retrives the current user\'s baskets, one per system.
-         * @param {PaymentsApiPaymentsBasketsListRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsList(requestParameters: PaymentsApiPaymentsBasketsListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedBasketWithProductList> {
-            return localVarFp.paymentsBasketsList(requestParameters.integrated_system, requestParameters.limit, requestParameters.offset, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Retrieve a basket for the current user.
-         * @param {PaymentsApiPaymentsBasketsRetrieveRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsBasketsRetrieve(requestParameters: PaymentsApiPaymentsBasketsRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<BasketWithProduct> {
-            return localVarFp.paymentsBasketsRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Retrives the current user\'s completed orders.
-         * @param {PaymentsApiPaymentsOrdersHistoryListRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsOrdersHistoryList(requestParameters: PaymentsApiPaymentsOrdersHistoryListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedOrderHistoryList> {
-            return localVarFp.paymentsOrdersHistoryList(requestParameters.limit, requestParameters.offset, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Retrieve a completed order for the current user.
-         * @param {PaymentsApiPaymentsOrdersHistoryRetrieveRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        paymentsOrdersHistoryRetrieve(requestParameters: PaymentsApiPaymentsOrdersHistoryRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<OrderHistory> {
-            return localVarFp.paymentsOrdersHistoryRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-    };
+export const PaymentsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = PaymentsApiFp(configuration);
+  return {
+    /**
+     * Creates or updates a basket for the current user, adding the discount if valid.
+     * @param {PaymentsApiPaymentsBasketsAddDiscountCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsAddDiscountCreate(
+      requestParameters: PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<BasketWithProduct> {
+      return localVarFp
+        .paymentsBasketsAddDiscountCreate(
+          requestParameters.system_slug,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Clears the basket for the current user.
+     * @param {PaymentsApiPaymentsBasketsClearDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsClearDestroy(
+      requestParameters: PaymentsApiPaymentsBasketsClearDestroyRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .paymentsBasketsClearDestroy(requestParameters.system_slug, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Creates or updates a basket for the current user, adding the selected product.
+     * @param {PaymentsApiPaymentsBasketsCreateFromProductCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsCreateFromProductCreate(
+      requestParameters: PaymentsApiPaymentsBasketsCreateFromProductCreateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<BasketWithProduct> {
+      return localVarFp
+        .paymentsBasketsCreateFromProductCreate(
+          requestParameters.sku,
+          requestParameters.system_slug,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Retrives the current user\'s baskets, one per system.
+     * @param {PaymentsApiPaymentsBasketsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsList(
+      requestParameters: PaymentsApiPaymentsBasketsListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedBasketWithProductList> {
+      return localVarFp
+        .paymentsBasketsList(
+          requestParameters.integrated_system,
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Retrieve a basket for the current user.
+     * @param {PaymentsApiPaymentsBasketsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsRetrieve(
+      requestParameters: PaymentsApiPaymentsBasketsRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<BasketWithProduct> {
+      return localVarFp
+        .paymentsBasketsRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Retrives the current user\'s completed orders.
+     * @param {PaymentsApiPaymentsOrdersHistoryListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsOrdersHistoryList(
+      requestParameters: PaymentsApiPaymentsOrdersHistoryListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedOrderHistoryList> {
+      return localVarFp
+        .paymentsOrdersHistoryList(
+          requestParameters.limit,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Retrieve a completed order for the current user.
+     * @param {PaymentsApiPaymentsOrdersHistoryRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsOrdersHistoryRetrieve(
+      requestParameters: PaymentsApiPaymentsOrdersHistoryRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<OrderHistory> {
+      return localVarFp
+        .paymentsOrdersHistoryRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
 };
 
 /**
@@ -2289,12 +3176,12 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
  * @interface PaymentsApiPaymentsBasketsAddDiscountCreateRequest
  */
 export interface PaymentsApiPaymentsBasketsAddDiscountCreateRequest {
-    /**
-     *
-     * @type {string}
-     * @memberof PaymentsApiPaymentsBasketsAddDiscountCreate
-     */
-    readonly system_slug: string
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentsApiPaymentsBasketsAddDiscountCreate
+   */
+  readonly system_slug: string;
 }
 
 /**
@@ -2303,12 +3190,12 @@ export interface PaymentsApiPaymentsBasketsAddDiscountCreateRequest {
  * @interface PaymentsApiPaymentsBasketsClearDestroyRequest
  */
 export interface PaymentsApiPaymentsBasketsClearDestroyRequest {
-    /**
-     *
-     * @type {string}
-     * @memberof PaymentsApiPaymentsBasketsClearDestroy
-     */
-    readonly system_slug: string
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentsApiPaymentsBasketsClearDestroy
+   */
+  readonly system_slug: string;
 }
 
 /**
@@ -2317,19 +3204,19 @@ export interface PaymentsApiPaymentsBasketsClearDestroyRequest {
  * @interface PaymentsApiPaymentsBasketsCreateFromProductCreateRequest
  */
 export interface PaymentsApiPaymentsBasketsCreateFromProductCreateRequest {
-    /**
-     *
-     * @type {string}
-     * @memberof PaymentsApiPaymentsBasketsCreateFromProductCreate
-     */
-    readonly sku: string
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentsApiPaymentsBasketsCreateFromProductCreate
+   */
+  readonly sku: string;
 
-    /**
-     *
-     * @type {string}
-     * @memberof PaymentsApiPaymentsBasketsCreateFromProductCreate
-     */
-    readonly system_slug: string
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentsApiPaymentsBasketsCreateFromProductCreate
+   */
+  readonly system_slug: string;
 }
 
 /**
@@ -2338,26 +3225,26 @@ export interface PaymentsApiPaymentsBasketsCreateFromProductCreateRequest {
  * @interface PaymentsApiPaymentsBasketsListRequest
  */
 export interface PaymentsApiPaymentsBasketsListRequest {
-    /**
-     *
-     * @type {number}
-     * @memberof PaymentsApiPaymentsBasketsList
-     */
-    readonly integrated_system?: number
+  /**
+   *
+   * @type {number}
+   * @memberof PaymentsApiPaymentsBasketsList
+   */
+  readonly integrated_system?: number;
 
-    /**
-     * Number of results to return per page.
-     * @type {number}
-     * @memberof PaymentsApiPaymentsBasketsList
-     */
-    readonly limit?: number
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PaymentsApiPaymentsBasketsList
+   */
+  readonly limit?: number;
 
-    /**
-     * The initial index from which to return the results.
-     * @type {number}
-     * @memberof PaymentsApiPaymentsBasketsList
-     */
-    readonly offset?: number
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PaymentsApiPaymentsBasketsList
+   */
+  readonly offset?: number;
 }
 
 /**
@@ -2366,12 +3253,12 @@ export interface PaymentsApiPaymentsBasketsListRequest {
  * @interface PaymentsApiPaymentsBasketsRetrieveRequest
  */
 export interface PaymentsApiPaymentsBasketsRetrieveRequest {
-    /**
-     *
-     * @type {number}
-     * @memberof PaymentsApiPaymentsBasketsRetrieve
-     */
-    readonly id: number
+  /**
+   *
+   * @type {number}
+   * @memberof PaymentsApiPaymentsBasketsRetrieve
+   */
+  readonly id: number;
 }
 
 /**
@@ -2380,19 +3267,19 @@ export interface PaymentsApiPaymentsBasketsRetrieveRequest {
  * @interface PaymentsApiPaymentsOrdersHistoryListRequest
  */
 export interface PaymentsApiPaymentsOrdersHistoryListRequest {
-    /**
-     * Number of results to return per page.
-     * @type {number}
-     * @memberof PaymentsApiPaymentsOrdersHistoryList
-     */
-    readonly limit?: number
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof PaymentsApiPaymentsOrdersHistoryList
+   */
+  readonly limit?: number;
 
-    /**
-     * The initial index from which to return the results.
-     * @type {number}
-     * @memberof PaymentsApiPaymentsOrdersHistoryList
-     */
-    readonly offset?: number
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof PaymentsApiPaymentsOrdersHistoryList
+   */
+  readonly offset?: number;
 }
 
 /**
@@ -2401,12 +3288,12 @@ export interface PaymentsApiPaymentsOrdersHistoryListRequest {
  * @interface PaymentsApiPaymentsOrdersHistoryRetrieveRequest
  */
 export interface PaymentsApiPaymentsOrdersHistoryRetrieveRequest {
-    /**
-     *
-     * @type {number}
-     * @memberof PaymentsApiPaymentsOrdersHistoryRetrieve
-     */
-    readonly id: number
+  /**
+   *
+   * @type {number}
+   * @memberof PaymentsApiPaymentsOrdersHistoryRetrieve
+   */
+  readonly id: number;
 }
 
 /**
@@ -2416,161 +3303,236 @@ export interface PaymentsApiPaymentsOrdersHistoryRetrieveRequest {
  * @extends {BaseAPI}
  */
 export class PaymentsApi extends BaseAPI {
-    /**
-     * Creates or updates a basket for the current user, adding the discount if valid.
-     * @param {PaymentsApiPaymentsBasketsAddDiscountCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentsApi
-     */
-    public paymentsBasketsAddDiscountCreate(requestParameters: PaymentsApiPaymentsBasketsAddDiscountCreateRequest, options?: RawAxiosRequestConfig) {
-        return PaymentsApiFp(this.configuration).paymentsBasketsAddDiscountCreate(requestParameters.system_slug, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Creates or updates a basket for the current user, adding the discount if valid.
+   * @param {PaymentsApiPaymentsBasketsAddDiscountCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsBasketsAddDiscountCreate(
+    requestParameters: PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsBasketsAddDiscountCreate(requestParameters.system_slug, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Clears the basket for the current user.
-     * @param {PaymentsApiPaymentsBasketsClearDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentsApi
-     */
-    public paymentsBasketsClearDestroy(requestParameters: PaymentsApiPaymentsBasketsClearDestroyRequest, options?: RawAxiosRequestConfig) {
-        return PaymentsApiFp(this.configuration).paymentsBasketsClearDestroy(requestParameters.system_slug, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Clears the basket for the current user.
+   * @param {PaymentsApiPaymentsBasketsClearDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsBasketsClearDestroy(
+    requestParameters: PaymentsApiPaymentsBasketsClearDestroyRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsBasketsClearDestroy(requestParameters.system_slug, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Creates or updates a basket for the current user, adding the selected product.
-     * @param {PaymentsApiPaymentsBasketsCreateFromProductCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentsApi
-     */
-    public paymentsBasketsCreateFromProductCreate(requestParameters: PaymentsApiPaymentsBasketsCreateFromProductCreateRequest, options?: RawAxiosRequestConfig) {
-        return PaymentsApiFp(this.configuration).paymentsBasketsCreateFromProductCreate(requestParameters.sku, requestParameters.system_slug, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Creates or updates a basket for the current user, adding the selected product.
+   * @param {PaymentsApiPaymentsBasketsCreateFromProductCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsBasketsCreateFromProductCreate(
+    requestParameters: PaymentsApiPaymentsBasketsCreateFromProductCreateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsBasketsCreateFromProductCreate(
+        requestParameters.sku,
+        requestParameters.system_slug,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Retrives the current user\'s baskets, one per system.
-     * @param {PaymentsApiPaymentsBasketsListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentsApi
-     */
-    public paymentsBasketsList(requestParameters: PaymentsApiPaymentsBasketsListRequest = {}, options?: RawAxiosRequestConfig) {
-        return PaymentsApiFp(this.configuration).paymentsBasketsList(requestParameters.integrated_system, requestParameters.limit, requestParameters.offset, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Retrives the current user\'s baskets, one per system.
+   * @param {PaymentsApiPaymentsBasketsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsBasketsList(
+    requestParameters: PaymentsApiPaymentsBasketsListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsBasketsList(
+        requestParameters.integrated_system,
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Retrieve a basket for the current user.
-     * @param {PaymentsApiPaymentsBasketsRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentsApi
-     */
-    public paymentsBasketsRetrieve(requestParameters: PaymentsApiPaymentsBasketsRetrieveRequest, options?: RawAxiosRequestConfig) {
-        return PaymentsApiFp(this.configuration).paymentsBasketsRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Retrieve a basket for the current user.
+   * @param {PaymentsApiPaymentsBasketsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsBasketsRetrieve(
+    requestParameters: PaymentsApiPaymentsBasketsRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsBasketsRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Retrives the current user\'s completed orders.
-     * @param {PaymentsApiPaymentsOrdersHistoryListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentsApi
-     */
-    public paymentsOrdersHistoryList(requestParameters: PaymentsApiPaymentsOrdersHistoryListRequest = {}, options?: RawAxiosRequestConfig) {
-        return PaymentsApiFp(this.configuration).paymentsOrdersHistoryList(requestParameters.limit, requestParameters.offset, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Retrives the current user\'s completed orders.
+   * @param {PaymentsApiPaymentsOrdersHistoryListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsOrdersHistoryList(
+    requestParameters: PaymentsApiPaymentsOrdersHistoryListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsOrdersHistoryList(
+        requestParameters.limit,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 
-    /**
-     * Retrieve a completed order for the current user.
-     * @param {PaymentsApiPaymentsOrdersHistoryRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentsApi
-     */
-    public paymentsOrdersHistoryRetrieve(requestParameters: PaymentsApiPaymentsOrdersHistoryRetrieveRequest, options?: RawAxiosRequestConfig) {
-        return PaymentsApiFp(this.configuration).paymentsOrdersHistoryRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Retrieve a completed order for the current user.
+   * @param {PaymentsApiPaymentsOrdersHistoryRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsOrdersHistoryRetrieve(
+    requestParameters: PaymentsApiPaymentsOrdersHistoryRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsOrdersHistoryRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 }
-
-
 
 /**
  * UsersApi - axios parameter creator
  * @export
  */
-export const UsersApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * User retrieve and update viewsets for the current user
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        usersMeRetrieve: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v0/users/me/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+export const UsersApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * User retrieve and update viewsets for the current user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersMeRetrieve: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/users/me/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
 };
 
 /**
  * UsersApi - functional programming interface
  * @export
  */
-export const UsersApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * User retrieve and update viewsets for the current user
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async usersMeRetrieve(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.usersMeRetrieve(options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['UsersApi.usersMeRetrieve']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-    }
+export const UsersApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * User retrieve and update viewsets for the current user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async usersMeRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.usersMeRetrieve(options);
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["UsersApi.usersMeRetrieve"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+  };
 };
 
 /**
  * UsersApi - factory interface
  * @export
  */
-export const UsersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = UsersApiFp(configuration)
-    return {
-        /**
-         * User retrieve and update viewsets for the current user
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        usersMeRetrieve(options?: RawAxiosRequestConfig): AxiosPromise<User> {
-            return localVarFp.usersMeRetrieve(options).then((request) => request(axios, basePath));
-        },
-    };
+export const UsersApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = UsersApiFp(configuration);
+  return {
+    /**
+     * User retrieve and update viewsets for the current user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersMeRetrieve(options?: RawAxiosRequestConfig): AxiosPromise<User> {
+      return localVarFp
+        .usersMeRetrieve(options)
+        .then((request) => request(axios, basePath));
+    },
+  };
 };
 
 /**
@@ -2580,13 +3542,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
  * @extends {BaseAPI}
  */
 export class UsersApi extends BaseAPI {
-    /**
-     * User retrieve and update viewsets for the current user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UsersApi
-     */
-    public usersMeRetrieve(options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).usersMeRetrieve(options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * User retrieve and update viewsets for the current user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public usersMeRetrieve(options?: RawAxiosRequestConfig) {
+    return UsersApiFp(this.configuration)
+      .usersMeRetrieve(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 }

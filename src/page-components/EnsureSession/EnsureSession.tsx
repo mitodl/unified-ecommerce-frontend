@@ -23,7 +23,7 @@ const establishSession = () => {
   }
   const encoded = encodeURIComponent(window.location.href);
   window.location.assign(
-    `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${encoded}`
+    `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${encoded}`,
   );
   sessionStorage.setItem(REDIRECT_KEY, "true");
   return () => sessionStorage.removeItem(REDIRECT_KEY);

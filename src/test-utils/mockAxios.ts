@@ -14,7 +14,7 @@ type PartialAxiosResponse = Pick<AxiosResponse, "data" | "status">;
 const alwaysError = (
   method: string,
   url: string,
-  _body?: unknown
+  _body?: unknown,
 ): Promise<PartialAxiosResponse> => {
   const msg = `No response specified for ${method} ${url}`;
   console.error(msg);
@@ -40,7 +40,7 @@ const mockAxiosInstance = {
   get: jest.fn((url: string) => makeRequest("get", url, undefined)),
   post: jest.fn((url: string, body: unknown) => makeRequest("post", url, body)),
   patch: jest.fn((url: string, body: unknown) =>
-    makeRequest("patch", url, body)
+    makeRequest("patch", url, body),
   ),
   delete: jest.fn((url: string) => makeRequest("delete", url, undefined)),
   request: jest.fn(
@@ -53,7 +53,7 @@ const mockAxiosInstance = {
         method: string;
         url: string;
         data: unknown;
-      } // Axios accepts lowercase or capital method names
+      }, // Axios accepts lowercase or capital method names
     ) => {
       // OpenAPI Generator *always* serializes request bodies before passing to
       // axios. This is fine, but annoying for tests where we may want to assert
@@ -61,7 +61,7 @@ const mockAxiosInstance = {
       const deserialized =
         typeof data === "string" ? JSON.parse(data) : undefined;
       return makeRequest(method.toLowerCase(), url, deserialized);
-    }
+    },
   ),
   defaults: {}, // OpenAPI Generator accesses this, so it needs to exist
 };
@@ -89,7 +89,7 @@ const mockRequest = <T, U>(
   url: string,
   requestBody: T = expectAnythingOrNil,
   responseBody: U | ((req: T) => U) | undefined = undefined,
-  code: number
+  code: number,
 ) => {
   when(makeRequest)
     .calledWith(method, standardizeUrl(url), requestBody)
@@ -107,7 +107,7 @@ const mockRequest = <T, U>(
           String(code),
           undefined,
           undefined,
-          response as AxiosResponse
+          response as AxiosResponse,
         );
       }
       return response;
@@ -136,7 +136,7 @@ const setMockResponse = {
   get: (
     url: string,
     responseBody: unknown,
-    { code = 200, requestBody }: MockResponseOptions = {}
+    { code = 200, requestBody }: MockResponseOptions = {},
   ) => mockRequest("get", url, requestBody, responseBody, code),
   /**
    * Set mock response for a POST request; default response status is 201.
@@ -147,7 +147,7 @@ const setMockResponse = {
   post: (
     url: string,
     responseBody?: unknown,
-    { code = 201, requestBody }: MockResponseOptions = {}
+    { code = 201, requestBody }: MockResponseOptions = {},
   ) => mockRequest("post", url, requestBody, responseBody, code),
   /**
    * Set mock response for a PATCH request; default response status is 200.
@@ -158,7 +158,7 @@ const setMockResponse = {
   patch: (
     url: string,
     responseBody?: unknown,
-    { code = 200, requestBody }: MockResponseOptions = {}
+    { code = 200, requestBody }: MockResponseOptions = {},
   ) => mockRequest("patch", url, requestBody, responseBody, code),
   /**
    * Set mock response for a PATCH request; default response status is 204.
@@ -169,7 +169,7 @@ const setMockResponse = {
   delete: (
     url: string,
     responseBody?: unknown,
-    { code = 204, requestBody }: MockResponseOptions = {}
+    { code = 204, requestBody }: MockResponseOptions = {},
   ) => mockRequest("delete", url, requestBody, responseBody, code),
   /**
    * Set a custom fallback implementation when no responses have been specified.
