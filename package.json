@@ -7,8 +7,12 @@
     "dev": "next dev",
     "build": "next build",
     "preview": "NODE_ENV=production next build && serve out",
-    "lint": "eslint *.{js,ts} src",
-    "test": "jest"
+    "test": "jest",
+    "typecheck": "tsc --noEmit",
+    "lint-check": "eslint src/ .storybook/",
+    "lint-fix": "yarn lint-check --fix",
+    "fmt-check": "prettier --ignore-path .gitignore --ignore-path .prettierignore --check .",
+    "fmt-fix": "prettier --ignore-path .gitignore --ignore-path .prettierignore --write ."
   },
   "dependencies": {
     "@emotion/cache": "^11.13.5",
