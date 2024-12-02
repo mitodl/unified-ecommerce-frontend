@@ -19,6 +19,7 @@
       }
     ],
     "paths": {
+      "@/public/*": ["./public/*"],
       "@/*": ["./src/*"]
     },
     "types": ["@mitodl/smoot-design/type-augmentation"]
