@@ -21,9 +21,9 @@ const establishSession = () => {
   if (sessionStorage.getItem(REDIRECT_KEY)) {
     throw new Error("Unable to establish session");
   }
-  const myUrl = new URL(window.location.href);
+  const encoded = encodeURIComponent(window.location.href);
   window.location.assign(
-    `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${myUrl}`
+    `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${encoded}`
   );
   sessionStorage.setItem(REDIRECT_KEY, "true");
   return () => sessionStorage.removeItem(REDIRECT_KEY);
