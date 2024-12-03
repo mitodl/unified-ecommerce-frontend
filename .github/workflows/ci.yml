@@ -20,6 +20,13 @@ jobs:
       - name: Lints
         run: yarn run lint-check
 
+        # do build before typecheck. See https://github.com/vercel/next.js/issues/53959#issuecomment-1735563224
+      - name: Build
+        run: yarn build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_UE_API_BASE_URL: "http://ue.test.local:9080"
+
       - name: Typecheck
         run: yarn typecheck
 
@@ -28,5 +35,3 @@ jobs:
         env:
           CODECOV: true
           NODE_ENV: test
-      - name: Build
-        run: yarn build
