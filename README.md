@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Unified Ecommerce Frontend
 
-## Getting Started
+This is a frontend for the [Unified Ecommerce](https://github.com/mitodl/unified-ecommerce) project built with React and NextJS.
 
-First, run the development server:
+## Initial Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+First, ensure that you have the [Unified Ecommerce Bakend](https://github.com/mitodl/unified-ecommerce) up and running locally. Then:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Configure Required Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Environment variables are described in detail in `env/env.defaults.public`; all env vars should have functional defaults. However, a few dependencies to note:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- In the Unified Ecommerce backend, `MITOL_UE_PAYMENT_BASKET_ROOT` and `MITOL_UE_PAYMENT_BASKET_CHOOSER` should point to the this repo's frontend. (e.g., `https://uefe.odl.local:8072`)
 
-## Learn More
+### Run the app
 
-To learn more about Next.js, take a look at the following resources:
+#### With Docker
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+With `docker compose up`, you should be up and running. Visit the application at http://uefe.odl.local:8072
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Without Docker
 
-## Deploy on Vercel
+You can run the app outside of docker. This may be faster and more convenient. Two things are needed:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Some way to load environment variables. [direnv](https://direnv.net/) is a great tool for this; a sample `.envrc` file is committed in the repo.
+2. A NodeJS runtime; [`nvm`](https://github.com/nvm-sh/nvm) is a simple tool for managing NodeJS versions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+With that done, `yarn start`, `yarn install`, and visit http://uefe.odl.local:8072

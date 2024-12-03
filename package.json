@@ -4,22 +4,22 @@
   "private": true,
   "packageManager": "yarn@4.5.1",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "preview": "NODE_ENV=production next build && serve out",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint-check": "eslint src/ .storybook/",
     "lint-fix": "yarn lint-check --fix",
     "fmt-check": "prettier --ignore-path .gitignore --ignore-path .prettierignore --check .",
-    "fmt-fix": "prettier --ignore-path .gitignore --ignore-path .prettierignore --write ."
+    "fmt-fix": "prettier --ignore-path .gitignore --ignore-path .prettierignore --write .",
+    "start": "next dev -p 8072",
+    "build": "NODE_ENV=production next build",
+    "preview": "NODE_ENV=production next build && serve out -p 8072"
   },
   "dependencies": {
     "@emotion/cache": "^11.13.5",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@faker-js/faker": "^9.0.0",
-    "@mitodl/smoot-design": "https://github.com/mitodl/smoot-design.git#c8c4cf4782dd6875d816958a11d6c11855f827ac",
+    "@mitodl/smoot-design": "^1.0.1",
     "@mui/material": "^6.1.8",
     "@mui/material-nextjs": "^6.1.8",
     "@remixicon/react": "^4.2.0",

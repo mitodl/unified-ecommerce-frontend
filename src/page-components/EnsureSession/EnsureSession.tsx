@@ -11,22 +11,11 @@ const Backdrop = styled(MuiBackdrop)(({ theme }) => ({
   color: theme.custom.colors.white,
 }));
 
-/**
- * Store whether or not we've attempted to redirect the user to login in
- * session storage. That way, if something goes long, we (1) can throw an error
- * and (2) avoid an infinite loop.
- */
-const REDIRECT_KEY = "login_redirected";
 const establishSession = () => {
-  if (sessionStorage.getItem(REDIRECT_KEY)) {
-    throw new Error("Unable to establish session");
-  }
   const encoded = encodeURIComponent(window.location.href);
   window.location.assign(
     `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${encoded}`,
   );
-  sessionStorage.setItem(REDIRECT_KEY, "true");
-  return () => sessionStorage.removeItem(REDIRECT_KEY);
 };
 
 const EnsureSession = () => {
@@ -37,7 +26,7 @@ const EnsureSession = () => {
 
   useEffect(() => {
     if (shouldAuthenticate) {
-      return establishSession();
+      establishSession();
     }
   }, [shouldAuthenticate]);
 
