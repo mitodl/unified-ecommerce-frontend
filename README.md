@@ -4,7 +4,7 @@ This is a frontend for the [Unified Ecommerce](https://github.com/mitodl/unified
 
 ## Initial Setup
 
-First, ensure that you have the [Unified Ecommerce Bakend](https://github.com/mitodl/unified-ecommerce) up and running locally. Then:
+First, ensure that you have the [Unified Ecommerce Bakend](https://github.com/mitodl/unified-ecommerce) up and running locally.
 
 ### Configure Required Environment Variables
 
@@ -26,3 +26,7 @@ You can run the app outside of docker. This may be faster and more convenient. T
 2. A NodeJS runtime; [`nvm`](https://github.com/nvm-sh/nvm) is a simple tool for managing NodeJS versions.
 
 With that done, `yarn start`, `yarn install`, and visit http://uefe.odl.local:8072
+
+## Accessing the Application
+
+The Unified Ecommerce backend uses same-site cookies for authentication. Therefore, the frontend client must run on the "same site" as the backend. Therefore, if the backend runs on `ue.odl.local:8073`, you **must** access the frontend on at a hostname such as `uefe.odl.local` (or `*.odl.local`), _not_ `localhost`.
