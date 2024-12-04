@@ -1,0 +1,17 @@
+services:
+  watch:
+    working_dir: /src
+    image: node:22.11
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        yarn install
+        yarn start
+    ports:
+      - "8072:8072"
+    volumes:
+      - .:/src
+    env_file:
+      - path: env/env.defaults
+      - path: env/env.local
+        required: false

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,8 +19,15 @@
       }
     ],
     "paths": {
+      "@/public/*": ["./public/*"],
       "@/*": ["./src/*"]
-    }
+    },
+    "types": [
+      "@mitodl/smoot-design/type-augmentation",
+      "node",
+      "jest",
+      "@testing-library/jest-dom"
+    ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

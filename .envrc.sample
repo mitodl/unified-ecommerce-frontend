@@ -1,0 +1,6 @@
+# Example .envrc file
+# If you're running the app outside of docker, this could be used with direnv
+# to load environment variables.
+# See https://direnv.net/ for more.
+dotenv_if_exists env/env.local
+dotenv_if_exists env/env.defaults
