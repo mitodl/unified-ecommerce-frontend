@@ -13,8 +13,9 @@ const Backdrop = styled(MuiBackdrop)(({ theme }) => ({
 }));
 
 const establishSession = () => {
+  const urlParams = new URLSearchParams(window.location.search);
   window.location.assign(
-    `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${getCurrentSystem()}`,
+    `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${getCurrentSystem(urlParams)}`,
   );
 };
 

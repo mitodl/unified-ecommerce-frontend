@@ -1,17 +1,18 @@
-const getCurrentSystem = () => {
-  const urlparams = new URLSearchParams(window.location.search);
+"use client";
+
+const getCurrentSystem = (urlParams: URLSearchParams) => {
   let system: string = "";
 
-  if (urlparams.has("mitxonline")) {
+  if (urlParams.has("mitxonline")) {
     system = "mitxonline";
   }
 
-  if (urlparams.has("mitxpro")) {
+  if (urlParams.has("mitxpro")) {
     system = "mitxpro";
   }
 
-  if (urlparams.has("system")) {
-    system = encodeURIComponent(urlparams.get("system") as string);
+  if (urlParams.has("system")) {
+    system = encodeURIComponent(urlParams.get("system") as string);
   }
 
   return system;
