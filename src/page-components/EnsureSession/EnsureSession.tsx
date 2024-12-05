@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import MuiBackdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { styled } from "@mitodl/smoot-design";
+import { getCurrentSystem } from "@/utils/system";
 
 const Backdrop = styled(MuiBackdrop)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
@@ -12,9 +13,8 @@ const Backdrop = styled(MuiBackdrop)(({ theme }) => ({
 }));
 
 const establishSession = () => {
-  const encoded = encodeURIComponent(window.location.href);
   window.location.assign(
-    `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${encoded}`,
+    `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${getCurrentSystem()}`,
   );
 };
 
@@ -30,7 +30,16 @@ const EnsureSession = () => {
     }
   }, [shouldAuthenticate]);
 
-  return isAuthenticated ? null : (
+  return isAuthenticated ? (
+    <>
+      <p>
+        Force reauth:{" "}
+        <button onClick={() => establishSession()} type="button">
+          Do It!
+        </button>{" "}
+      </p>
+    </>
+  ) : (
     <Backdrop open={true}>
       <CircularProgress color="inherit" />
     </Backdrop>
