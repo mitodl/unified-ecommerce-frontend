@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getCurrentSystem } from "@/utils/system";
+import { useSearchParams } from "next/navigation";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 import {
   useDeferredPaymentsBasketList,
@@ -12,10 +12,11 @@ import {
 } from "@/services/ecommerce/generated/v0";
 
 const Cart = () => {
+  const [system, setSystem] = useState<string | null>(null);
   const [selectedSystem, setSelectedSystem] =
     useState<PaymentsApiPaymentsBasketsListRequest | null>(null);
   const [selectedBasket, setSelectedBasket] = useState<number | null>(null);
-  const system = getCurrentSystem();
+  const searchParams = useSearchParams();
 
   const integratedSystems = useMetaIntegratedSystemsList();
   const basket = useDeferredPaymentsBasketList(
@@ -27,8 +28,14 @@ const Cart = () => {
     !!selectedBasket,
   );
 
+  useEffect(() => { 
+    if (searchParams.has("system")) {
+      setSystem(searchParams.get("system"));
+    }
+  }, [searchParams]);
+
   useEffect(() => {
-    if (system && integratedSystems.isFetched && integratedSystems.data) {
+    if (system && integratedSystems.data) {
       const systemId = integratedSystems.data.results.find(
         (integratedSystem: IntegratedSystem) =>
           integratedSystem.slug === system,
@@ -38,7 +45,7 @@ const Cart = () => {
         setSelectedSystem({ integrated_system: systemId });
       }
     }
-  }, [system, integratedSystems]);
+  }, [system, selectedSystem, integratedSystems]);
 
   useEffect(() => {
     if (basket.isFetched && basket.data) {
