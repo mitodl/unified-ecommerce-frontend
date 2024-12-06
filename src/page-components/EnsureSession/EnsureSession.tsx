@@ -12,6 +12,13 @@ const Backdrop = styled(MuiBackdrop)(({ theme }) => ({
   color: theme.custom.colors.white,
 }));
 
+const ForceReauthContainer = styled.div`
+  padding: 10px;
+  width: 100%;
+  border-bottom: 1px solid #333;
+  background-color: rgba(0, 0, 0, 0.1);
+`;
+
 const establishSession = () => {
   const urlParams = new URLSearchParams(window.location.search);
   window.location.assign(
@@ -32,14 +39,14 @@ const EnsureSession = () => {
   }, [shouldAuthenticate]);
 
   return isAuthenticated ? (
-    <>
+    <ForceReauthContainer>
       <p>
         Force reauth:{" "}
         <button onClick={() => establishSession()} type="button">
           Do It!
         </button>{" "}
       </p>
-    </>
+    </ForceReauthContainer>
   ) : (
     <Backdrop open={true}>
       <CircularProgress color="inherit" />
