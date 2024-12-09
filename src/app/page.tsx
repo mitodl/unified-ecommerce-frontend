@@ -1,11 +1,31 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { getCurrentSystem } from "@/utils/system";
 import { Card } from "@/page-components/Card/Card";
+import { createTheme } from "@mitodl/smoot-design"
+
+import {
+  usePaymentsBasketList,
+  useDeferredPaymentsBasketRetrieve,
+} from "@/services/ecommerce/payments/hooks";
+import {
+  IntegratedSystem,
+  PaymentsApiPaymentsBasketsListRequest,
+} from "@/services/ecommerce/generated/v0";
+
+type CartProps = {
+  system: string;
+}
+
+type CartBodyProps = {
+  systemId: number;
+}
+
+const theme = createTheme();
 
 const CartPageContainer = styled.div`
   margin: 64px 108px;
@@ -52,7 +72,7 @@ const CartBodyContainer = styled.div`
   gap: 48px;
 `;
 
-const CartHeader = styled.h1`
+const CartHeader = styled.div`
   width: 100%;
   flex-grow: 1;
   margin-bottom: 16px;
@@ -62,42 +82,125 @@ const CartItemsContainer = styled.div`
   width: 816px;
 `;
 
-const CartSummaryContainer = styled.div`
-  width: auto;
-  flex-grow: 1;
+type CartSummaryItemProps = {
+  variant?: string;
+}
+
+const CartSummaryContainer = styled.div(() => ({
+  "width": "auto",
+  "flexGrow": 1,
+  "borderBottom": "1px solid #DDE1E6",
+  "padding": "8px 0",
+  "margin": "8px 0",
+}));
+
+const CartSummaryItem = styled.div<CartSummaryItemProps>(({ variant }) => ({
+  "display": "flex",
+  "marginTop": (variant === "tax" ? "16px" : ""),
+  "marginBottom": "8px",
+}));
+
+const CartSummaryItemTitle = styled.div`
+  width: 280px;
+  margin-right: 16px;
 `;
 
-const Cart = () => {
-  return <CartContainer>
-    <CartHeader>You are about to purchase the following:</CartHeader>
-    <CartBodyContainer>
-      <CartItemsContainer>
-        <StyledCard>
-          <Card.Content>
-            <p>This is an item that's in the cart..</p>
-          </Card.Content>
-        </StyledCard>
+const CartSummaryItemValue = styled.div`
+  width: auto;
+  flex-grow: 1;
+  text-align: right;
+`;
 
-        <StyledCard>
-          <Card.Content>
-            <p>This is an item that's in the cart..</p>
-          </Card.Content>
-        </StyledCard>
-      </CartItemsContainer>
-      <CartSummaryContainer>
-        <StyledCard>
-          <Card.Content>
-            <Typography variant="h3">Order Summary</Typography>
-            
-            <p>This is an item that's in the cart..</p>
-          </Card.Content>
-          <Card.Footer>
-            By placing my order I agree to the Terms of Service and Privacy Policy.
-          </Card.Footer>
-        </StyledCard>
+const CartSummaryTotalContainer = styled.div`
+ ${{ ...theme.typography.h5 }}
+`;
 
-      </CartSummaryContainer>
+const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
+  const basket = usePaymentsBasketList({ integrated_system: systemId });
+  const basketDetails = useDeferredPaymentsBasketRetrieve(
+    basket.data?.results[0]?.id || 0,
+    !!basket.data?.count,
+  );
+
+  return basketDetails.isFetched && basketDetails?.data?.basket_items && basketDetails.data.basket_items.length > 0 ? <CartBodyContainer>
+    <CartItemsContainer>
+      { basketDetails.data.basket_items.map((item) => (
+        <StyledCard key={`ue-basket-item-${item.id}`}>
+          <Card.Content>
+            <Typography variant="h5">{item.product.sku}</Typography>
+            <Typography variant="h3">{item.product.name}</Typography>
+
+            <div>
+              {item.product.description}
+            </div>
+          </Card.Content>
+        </StyledCard>)) }
+
+    </CartItemsContainer>
+    <CartSummaryContainer>
+      <StyledCard>
+        <Card.Content>
+          <Typography variant="h3">Order Summary</Typography>
+          
+          <CartSummaryContainer>
+            { basketDetails.data.basket_items.map((item) => (
+              <CartSummaryItem key={`ue-basket-item-${item.id}`}>
+                <CartSummaryItemTitle>{item.product.name}</CartSummaryItemTitle>
+                <CartSummaryItemValue>{item.discounted_price.toLocaleString("en-US", { style: "currency", currency: "USD"})}</CartSummaryItemValue>
+              </CartSummaryItem>)) }
+
+
+            { basketDetails.data.tax_rate ? <CartSummaryItem variant="tax">
+                <CartSummaryItemTitle>{basketDetails.data.tax_rate.tax_rate_name}</CartSummaryItemTitle>
+                <CartSummaryItemValue>{basketDetails.data.tax.toLocaleString("en-US", { style: "currency", currency: "USD" })}</CartSummaryItemValue>
+              </CartSummaryItem> : null }
+          </CartSummaryContainer>
+
+          <CartSummaryTotalContainer>
+            <CartSummaryItem>
+              <CartSummaryItemTitle>Total</CartSummaryItemTitle>
+              <CartSummaryItemValue>{basketDetails.data.total_price.toLocaleString("en-US", { style: "currency", currency: "USD" })}</CartSummaryItemValue>
+            </CartSummaryItem>
+          </CartSummaryTotalContainer>
+
+          By placing my order, I agree to the Terms of Service and Privacy Policy.
+
+        </Card.Content>
+      </StyledCard>
+
+    </CartSummaryContainer>
+  </CartBodyContainer> : <CartBodyContainer>
+      <StyledCard>
+        <Card.Content>
+          <p>Your cart is empty.</p>
+        </Card.Content>
+      </StyledCard>
     </CartBodyContainer>
+}
+
+const Cart: React.FC<CartProps> = ({ system }) => {
+  const systems = useMetaIntegratedSystemsList();
+  const [ selectedSystem, setSelectedSystem ] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (system && systems.data) {
+      const foundSystem = systems.data.results.find(
+        (integratedSystem: IntegratedSystem) =>
+          integratedSystem.slug === system,
+      );
+
+      if (foundSystem) {
+        console.log("we found a system", foundSystem);
+        setSelectedSystem(foundSystem.id);
+      }
+    }
+  }, [ system, systems, selectedSystem ]);
+
+  return <CartContainer>
+    <CartHeader>
+      <Typography variant="h3">You are about to purchase the following:</Typography>
+    </CartHeader>
+    {selectedSystem && <CartBody systemId={selectedSystem} />}
   </CartContainer>
 }
 
@@ -113,7 +216,7 @@ const Home = () => {
         <SelectSystem />
       </Card.Content>
     </StyledCard>}
-    {specifiedSystem !== "" && <Cart />
+    {specifiedSystem !== "" && <Cart system={specifiedSystem} />
     }
   </CartPageContainer>;
 };

@@ -1,9 +1,8 @@
 import React, { FC, ReactNode, Children, isValidElement } from "react"
 import styled from "@emotion/styled"
 import { RiDraggable } from "@remixicon/react"
-import { theme } from "../ThemeProvider/ThemeProvider"
 import { Wrapper } from "./Card"
-import { TruncateText } from "../TruncateText/TruncateText"
+import { createTheme } from "@mitodl/smoot-design"
 import {
   ListCard,
   Body as BaseBody,
@@ -17,7 +16,10 @@ import {
   Actions as BaseActions,
   Bottom as BaseBottom,
 } from "./ListCard"
+import { TruncateText } from "../TruncateText/TruncateText"
 import type { Card as BaseCard } from "./ListCard"
+
+const theme = createTheme();
 
 const DragArea = styled(BaseDragArea)`
   padding-right: 4px;
@@ -97,7 +99,7 @@ const ListCardCondensed: Card = ({ children, className, href, draggable }) => {
 
   if (content) {
     return (
-      <_Container className={className} to={href!}>
+      <_Container className={className} href={href!}>
         {content}
       </_Container>
     )
@@ -105,7 +107,7 @@ const ListCardCondensed: Card = ({ children, className, href, draggable }) => {
 
   return (
     <Wrapper className={className}>
-      <_Container to={href!}>
+      <_Container href={href!}>
         {draggable && (
           <DragArea>
             <RiDraggable />

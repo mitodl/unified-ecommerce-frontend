@@ -5,13 +5,16 @@ import React, {
   ImgHTMLAttributes,
   isValidElement,
 } from "react"
-import { Link } from "react-router-dom"
+import { createTheme } from "@mitodl/smoot-design"
 import styled from "@emotion/styled"
 import { RiDraggable } from "@remixicon/react"
-import { theme } from "../ThemeProvider/ThemeProvider"
 import { Wrapper, containerStyles } from "./Card"
 import { TruncateText } from "../TruncateText/TruncateText"
-import { ActionButton, ActionButtonProps } from "../Button/Button"
+import { ActionButton } from "@mitodl/smoot-design"
+import Link from "next/link"
+import type { ActionButtonProps } from "@mitodl/smoot-design"
+
+const theme = createTheme();
 
 export const LinkContainer = styled(Link)`
   ${containerStyles}
