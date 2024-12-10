@@ -31,7 +31,6 @@ jobs:
       - name: Write commit SHA to file
         run: echo $GITHUB_SHA > frontends/main/public/hash.txt
 
-
       - name: Upload frontend build to s3
         uses: jakejarvis/s3-sync-action@master
         with:
@@ -55,4 +54,3 @@ jobs:
       github.event.workflow_run.conclusion = 'failure'
     steps:
       - run: echo 'The trigger workflow failed.'
-
