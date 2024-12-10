@@ -115,6 +115,33 @@ const CartSummaryItemValue = styled.div`
   text-align: right;
 `;
 
+const CartSummaryItemImage = styled.div`
+  width: 192px;
+  margin: 0;
+`;
+
+const CartSummaryItemContent = styled.div`
+  width: auto;
+  flex-grow: 1;
+  margin: 0;
+  margin-left: 32px;
+`;
+
+const CartSummaryProductPrice = styled.div`
+margin-left: auto;
+ ${{ ...theme.typography.h5 }},
+`;
+
+const CartSummaryProductMeta = styled.div`
+  display: flex;
+  align-items: start;
+  margin-bottom: 8px;
+`;
+
+const CartSummaryProductDescription = styled.div`
+  margin: 8px 0;
+  `;
+
 const CartSummaryReceiptContainer = styled.div(() => ({
   "borderBottom": "1px solid #DDE1E6",
   "padding": "8px 0",
@@ -156,12 +183,24 @@ const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
       { basketDetails.data.basket_items.map((item) => (
         <StyledCard key={`ue-basket-item-${item.id}`}>
           <Card.Content>
-            <Typography variant="h5">{item.product.sku}</Typography>
-            <Typography variant="h3">{item.product.name}</Typography>
+            <CartSummaryItem>
+              <CartSummaryItemImage>
+                <img src="https://placecats.com/192/108" alt="placeholder cat" />
+              </CartSummaryItemImage>
 
-            <div>
-              {item.product.description}
-            </div>
+              <CartSummaryItemContent>
+                <CartSummaryProductMeta>
+                  <Typography variant="subtitle2">{item.product.sku}</Typography>
+                  <CartSummaryProductPrice>{parseFloat(item.product.price).toLocaleString("en-US", { style: "currency", currency: "USD" })}</CartSummaryProductPrice>
+                </CartSummaryProductMeta>
+
+                <Typography variant="h3">{item.product.name}</Typography>
+
+                <CartSummaryProductDescription>
+                  {item.product.description}
+                </CartSummaryProductDescription>
+              </CartSummaryItemContent>
+            </CartSummaryItem>
           </Card.Content>
         </StyledCard>)) }
 
