@@ -2,12 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
-import { Button, styled } from "@mitodl/smoot-design";
+import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { getCurrentSystem } from "@/utils/system";
 import { Card } from "@/page-components/Card/Card";
 import { createTheme } from "@mitodl/smoot-design"
-import { InputBase as Input } from "@mui/material";
+import CartItem from "@/page-components/CartItem/CartItem";
+import CartSummary from "@/page-components/CartSummary/CartSummary";
+import StyledCard from "@/page-components/Card/StyledCard";
 
 import {
   usePaymentsBasketList,
@@ -15,7 +17,6 @@ import {
 } from "@/services/ecommerce/payments/hooks";
 import {
   IntegratedSystem,
-  PaymentsApiPaymentsBasketsListRequest,
 } from "@/services/ecommerce/generated/v0";
 
 type CartProps = {
@@ -31,10 +32,6 @@ const theme = createTheme();
 const CartPageContainer = styled.div`
   margin: 64px 108px;
 `
-
-const StyledCard = styled(Card)`
-  padding: 32px;
-`;
 
 const SelectSystemContainer = styled.div`
   margin: 16px 0;
@@ -85,92 +82,6 @@ const CartItemsContainer = styled.div`
   flex-grow: 1;
 `;
 
-type CartSummaryItemProps = {
-  variant?: string;
-}
-
-const CartSummaryContainer = styled.div(() => ({
-  "width": "488px",
-  "padding": "0",
-  ["> div"]: {
-    "padding": "32px",
-  },
-}));
-
-
-const CartSummaryItem = styled.div<CartSummaryItemProps>(({ variant }) => ({
-  "display": "flex",
-  "marginTop": (variant === "tax" ? "16px" : ""),
-  "marginBottom": "8px",
-}));
-
-const CartSummaryItemTitle = styled.div`
-  width: 280px;
-  margin-right: 16px;
-`;
-
-const CartSummaryItemValue = styled.div`
-  width: auto;
-  flex-grow: 1;
-  text-align: right;
-`;
-
-const CartSummaryItemImage = styled.div`
-  width: 192px;
-  margin: 0;
-`;
-
-const CartSummaryItemContent = styled.div`
-  width: auto;
-  flex-grow: 1;
-  margin: 0;
-  margin-left: 32px;
-`;
-
-const CartSummaryProductPrice = styled.div`
-margin-left: auto;
- ${{ ...theme.typography.h5 }},
-`;
-
-const CartSummaryProductMeta = styled.div`
-  display: flex;
-  align-items: start;
-  margin-bottom: 8px;
-`;
-
-const CartSummaryProductDescription = styled.div`
-  margin: 8px 0;
-  `;
-
-const CartSummaryReceiptContainer = styled.div(() => ({
-  "borderBottom": "1px solid #DDE1E6",
-  "padding": "8px 0",
-  "margin": "8px 0",
-  "width": "100%"
-}));
-
-const CartSummaryTotalContainer = styled.div`
- ${{ ...theme.typography.h5 }},
- margin-bottom: 20px;
- margin-top: 8px;
-`;
-
-const CartSummaryActionContainer = styled.div`
-  margin: 20px 0;
-`;
-
-const CartSummaryTermsContainer = styled.div`
-  margin: 20px 0;
-`;
-
-const CartSummaryDiscountContainer = styled.div`
-  margin-top: 20px;
-`;
-
-const CartPayButton = styled(Button)`
-  width: 100%;
-`;
-
 const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
   const basket = usePaymentsBasketList({ integrated_system: systemId });
   const basketDetails = useDeferredPaymentsBasketRetrieve(
@@ -181,80 +92,10 @@ const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
   return basketDetails.isFetched && basketDetails?.data?.basket_items && basketDetails.data.basket_items.length > 0 ? <CartBodyContainer>
     <CartItemsContainer>
       { basketDetails.data.basket_items.map((item) => (
-        <StyledCard key={`ue-basket-item-${item.id}`}>
-          <Card.Content>
-            <CartSummaryItem>
-              <CartSummaryItemImage>
-                <img src="https://placecats.com/192/108" alt="placeholder cat" />
-              </CartSummaryItemImage>
-
-              <CartSummaryItemContent>
-                <CartSummaryProductMeta>
-                  <Typography variant="subtitle2">{item.product.sku}</Typography>
-                  <CartSummaryProductPrice>{parseFloat(item.product.price).toLocaleString("en-US", { style: "currency", currency: "USD" })}</CartSummaryProductPrice>
-                </CartSummaryProductMeta>
-
-                <Typography variant="h3">{item.product.name}</Typography>
-
-                <CartSummaryProductDescription>
-                  {item.product.description}
-                </CartSummaryProductDescription>
-              </CartSummaryItemContent>
-            </CartSummaryItem>
-          </Card.Content>
-        </StyledCard>)) }
+        <CartItem item={item} key={`ue-basket-item-${item.id}`} />)) }
 
     </CartItemsContainer>
-    <CartSummaryContainer>
-      <StyledCard>
-        <Card.Content>
-          <Typography variant="h3">Order Summary</Typography>
-          
-          <CartSummaryReceiptContainer>
-            { basketDetails.data.basket_items.map((item) => (
-              <CartSummaryItem key={`ue-basket-item-${item.id}`}>
-                <CartSummaryItemTitle>{item.product.name}</CartSummaryItemTitle>
-                <CartSummaryItemValue>{item.discounted_price.toLocaleString("en-US", { style: "currency", currency: "USD"})}</CartSummaryItemValue>
-              </CartSummaryItem>)) }
-
-
-            { basketDetails.data.tax_rate ? <CartSummaryItem variant="tax">
-                <CartSummaryItemTitle>{basketDetails.data.tax_rate.tax_rate_name}</CartSummaryItemTitle>
-                <CartSummaryItemValue>{basketDetails.data.tax.toLocaleString("en-US", { style: "currency", currency: "USD" })}</CartSummaryItemValue>
-              </CartSummaryItem> : null }
-          </CartSummaryReceiptContainer>
-
-          <CartSummaryTotalContainer>
-            <CartSummaryItem>
-              <CartSummaryItemTitle>Total</CartSummaryItemTitle>
-              <CartSummaryItemValue>{basketDetails.data.total_price.toLocaleString("en-US", { style: "currency", currency: "USD" })}</CartSummaryItemValue>
-            </CartSummaryItem>
-          </CartSummaryTotalContainer>
-
-          <CartSummaryDiscountContainer>
-              <label htmlFor="discountcode">Coupon Code</label>
-              <CartSummaryItem>
-                <CartSummaryItemTitle>
-                  <Input size="small" name="discountcode" type="text" />
-                </CartSummaryItemTitle>
-                <CartSummaryItemValue>
-                  <Button variant="unstable_inverted">Apply</Button>
-                </CartSummaryItemValue>
-              </CartSummaryItem>
-          </CartSummaryDiscountContainer>
-
-          <CartSummaryActionContainer>
-            <CartPayButton size="large">Place Order</CartPayButton>
-          </CartSummaryActionContainer>
-
-          <CartSummaryTermsContainer>
-            By placing my order, I agree to the Terms of Service and Privacy Policy.
-          </CartSummaryTermsContainer>
-
-        </Card.Content>
-      </StyledCard>
-
-    </CartSummaryContainer>
+    <CartSummary cartId={basketDetails.data.id} />
   </CartBodyContainer> : <CartBodyContainer>
       <StyledCard>
         <Card.Content>
