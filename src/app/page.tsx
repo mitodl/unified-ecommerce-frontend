@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
-import { styled } from "@mitodl/smoot-design";
+import { Button, styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { getCurrentSystem } from "@/utils/system";
 import { Card } from "@/page-components/Card/Card";
 import { createTheme } from "@mitodl/smoot-design"
+import { InputBase as Input } from "@mui/material";
 
 import {
   usePaymentsBasketList,
@@ -122,7 +123,25 @@ const CartSummaryReceiptContainer = styled.div(() => ({
 }));
 
 const CartSummaryTotalContainer = styled.div`
- ${{ ...theme.typography.h5 }}
+ ${{ ...theme.typography.h5 }},
+ margin-bottom: 20px;
+ margin-top: 8px;
+`;
+
+const CartSummaryActionContainer = styled.div`
+  margin: 20px 0;
+`;
+
+const CartSummaryTermsContainer = styled.div`
+  margin: 20px 0;
+`;
+
+const CartSummaryDiscountContainer = styled.div`
+  margin-top: 20px;
+`;
+
+const CartPayButton = styled(Button)`
+  width: 100%;
 `;
 
 const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
@@ -173,7 +192,25 @@ const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
             </CartSummaryItem>
           </CartSummaryTotalContainer>
 
-          By placing my order, I agree to the Terms of Service and Privacy Policy.
+          <CartSummaryDiscountContainer>
+              <label htmlFor="discountcode">Coupon Code</label>
+              <CartSummaryItem>
+                <CartSummaryItemTitle>
+                  <Input size="small" name="discountcode" type="text" />
+                </CartSummaryItemTitle>
+                <CartSummaryItemValue>
+                  <Button variant="unstable_inverted">Apply</Button>
+                </CartSummaryItemValue>
+              </CartSummaryItem>
+          </CartSummaryDiscountContainer>
+
+          <CartSummaryActionContainer>
+            <CartPayButton size="large">Place Order</CartPayButton>
+          </CartSummaryActionContainer>
+
+          <CartSummaryTermsContainer>
+            By placing my order, I agree to the Terms of Service and Privacy Policy.
+          </CartSummaryTermsContainer>
 
         </Card.Content>
       </StyledCard>
