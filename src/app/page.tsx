@@ -70,6 +70,7 @@ const CartBodyContainer = styled.div`
   width: 100%;
   display: flex;
   gap: 48px;
+  align-items: start;
 `;
 
 const CartHeader = styled.div`
@@ -79,7 +80,8 @@ const CartHeader = styled.div`
 `;
 
 const CartItemsContainer = styled.div`
-  width: 816px;
+  width: auto;
+  flex-grow: 1;
 `;
 
 type CartSummaryItemProps = {
@@ -87,12 +89,13 @@ type CartSummaryItemProps = {
 }
 
 const CartSummaryContainer = styled.div(() => ({
-  "width": "auto",
-  "flexGrow": 1,
-  "borderBottom": "1px solid #DDE1E6",
-  "padding": "8px 0",
-  "margin": "8px 0",
+  "width": "488px",
+  "padding": "0",
+  ["> div"]: {
+    "padding": "32px",
+  },
 }));
+
 
 const CartSummaryItem = styled.div<CartSummaryItemProps>(({ variant }) => ({
   "display": "flex",
@@ -110,6 +113,13 @@ const CartSummaryItemValue = styled.div`
   flex-grow: 1;
   text-align: right;
 `;
+
+const CartSummaryReceiptContainer = styled.div(() => ({
+  "borderBottom": "1px solid #DDE1E6",
+  "padding": "8px 0",
+  "margin": "8px 0",
+  "width": "100%"
+}));
 
 const CartSummaryTotalContainer = styled.div`
  ${{ ...theme.typography.h5 }}
@@ -142,7 +152,7 @@ const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
         <Card.Content>
           <Typography variant="h3">Order Summary</Typography>
           
-          <CartSummaryContainer>
+          <CartSummaryReceiptContainer>
             { basketDetails.data.basket_items.map((item) => (
               <CartSummaryItem key={`ue-basket-item-${item.id}`}>
                 <CartSummaryItemTitle>{item.product.name}</CartSummaryItemTitle>
@@ -154,7 +164,7 @@ const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
                 <CartSummaryItemTitle>{basketDetails.data.tax_rate.tax_rate_name}</CartSummaryItemTitle>
                 <CartSummaryItemValue>{basketDetails.data.tax.toLocaleString("en-US", { style: "currency", currency: "USD" })}</CartSummaryItemValue>
               </CartSummaryItem> : null }
-          </CartSummaryContainer>
+          </CartSummaryReceiptContainer>
 
           <CartSummaryTotalContainer>
             <CartSummaryItem>
