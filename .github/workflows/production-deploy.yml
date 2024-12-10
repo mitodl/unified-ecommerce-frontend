@@ -3,7 +3,7 @@ on:
   workflow_run:
     workflows: [CI]
     types: [completed]
-    branches: [releease]
+    branches: [release]
   workflow_dispatch: # manual trigger
 jobs:
   on_success:
