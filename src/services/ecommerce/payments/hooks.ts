@@ -3,6 +3,8 @@ import { paymentsApi } from "../client";
 import type {
   PaymentsApiPaymentsBasketsListRequest,
   PaymentsApiPaymentsBasketsCreateFromProductCreateRequest,
+  PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
+  PaymentsApiPaymentsCheckoutStartCheckoutCreateRequest
 } from "../generated/v0/api";
 
 const usePaymentsBasketList = (
@@ -65,10 +67,26 @@ const usePaymentsBaksetCreateFromProduct = () => {
   });
 };
 
+const usePaymentsBasketAddDiscount = () => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: (
+      request: PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
+    ) =>
+      paymentsApi
+        .paymentsBasketsAddDiscountCreate(request)
+        .then((response) => response.data),
+    onSuccess: (_data) => {
+      client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
+    },
+  });
+}
+
 export {
   usePaymentsBasketList,
   useDeferredPaymentsBasketList,
   usePaymentsBasketRetrieve,
   useDeferredPaymentsBasketRetrieve,
   usePaymentsBaksetCreateFromProduct,
+  usePaymentsBasketAddDiscount,
 };

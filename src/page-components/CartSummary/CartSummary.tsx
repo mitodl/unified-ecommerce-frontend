@@ -10,12 +10,17 @@ import CartSummaryItem, { CartSummaryItemContainer, CartSummaryItemTitle, CartSu
 
 import {
   usePaymentsBasketRetrieve,
+  usePaymentsBasketAddDiscount,
 } from "@/services/ecommerce/payments/hooks";
 
 type CartSummaryProps = {
   cartId: number;
 }
-  
+
+type CartSummaryDiscountProps = {
+  systemSlug: string;
+}
+
 const theme = createTheme();
 
 const CartSummaryContainer = styled.div(() => ({
@@ -54,7 +59,32 @@ const CartSummaryDiscountContainer = styled.div`
 const CartPayButton = styled(Button)`
     width: 100%;
   `;
-  
+
+const CartSummaryDiscount: React.FC<CartSummaryDiscountProps> = ({ systemSlug }) => {
+  const discountMutation = usePaymentsBasketAddDiscount();
+  const [ discountCode, setDiscountCode ] = React.useState<string>("");
+
+  const hndUpdateCode = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setDiscountCode(ev.target.value);
+  }
+
+  const hndApplyDiscount = () => {
+    discountMutation.mutate({ system_slug: systemSlug, discount_code: discountCode });
+  }
+
+  return <CartSummaryDiscountContainer>
+    <label htmlFor="discountcode">Coupon Code</label>
+    <CartSummaryItemContainer>
+      <CartSummaryItemTitle>
+        <Input size="small" name="discountcode" type="text" onChange={hndUpdateCode} />
+      </CartSummaryItemTitle>
+      <CartSummaryItemValue>
+        <Button variant="unstable_inverted" onClick={hndApplyDiscount}>Apply</Button>
+      </CartSummaryItemValue>
+    </CartSummaryItemContainer>
+  </CartSummaryDiscountContainer>;
+}
+
 const CartSummary: React.FC<CartSummaryProps> = (props) => {
     const { cartId } = props;
     const basket = usePaymentsBasketRetrieve(cartId);
@@ -79,17 +109,7 @@ const CartSummary: React.FC<CartSummaryProps> = (props) => {
           </CartSummaryItemContainer>
         </CartSummaryTotalContainer>
 
-        <CartSummaryDiscountContainer>
-            <label htmlFor="discountcode">Coupon Code</label>
-            <CartSummaryItemContainer>
-              <CartSummaryItemTitle>
-                <Input size="small" name="discountcode" type="text" />
-              </CartSummaryItemTitle>
-              <CartSummaryItemValue>
-                <Button variant="unstable_inverted">Apply</Button>
-              </CartSummaryItemValue>
-            </CartSummaryItemContainer>
-        </CartSummaryDiscountContainer>
+        { basket.data.integrated_system.slug && <CartSummaryDiscount systemSlug={basket.data.integrated_system.slug} /> }
 
         <CartSummaryActionContainer>
           <CartPayButton size="large">Place Order</CartPayButton>

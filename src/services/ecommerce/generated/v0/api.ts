@@ -59,6 +59,12 @@ export interface BasketItemWithProduct {
      * @memberof BasketItemWithProduct
      */
     'quantity'?: number;
+    /**
+     *
+     * @type {SimpleDiscount}
+     * @memberof BasketItemWithProduct
+     */
+    'discount_applied': SimpleDiscount;
 }
 /**
  * Basket model serializer with items and products
@@ -1395,6 +1401,31 @@ export type CountryCodeEnum = typeof CountryCodeEnum[keyof typeof CountryCodeEnu
 
 
 /**
+ * Really basic serializer for the payload that we need to send to CyberSource.
+ * @export
+ * @interface CyberSourceCheckout
+ */
+export interface CyberSourceCheckout {
+    /**
+     *
+     * @type {{ [key: string]: any; }}
+     * @memberof CyberSourceCheckout
+     */
+    'payload': { [key: string]: any; };
+    /**
+     *
+     * @type {string}
+     * @memberof CyberSourceCheckout
+     */
+    'url': string;
+    /**
+     *
+     * @type {string}
+     * @memberof CyberSourceCheckout
+     */
+    'method': string;
+}
+/**
  * Serializer for discounts.
  * @export
  * @interface Discount
@@ -1467,6 +1498,36 @@ export interface Discount {
      */
     'company': Company;
 }
+
+
+/**
+ * * `percent-off` - percent-off * `dollars-off` - dollars-off * `fixed-price` - fixed-price
+ * @export
+ * @enum {string}
+ */
+
+export const DiscountTypeEnumDescriptions = {
+    'percent-off': "percent-off",
+    'dollars-off': "dollars-off",
+    'fixed-price': "fixed-price",
+} as const;
+
+export const DiscountTypeEnum = {
+    /**
+    * percent-off
+    */
+    PercentOff: 'percent-off',
+    /**
+    * dollars-off
+    */
+    DollarsOff: 'dollars-off',
+    /**
+    * fixed-price
+    */
+    FixedPrice: 'fixed-price'
+} as const;
+
+export type DiscountTypeEnum = typeof DiscountTypeEnum[keyof typeof DiscountTypeEnum];
 
 
 /**
@@ -1987,6 +2048,45 @@ export interface ProductRequest {
      */
     'price': string;
 }
+/**
+ * Simpler serializer for discounts.
+ * @export
+ * @interface SimpleDiscount
+ */
+export interface SimpleDiscount {
+    /**
+     *
+     * @type {number}
+     * @memberof SimpleDiscount
+     */
+    'id': number;
+    /**
+     *
+     * @type {string}
+     * @memberof SimpleDiscount
+     */
+    'discount_code': string;
+    /**
+     *
+     * @type {string}
+     * @memberof SimpleDiscount
+     */
+    'amount': string;
+    /**
+     *
+     * @type {DiscountTypeEnum}
+     * @memberof SimpleDiscount
+     */
+    'discount_type': DiscountTypeEnum;
+    /**
+     * Return the formatted discount amount.  This quantizes percent discounts to whole numbers. This is probably fine.
+     * @type {string}
+     * @memberof SimpleDiscount
+     */
+    'formatted_discount_amount': string;
+}
+
+
 /**
  * * `pending` - Pending * `fulfilled` - Fulfilled * `canceled` - Canceled * `refunded` - Refunded * `declined` - Declined * `errored` - Errored * `review` - Review
  * @export
@@ -3213,11 +3313,14 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * Creates or updates a basket for the current user, adding the discount if valid.
+         * @param {string} discount_code
          * @param {string} system_slug
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        paymentsBasketsAddDiscountCreate: async (system_slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        paymentsBasketsAddDiscountCreate: async (discount_code: string, system_slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'discount_code' is not null or undefined
+            assertParamExists('paymentsBasketsAddDiscountCreate', 'discount_code', discount_code)
             // verify required parameter 'system_slug' is not null or undefined
             assertParamExists('paymentsBasketsAddDiscountCreate', 'system_slug', system_slug)
             const localVarPath = `/api/v0/payments/baskets/add_discount/{system_slug}/`
@@ -3232,6 +3335,10 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (discount_code !== undefined) {
+                localVarQueryParameter['discount_code'] = discount_code;
+            }
 
 
 
@@ -3425,6 +3532,39 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
+         * Generates and returns the form payload for the current basket for the specified system, which can be used to start the checkout process.
+         * @param {string} system_slug
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentsCheckoutStartCheckoutCreate: async (system_slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'system_slug' is not null or undefined
+            assertParamExists('paymentsCheckoutStartCheckoutCreate', 'system_slug', system_slug)
+            const localVarPath = `/api/v0/payments/checkout/start_checkout/`
+                .replace(`{${"system_slug"}}`, encodeURIComponent(String(system_slug)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Create a discount.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3537,12 +3677,13 @@ export const PaymentsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Creates or updates a basket for the current user, adding the discount if valid.
+         * @param {string} discount_code
          * @param {string} system_slug
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async paymentsBasketsAddDiscountCreate(system_slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BasketWithProduct>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsBasketsAddDiscountCreate(system_slug, options);
+        async paymentsBasketsAddDiscountCreate(discount_code: string, system_slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BasketWithProduct>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsBasketsAddDiscountCreate(discount_code, system_slug, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentsApi.paymentsBasketsAddDiscountCreate']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -3611,6 +3752,18 @@ export const PaymentsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
+         * Generates and returns the form payload for the current basket for the specified system, which can be used to start the checkout process.
+         * @param {string} system_slug
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async paymentsCheckoutStartCheckoutCreate(system_slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CyberSourceCheckout>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsCheckoutStartCheckoutCreate(system_slug, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['PaymentsApi.paymentsCheckoutStartCheckoutCreate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
          * Create a discount.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3663,7 +3816,7 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
          * @throws {RequiredError}
          */
         paymentsBasketsAddDiscountCreate(requestParameters: PaymentsApiPaymentsBasketsAddDiscountCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<BasketWithProduct> {
-            return localVarFp.paymentsBasketsAddDiscountCreate(requestParameters.system_slug, options).then((request) => request(axios, basePath));
+            return localVarFp.paymentsBasketsAddDiscountCreate(requestParameters.discount_code, requestParameters.system_slug, options).then((request) => request(axios, basePath));
         },
         /**
          * Clears the basket for the current user.
@@ -3711,6 +3864,15 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.paymentsBasketsRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
+         * Generates and returns the form payload for the current basket for the specified system, which can be used to start the checkout process.
+         * @param {PaymentsApiPaymentsCheckoutStartCheckoutCreateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentsCheckoutStartCheckoutCreate(requestParameters: PaymentsApiPaymentsCheckoutStartCheckoutCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<CyberSourceCheckout> {
+            return localVarFp.paymentsCheckoutStartCheckoutCreate(requestParameters.system_slug, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Create a discount.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3745,6 +3907,13 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
  * @interface PaymentsApiPaymentsBasketsAddDiscountCreateRequest
  */
 export interface PaymentsApiPaymentsBasketsAddDiscountCreateRequest {
+    /**
+     *
+     * @type {string}
+     * @memberof PaymentsApiPaymentsBasketsAddDiscountCreate
+     */
+    readonly discount_code: string
+
     /**
      *
      * @type {string}
@@ -3845,6 +4014,20 @@ export interface PaymentsApiPaymentsBasketsRetrieveRequest {
 }
 
 /**
+ * Request parameters for paymentsCheckoutStartCheckoutCreate operation in PaymentsApi.
+ * @export
+ * @interface PaymentsApiPaymentsCheckoutStartCheckoutCreateRequest
+ */
+export interface PaymentsApiPaymentsCheckoutStartCheckoutCreateRequest {
+    /**
+     *
+     * @type {string}
+     * @memberof PaymentsApiPaymentsCheckoutStartCheckoutCreate
+     */
+    readonly system_slug: string
+}
+
+/**
  * Request parameters for paymentsOrdersHistoryList operation in PaymentsApi.
  * @export
  * @interface PaymentsApiPaymentsOrdersHistoryListRequest
@@ -3894,7 +4077,7 @@ export class PaymentsApi extends BaseAPI {
      * @memberof PaymentsApi
      */
     public paymentsBasketsAddDiscountCreate(requestParameters: PaymentsApiPaymentsBasketsAddDiscountCreateRequest, options?: RawAxiosRequestConfig) {
-        return PaymentsApiFp(this.configuration).paymentsBasketsAddDiscountCreate(requestParameters.system_slug, options).then((request) => request(this.axios, this.basePath));
+        return PaymentsApiFp(this.configuration).paymentsBasketsAddDiscountCreate(requestParameters.discount_code, requestParameters.system_slug, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3950,6 +4133,17 @@ export class PaymentsApi extends BaseAPI {
      */
     public paymentsBasketsRetrieve(requestParameters: PaymentsApiPaymentsBasketsRetrieveRequest, options?: RawAxiosRequestConfig) {
         return PaymentsApiFp(this.configuration).paymentsBasketsRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Generates and returns the form payload for the current basket for the specified system, which can be used to start the checkout process.
+     * @param {PaymentsApiPaymentsCheckoutStartCheckoutCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PaymentsApi
+     */
+    public paymentsCheckoutStartCheckoutCreate(requestParameters: PaymentsApiPaymentsCheckoutStartCheckoutCreateRequest, options?: RawAxiosRequestConfig) {
+        return PaymentsApiFp(this.configuration).paymentsCheckoutStartCheckoutCreate(requestParameters.system_slug, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -4,6 +4,7 @@ import { styled } from "@mitodl/smoot-design";
 import { BasketItemWithProduct, BasketWithProduct } from "@/services/ecommerce/generated/v0";
 
 type CartSummaryItemVariant = "tax" | "item";
+type CartSummaryItemTitleVariant = "" | "discount";
 
 type CartSummaryItemProps = {
   item: BasketItemWithProduct | BasketWithProduct;
@@ -12,7 +13,11 @@ type CartSummaryItemProps = {
 
 type CartSummaryItemContainerProps = {
     variant?: CartSummaryItemVariant;
-} 
+}
+
+type CartSummaryItemTitleProps = {
+  variant?: CartSummaryItemTitleVariant;
+}
   
 const CartSummaryItemContainer = styled.div<CartSummaryItemContainerProps>(({ variant }) => ({
     "display": "flex",
@@ -20,10 +25,11 @@ const CartSummaryItemContainer = styled.div<CartSummaryItemContainerProps>(({ va
     "marginBottom": "8px",
   }));
   
-const CartSummaryItemTitle = styled.div`
-    width: 280px;
-    margin-right: 16px;
-  `;
+const CartSummaryItemTitle = styled.div<CartSummaryItemTitleProps>(({ variant }) => ({
+    "width": "280px",
+    "marginRight": "16px",
+    "fontStyle": (variant === "discount" ? "italic" : ""),
+}));
   
 const CartSummaryItemValue = styled.div`
     width: auto;
@@ -36,16 +42,22 @@ const isBasketWithProduct = (item: BasketItemWithProduct | BasketWithProduct): i
 };
 
 const CartSummaryItem: React.FC<CartSummaryItemProps> = ({ item, variant }) => {
-    return <CartSummaryItemContainer variant={variant || "item"}>
-        {isBasketWithProduct(item) ? <>
+    return <>
+        {isBasketWithProduct(item) && <CartSummaryItemContainer variant={variant || "item"}>
             <CartSummaryItemTitle>{item.tax_rate.tax_rate_name}</CartSummaryItemTitle>
             <CartSummaryItemValue>{item.tax.toLocaleString("en-US", { style: "currency", currency: "USD" })}</CartSummaryItemValue>
-        </> : null}
+          </CartSummaryItemContainer>}
         {!isBasketWithProduct(item) && <>
+          <CartSummaryItemContainer variant={variant || "item"}>
             <CartSummaryItemTitle>{item.product.name}</CartSummaryItemTitle>
             <CartSummaryItemValue>{item.discounted_price.toLocaleString("en-US", { style: "currency", currency: "USD"})}</CartSummaryItemValue>
+          </CartSummaryItemContainer>
+          {item.discount_applied && <CartSummaryItemContainer>
+            <CartSummaryItemTitle variant="discount">Discount Applied: {item.discount_applied.discount_code}</CartSummaryItemTitle>
+            <CartSummaryItemValue>-{(parseFloat(item.product.price) - item.discounted_price).toLocaleString("en-US", { style: "currency", currency: "USD"})}</CartSummaryItemValue>
+          </CartSummaryItemContainer>}
         </>}
-    </CartSummaryItemContainer>
+      </>;
 };
 
 export default CartSummaryItem;

@@ -7,6 +7,9 @@ invariant(BASE_PATH, "NEXT_PUBLIC_UE_API_BASE_URL is required.");
 
 const instance = axios.create({
   withCredentials: true,
+  withXSRFToken: true,
+  xsrfCookieName: "csrftoken",
+  xsrfHeaderName: "X-CSRFTOKEN",
 });
 
 const paymentsApi = new PaymentsApi(undefined, BASE_PATH, instance);
