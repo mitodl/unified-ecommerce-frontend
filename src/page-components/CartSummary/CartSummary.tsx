@@ -76,7 +76,8 @@ const CartSummaryDiscount: React.FC<CartSummaryDiscountProps> = ({ systemSlug })
     <label htmlFor="discountcode">Coupon Code</label>
     <CartSummaryItemContainer>
       <CartSummaryItemTitle>
-        <Input size="small" name="discountcode" type="text" onChange={hndUpdateCode} />
+        <Input size="small" name="discountcode" type="text" onChange={hndUpdateCode} error={discountMutation.isError} />
+        {discountMutation.isError && <Typography variant="caption" color="error">Invalid discount code</Typography>}
       </CartSummaryItemTitle>
       <CartSummaryItemValue>
         <Button variant="unstable_inverted" onClick={hndApplyDiscount}>Apply</Button>
