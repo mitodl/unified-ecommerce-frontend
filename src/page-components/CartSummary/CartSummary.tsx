@@ -7,6 +7,7 @@ import { InputBase as Input } from "@mui/material";
 import { Card } from "../Card/Card";
 import StyledCard from "../Card/StyledCard";
 import CartSummaryItem, { CartSummaryItemContainer, CartSummaryItemTitle, CartSummaryItemValue } from "../CartSummaryItem/CartSummaryItem";
+import PlaceOrderButton from "../PlaceOrderButton/PlaceOrderButton";
 
 import {
   usePaymentsBasketRetrieve,
@@ -56,9 +57,6 @@ const CartSummaryDiscountContainer = styled.div`
     margin-top: 20px;
   `;
   
-const CartPayButton = styled(Button)`
-    width: 100%;
-  `;
 
 const CartSummaryDiscount: React.FC<CartSummaryDiscountProps> = ({ systemSlug }) => {
   const discountMutation = usePaymentsBasketAddDiscount();
@@ -113,7 +111,7 @@ const CartSummary: React.FC<CartSummaryProps> = (props) => {
         { basket.data.integrated_system.slug && <CartSummaryDiscount systemSlug={basket.data.integrated_system.slug} /> }
 
         <CartSummaryActionContainer>
-          <CartPayButton size="large">Place Order</CartPayButton>
+          {basket.data.integrated_system.slug && <PlaceOrderButton systemSlug={basket.data.integrated_system.slug} />}
         </CartSummaryActionContainer>
 
         <CartSummaryTermsContainer>

@@ -4,7 +4,7 @@ import type {
   PaymentsApiPaymentsBasketsListRequest,
   PaymentsApiPaymentsBasketsCreateFromProductCreateRequest,
   PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
-  PaymentsApiPaymentsCheckoutStartCheckoutCreateRequest
+  PaymentsApiPaymentsCheckoutCreateRequest,
 } from "../generated/v0/api";
 
 const usePaymentsBasketList = (
@@ -82,6 +82,17 @@ const usePaymentsBasketAddDiscount = () => {
   });
 }
 
+const usePaymentsCheckoutStartCheckout = () => {
+  return useMutation({
+    mutationFn: (
+      request: PaymentsApiPaymentsCheckoutCreateRequest,
+    ) =>
+      paymentsApi
+        .paymentsCheckoutCreate(request)
+        .then((response) => response.data),
+  });
+}
+
 export {
   usePaymentsBasketList,
   useDeferredPaymentsBasketList,
@@ -89,4 +100,5 @@ export {
   useDeferredPaymentsBasketRetrieve,
   usePaymentsBaksetCreateFromProduct,
   usePaymentsBasketAddDiscount,
+  usePaymentsCheckoutStartCheckout,
 };
