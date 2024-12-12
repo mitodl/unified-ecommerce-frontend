@@ -1,9 +1,9 @@
-import React from "react"
-import type { Meta, StoryObj } from "@storybook/react"
-import { Card } from "./Card"
-import { ActionButton } from "../Button/Button"
-import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
-import { withRouter } from "storybook-addon-react-router-v6"
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Card } from "./Card";
+import { ActionButton } from "../Button/Button";
+import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react";
+import { withRouter } from "storybook-addon-react-router-v6";
 
 const meta: Meta<typeof Card> = {
   title: "smoot-design/Cards/Card",
@@ -49,31 +49,31 @@ const meta: Meta<typeof Card> = {
     </Card>
   ),
   decorators: [withRouter],
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof Card>
+type Story = StoryObj<typeof Card>;
 
 export const Medium: Story = {
   args: {
     size: "medium",
   },
-}
+};
 
 export const Small: Story = {
   args: {
     size: "small",
   },
-}
+};
 
 export const NoSize: Story = {
   args: {},
-}
+};
 
 export const LinkCard: Story = {
   args: {
     href: "#link",
     size: "medium",
   },
-}
+};

@@ -5,13 +5,13 @@ import React, {
   ImgHTMLAttributes,
   isValidElement,
   CSSProperties,
-} from "react"
-import styled from "@emotion/styled"
-import { pxToRem } from "../../utils/misc"
-import Link from "next/link"
-import { createTheme } from "@mitodl/smoot-design"
+} from "react";
+import styled from "@emotion/styled";
+import { pxToRem } from "../../utils/misc";
+import Link from "next/link";
+import { createTheme } from "@mitodl/smoot-design";
 
-export type Size = "small" | "medium"
+export type Size = "small" | "medium";
 
 const theme = createTheme();
 
@@ -23,23 +23,23 @@ const theme = createTheme();
 export const Wrapper = styled.div<{ size?: Size }>`
   position: relative;
   ${({ size }) => {
-    let width
-    if (!size) return ""
-    if (size === "medium") width = 300
-    if (size === "small") width = 192
+    let width;
+    if (!size) return "";
+    if (size === "medium") width = 300;
+    if (size === "small") width = 192;
     return `
       min-width: ${width}px;
       max-width: ${width}px;
-    `
+    `;
   }}
-`
+`;
 
 export const containerStyles = `
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   overflow: hidden;
-`
+`;
 
 const LinkContainer = styled(Link)`
   ${containerStyles}
@@ -54,19 +54,19 @@ const LinkContainer = styled(Link)`
       0 2px 4px 0 rgb(37 38 43 / 10%);
     cursor: pointer;
   }
-`
+`;
 
 const Container = styled.div`
   ${containerStyles}
   display: block;
   position: relative;
-`
+`;
 
-const Content = () => <></>
+const Content = () => <></>;
 
 const Body = styled.div`
   margin: 16px;
-`
+`;
 
 const Image = styled.img<{ height?: number | string; size?: Size }>`
   display: block;
@@ -75,7 +75,7 @@ const Image = styled.img<{ height?: number | string; size?: Size }>`
     height ?? (size === "small" ? "120px" : "170px")};
   background-color: ${theme.custom.colors.lightGray1};
   object-fit: cover;
-`
+`;
 
 const Info = styled.div<{ size?: Size }>`
   ${{ ...theme.typography.subtitle3 }}
@@ -83,14 +83,14 @@ const Info = styled.div<{ size?: Size }>`
   display: flex;
   justify-content: space-between;
   margin-bottom: ${({ size }) => (size === "small" ? 4 : 8)}px;
-`
+`;
 
 const Title = styled.span<{ lines?: number; size?: Size }>`
   text-overflow: ellipsis;
   height: ${({ lines, size }) => {
-    const lineHeightPx = size === "small" ? 18 : 20
-    lines = lines ?? (size === "small" ? 2 : 3)
-    return theme.typography.pxToRem(lines * lineHeightPx)
+    const lineHeightPx = size === "small" ? 18 : 20;
+    lines = lines ?? (size === "small" ? 2 : 3);
+    return theme.typography.pxToRem(lines * lineHeightPx);
   }};
   overflow: hidden;
   margin: 0;
@@ -101,16 +101,16 @@ const Title = styled.span<{ lines?: number; size?: Size }>`
       : { ...theme.typography.subtitle1 }}
 
   ${({ lines, size }) => {
-    lines = lines ?? (size === "small" ? 2 : 3)
+    lines = lines ?? (size === "small" ? 2 : 3);
     return `
       @supports (-webkit-line-clamp: ${lines}) {
         white-space: initial;
         display: -webkit-box;
         -webkit-line-clamp: ${lines};
         -webkit-box-orient: vertical;
-      }`
+      }`;
   }}
-`
+`;
 
 const Footer = styled.span`
   display: block;
@@ -119,7 +119,7 @@ const Footer = styled.span`
     ...theme.typography.body3,
     color: theme.custom.colors.silverGrayDark,
   }}
-`
+`;
 
 const Bottom = styled.div`
   display: flex;
@@ -127,7 +127,7 @@ const Bottom = styled.div`
   align-items: flex-end;
   margin: 0 16px 16px;
   height: 32px;
-`
+`;
 
 const Actions = styled.div`
   display: flex;
@@ -135,35 +135,35 @@ const Actions = styled.div`
   position: absolute;
   bottom: 16px;
   right: 16px;
-`
+`;
 
 type CardProps = {
-  children: ReactNode[] | ReactNode
-  className?: string
-  size?: Size
-  href?: string
-}
+  children: ReactNode[] | ReactNode;
+  className?: string;
+  size?: Size;
+  href?: string;
+};
 
 type ImageProps = ImgHTMLAttributes<HTMLImageElement> & {
-  size?: Size
-  height?: number | string
-  style?: CSSProperties
-}
+  size?: Size;
+  height?: number | string;
+  style?: CSSProperties;
+};
 type TitleProps = {
-  children?: ReactNode
-  lines?: number
-  style?: CSSProperties
-}
-type SlotProps = { children?: ReactNode; style?: CSSProperties }
+  children?: ReactNode;
+  lines?: number;
+  style?: CSSProperties;
+};
+type SlotProps = { children?: ReactNode; style?: CSSProperties };
 
 type Card = FC<CardProps> & {
-  Content: FC<{ children: ReactNode }>
-  Image: FC<ImageProps>
-  Info: FC<SlotProps>
-  Title: FC<TitleProps>
-  Footer: FC<SlotProps>
-  Actions: FC<SlotProps>
-}
+  Content: FC<{ children: ReactNode }>;
+  Image: FC<ImageProps>;
+  Info: FC<SlotProps>;
+  Title: FC<TitleProps>;
+  Footer: FC<SlotProps>;
+  Actions: FC<SlotProps>;
+};
 
 const Card: Card = ({ children, className, size, href }) => {
   let content,
@@ -171,9 +171,9 @@ const Card: Card = ({ children, className, size, href }) => {
     info: SlotProps = {},
     title: TitleProps = {},
     footer: SlotProps = {},
-    actions: SlotProps = {}
+    actions: SlotProps = {};
 
-  const _Container = href ? LinkContainer : Container
+  const _Container = href ? LinkContainer : Container;
 
   /*
    * Allows rendering child elements to specific "slots":
@@ -189,16 +189,16 @@ const Card: Card = ({ children, className, size, href }) => {
    * An RFC here provides rationale: https://github.com/nihgwu/rfcs/blob/neo/slots/text/0000-slots.md
    */
   Children.forEach(children, (child) => {
-    if (!isValidElement(child)) return
-    if (child.type === Content) content = child.props.children
-    else if (child.type === Image) image = child.props
-    else if (child.type === Info) info = child.props
-    else if (child.type === Title) title = child.props
-    else if (child.type === Footer) footer = child.props
-    else if (child.type === Actions) actions = child.props
-  })
+    if (!isValidElement(child)) return;
+    if (child.type === Content) content = child.props.children;
+    else if (child.type === Image) image = child.props;
+    else if (child.type === Info) info = child.props;
+    else if (child.type === Title) title = child.props;
+    else if (child.type === Footer) footer = child.props;
+    else if (child.type === Actions) actions = child.props;
+  });
 
-  const allClassNames = ["MitCard-root", className ?? ""].join(" ")
+  const allClassNames = ["MitCard-root", className ?? ""].join(" ");
 
   if (content) {
     return (
@@ -207,7 +207,7 @@ const Card: Card = ({ children, className, size, href }) => {
           {content}
         </_Container>
       </Wrapper>
-    )
+    );
   }
 
   return (
@@ -245,14 +245,14 @@ const Card: Card = ({ children, className, size, href }) => {
         </Actions>
       )}
     </Wrapper>
-  )
-}
+  );
+};
 
-Card.Content = Content
-Card.Image = Image
-Card.Info = Info
-Card.Title = Title
-Card.Footer = Footer
-Card.Actions = Actions
+Card.Content = Content;
+Card.Image = Image;
+Card.Info = Info;
+Card.Title = Title;
+Card.Footer = Footer;
+Card.Actions = Actions;
 
-export { Card }
+export { Card };

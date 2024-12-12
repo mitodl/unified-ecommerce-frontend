@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import { TruncateText } from "./TruncateText"
+import type { Meta, StoryObj } from "@storybook/react";
+import { TruncateText } from "./TruncateText";
 
 const meta: Meta<typeof TruncateText> = {
   title: "smoot-design/TruncateText",
@@ -19,24 +19,24 @@ const meta: Meta<typeof TruncateText> = {
         30,
       ),
   },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof TruncateText>
+type Story = StoryObj<typeof TruncateText>;
 
 export const None: Story = {
   args: {
     lineClamp: "none",
   },
-}
+};
 export const One: Story = {
   args: {
     lineClamp: 1,
   },
-}
+};
 export const Three: Story = {
   args: {
     lineClamp: 3,
   },
-}
+};

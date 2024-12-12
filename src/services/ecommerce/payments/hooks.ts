@@ -70,9 +70,7 @@ const usePaymentsBaksetCreateFromProduct = () => {
 const usePaymentsBasketAddDiscount = () => {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (
-      request: PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
-    ) =>
+    mutationFn: (request: PaymentsApiPaymentsBasketsAddDiscountCreateRequest) =>
       paymentsApi
         .paymentsBasketsAddDiscountCreate(request)
         .then((response) => response.data),
@@ -80,18 +78,16 @@ const usePaymentsBasketAddDiscount = () => {
       client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
     },
   });
-}
+};
 
 const usePaymentsCheckoutStartCheckout = () => {
   return useMutation({
-    mutationFn: (
-      request: PaymentsApiPaymentsCheckoutCreateRequest,
-    ) =>
+    mutationFn: (request: PaymentsApiPaymentsCheckoutCreateRequest) =>
       paymentsApi
         .paymentsCheckoutCreate(request)
         .then((response) => response.data),
   });
-}
+};
 
 export {
   usePaymentsBasketList,

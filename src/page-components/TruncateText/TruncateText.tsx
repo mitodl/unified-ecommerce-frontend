@@ -1,12 +1,12 @@
-import { css } from "@emotion/react"
-import styled from "@emotion/styled"
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
 type TruncateTextProps = {
   /**
    * Number of lines to display before truncating text.
    */
-  lineClamp?: number | "none"
-}
+  lineClamp?: number | "none";
+};
 
 const truncateText = (lines?: number | "none") =>
   css({
@@ -21,14 +21,14 @@ const truncateText = (lines?: number | "none") =>
       WebkitLineClamp: `${lines}`, // cast to any to avoid typechecking error in lines,
       WebkitBoxOrient: "vertical",
     },
-  })
+  });
 
 /**
  * Truncate the content after specified number of lines.
  */
 const TruncateText = styled.div<TruncateTextProps>(({ lineClamp: lines }) =>
   truncateText(lines),
-)
+);
 
-export { TruncateText, truncateText }
-export type { TruncateTextProps }
+export { TruncateText, truncateText };
+export type { TruncateTextProps };

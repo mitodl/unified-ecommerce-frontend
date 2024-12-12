@@ -3,12 +3,12 @@ import { Button, styled } from "@mitodl/smoot-design";
 import { usePaymentsCheckoutStartCheckout } from "@/services/ecommerce/payments/hooks";
 
 type PlaceOrderButtonProps = {
-    systemSlug: string;
-}
+  systemSlug: string;
+};
 
 const CartPayButton = styled(Button)`
-    width: 100%;
-  `;
+  width: 100%;
+`;
 
 const PlaceOrderButton: React.FC<PlaceOrderButtonProps> = ({ systemSlug }) => {
   const checkoutMutation = usePaymentsCheckoutStartCheckout();
@@ -17,31 +17,33 @@ const PlaceOrderButton: React.FC<PlaceOrderButtonProps> = ({ systemSlug }) => {
     await checkoutMutation.mutateAsync({ system_slug: systemSlug });
 
     if (checkoutMutation.isSuccess) {
-        // Construct the form based on the data we got back, then submit it.
+      // Construct the form based on the data we got back, then submit it.
 
-        const checkout = checkoutMutation.data;
-    
-        console.log("checkout", checkout);
+      const checkout = checkoutMutation.data;
 
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = checkout.url;
+      console.log("checkout", checkout);
 
-        Object.getOwnPropertyNames(checkout.payload).forEach((propName: string) => {
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = propName;
-            input.value = checkout.payload[propName];
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = checkout.url;
 
-            form.appendChild(input);
-        });
+      Object.getOwnPropertyNames(checkout.payload).forEach(
+        (propName: string) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = propName;
+          input.value = checkout.payload[propName];
 
-        document.body.appendChild(form);
-        form.submit();
+          form.appendChild(input);
+        },
+      );
+
+      document.body.appendChild(form);
+      form.submit();
     }
   };
 
   return <CartPayButton onClick={handleClick}>Place Order</CartPayButton>;
-}
+};
 
 export default PlaceOrderButton;

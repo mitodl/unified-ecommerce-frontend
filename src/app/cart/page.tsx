@@ -28,7 +28,7 @@ const Cart = () => {
     !!selectedBasket,
   );
 
-  useEffect(() => { 
+  useEffect(() => {
     if (searchParams.has("system")) {
       setSystem(searchParams.get("system"));
     }

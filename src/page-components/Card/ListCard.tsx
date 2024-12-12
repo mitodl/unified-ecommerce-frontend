@@ -4,15 +4,15 @@ import React, {
   Children,
   ImgHTMLAttributes,
   isValidElement,
-} from "react"
-import { createTheme } from "@mitodl/smoot-design"
-import styled from "@emotion/styled"
-import { RiDraggable } from "@remixicon/react"
-import { Wrapper, containerStyles } from "./Card"
-import { TruncateText } from "../TruncateText/TruncateText"
-import { ActionButton } from "@mitodl/smoot-design"
-import Link from "next/link"
-import type { ActionButtonProps } from "@mitodl/smoot-design"
+} from "react";
+import { createTheme } from "@mitodl/smoot-design";
+import styled from "@emotion/styled";
+import { RiDraggable } from "@remixicon/react";
+import { Wrapper, containerStyles } from "./Card";
+import { TruncateText } from "../TruncateText/TruncateText";
+import { ActionButton } from "@mitodl/smoot-design";
+import Link from "next/link";
+import type { ActionButtonProps } from "@mitodl/smoot-design";
 
 const theme = createTheme();
 
@@ -28,18 +28,18 @@ export const LinkContainer = styled(Link)`
       0 2px 4px 0 rgb(37 38 43 / 10%);
     cursor: pointer;
   }
-`
+`;
 
 export const Container = styled.div`
   ${containerStyles}
-`
+`;
 
 export const DraggableContainer = styled.div`
   ${containerStyles}
   display: flex;
-`
+`;
 
-const Content = () => <></>
+const Content = () => <></>;
 
 export const Body = styled.div`
   flex-grow: 1;
@@ -52,7 +52,7 @@ export const Body = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
+`;
 
 export const DragArea = styled.div`
   margin: 16px -6px 16px 16px;
@@ -76,7 +76,7 @@ export const DragArea = styled.div`
       height: 20px;
     }
   }
-`
+`;
 
 const Image = styled.img`
   display: block;
@@ -94,7 +94,7 @@ const Image = styled.img`
 
   background-color: ${theme.custom.colors.lightGray1};
   flex-shrink: 0;
-`
+`;
 
 export const Info = styled.div`
   ${{ ...theme.typography.subtitle3 }}
@@ -108,7 +108,7 @@ export const Info = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 
 export const Title = styled.span`
   flex-grow: 1;
@@ -122,14 +122,14 @@ export const Title = styled.span`
   }
 
   margin: 0;
-`
+`;
 
 export const Footer = styled.span`
   display: block;
   ${{ ...theme.typography.body3 }}
   color: ${theme.custom.colors.darkGray2};
   white-space: nowrap;
-`
+`;
 
 export const Bottom = styled.div`
   display: flex;
@@ -139,7 +139,7 @@ export const Bottom = styled.div`
   ${theme.breakpoints.down("md")} {
     height: ${theme.typography.pxToRem(18)};
   }
-`
+`;
 
 /**
  * Slot intended to contain ListCardAction buttons.
@@ -157,7 +157,7 @@ export const Actions = styled.div<{ hasImage?: boolean }>`
   }
 
   background-color: ${theme.custom.colors.white};
-`
+`;
 
 const ListCardActionButton = styled(ActionButton)<{ isMobile?: boolean }>(
   ({ theme }) => ({
@@ -171,50 +171,50 @@ const ListCardActionButton = styled(ActionButton)<{ isMobile?: boolean }>(
       },
     },
   }),
-)
+);
 
 type CardProps = {
-  children: ReactNode[] | ReactNode
-  className?: string
-  href?: string
-  draggable?: boolean
-}
+  children: ReactNode[] | ReactNode;
+  className?: string;
+  href?: string;
+  draggable?: boolean;
+};
 export type Card = FC<CardProps> & {
-  Content: FC<{ children: ReactNode }>
-  Image: FC<ImgHTMLAttributes<HTMLImageElement>>
-  Info: FC<{ children: ReactNode }>
-  Title: FC<{ children: ReactNode }>
-  Footer: FC<{ children: ReactNode }>
-  Actions: FC<{ children: ReactNode }>
-  Action: FC<ActionButtonProps>
-}
+  Content: FC<{ children: ReactNode }>;
+  Image: FC<ImgHTMLAttributes<HTMLImageElement>>;
+  Info: FC<{ children: ReactNode }>;
+  Title: FC<{ children: ReactNode }>;
+  Footer: FC<{ children: ReactNode }>;
+  Actions: FC<{ children: ReactNode }>;
+  Action: FC<ActionButtonProps>;
+};
 
 const ListCard: Card = ({ children, className, href, draggable }) => {
   const _Container = draggable
     ? DraggableContainer
     : href
       ? LinkContainer
-      : Container
+      : Container;
 
-  let content, imageProps, info, title, footer, actions
+  let content, imageProps, info, title, footer, actions;
 
   Children.forEach(children, (child) => {
-    if (!isValidElement(child)) return
-    if (child.type === Content) content = child.props.children
-    else if (child.type === Image) imageProps = child.props
-    else if (child.type === Info) info = child.props.children
-    else if (child.type === Title) title = child.props.children
-    else if (child.type === Footer) footer = child.props.children
-    else if (child.type === Actions) actions = child.props.children
-  })
+    if (!isValidElement(child)) return;
+    if (child.type === Content) content = child.props.children;
+    else if (child.type === Image) imageProps = child.props;
+    else if (child.type === Info) info = child.props.children;
+    else if (child.type === Title) title = child.props.children;
+    else if (child.type === Footer) footer = child.props.children;
+    else if (child.type === Actions) actions = child.props.children;
+  });
 
-  const classNames = ["MitListCard-root", className ?? ""].join(" ")
+  const classNames = ["MitListCard-root", className ?? ""].join(" ");
   if (content) {
     return (
       <_Container className={classNames} to={href!}>
         {content}
       </_Container>
-    )
+    );
   }
 
   return (
@@ -242,16 +242,16 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
       </_Container>
       {actions && <Actions hasImage={!!imageProps}>{actions}</Actions>}
     </Wrapper>
-  )
-}
+  );
+};
 
-ListCard.Content = Content
-ListCard.Image = Image
-ListCard.Info = Info
-ListCard.Title = Title
-ListCard.Footer = Footer
-ListCard.Actions = Actions
-ListCard.Action = ListCardActionButton
+ListCard.Content = Content;
+ListCard.Image = Image;
+ListCard.Info = Info;
+ListCard.Title = Title;
+ListCard.Footer = Footer;
+ListCard.Actions = Actions;
+ListCard.Action = ListCardActionButton;
 
-export { ListCard }
-export { ListCardActionButton }
+export { ListCard };
+export { ListCardActionButton };

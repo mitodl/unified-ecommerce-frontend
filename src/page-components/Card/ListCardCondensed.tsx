@@ -1,8 +1,8 @@
-import React, { FC, ReactNode, Children, isValidElement } from "react"
-import styled from "@emotion/styled"
-import { RiDraggable } from "@remixicon/react"
-import { Wrapper } from "./Card"
-import { createTheme } from "@mitodl/smoot-design"
+import React, { FC, ReactNode, Children, isValidElement } from "react";
+import styled from "@emotion/styled";
+import { RiDraggable } from "@remixicon/react";
+import { Wrapper } from "./Card";
+import { createTheme } from "@mitodl/smoot-design";
 import {
   ListCard,
   Body as BaseBody,
@@ -15,9 +15,9 @@ import {
   Footer,
   Actions as BaseActions,
   Bottom as BaseBottom,
-} from "./ListCard"
-import { TruncateText } from "../TruncateText/TruncateText"
-import type { Card as BaseCard } from "./ListCard"
+} from "./ListCard";
+import { TruncateText } from "../TruncateText/TruncateText";
+import type { Card as BaseCard } from "./ListCard";
 
 const theme = createTheme();
 
@@ -28,18 +28,18 @@ const DragArea = styled(BaseDragArea)`
     margin: 12px -4px 12px 12px;
     padding-right: 4px;
   }
-`
+`;
 
 const Body = styled(BaseBody)`
   margin: 16px;
   ${theme.breakpoints.down("md")} {
     margin: 16px;
   }
-`
+`;
 
 const Info = styled(BaseInfo)`
   margin-bottom: 4px;
-`
+`;
 
 const Title = styled(BaseTitle)`
   height: auto;
@@ -49,7 +49,7 @@ const Title = styled(BaseTitle)`
     height: auto;
     ${{ ...theme.typography.subtitle2 }}
   }
-`
+`;
 
 const Bottom = styled(BaseBottom)`
   height: auto;
@@ -57,7 +57,7 @@ const Bottom = styled(BaseBottom)`
   ${theme.breakpoints.down("md")} {
     height: auto;
   }
-`
+`;
 const Actions = styled(BaseActions)`
   bottom: 16px;
   right: 16px;
@@ -67,42 +67,42 @@ const Actions = styled(BaseActions)`
     right: 16px;
     gap: 16px;
   }
-`
-const Content = () => <></>
+`;
+const Content = () => <></>;
 
 type CardProps = {
-  children: ReactNode[] | ReactNode
-  className?: string
-  href?: string
-  draggable?: boolean
-}
+  children: ReactNode[] | ReactNode;
+  className?: string;
+  href?: string;
+  draggable?: boolean;
+};
 
-type Card = FC<CardProps> & Omit<BaseCard, "Image">
+type Card = FC<CardProps> & Omit<BaseCard, "Image">;
 
 const ListCardCondensed: Card = ({ children, className, href, draggable }) => {
   const _Container = draggable
     ? DraggableContainer
     : href
       ? LinkContainer
-      : Container
+      : Container;
 
-  let content, info, title, footer, actions
+  let content, info, title, footer, actions;
 
   Children.forEach(children, (child) => {
-    if (!isValidElement(child)) return
-    if (child.type === Content) content = child.props.children
-    else if (child.type === Info) info = child.props.children
-    else if (child.type === Title) title = child.props.children
-    else if (child.type === Footer) footer = child.props.children
-    else if (child.type === Actions) actions = child.props.children
-  })
+    if (!isValidElement(child)) return;
+    if (child.type === Content) content = child.props.children;
+    else if (child.type === Info) info = child.props.children;
+    else if (child.type === Title) title = child.props.children;
+    else if (child.type === Footer) footer = child.props.children;
+    else if (child.type === Actions) actions = child.props.children;
+  });
 
   if (content) {
     return (
       <_Container className={className} href={href!}>
         {content}
       </_Container>
-    )
+    );
   }
 
   return (
@@ -125,14 +125,14 @@ const ListCardCondensed: Card = ({ children, className, href, draggable }) => {
       </_Container>
       {actions && <Actions>{actions}</Actions>}
     </Wrapper>
-  )
-}
+  );
+};
 
-ListCardCondensed.Content = Content
-ListCardCondensed.Info = Info
-ListCardCondensed.Title = Title
-ListCardCondensed.Footer = Footer
-ListCardCondensed.Actions = Actions
-ListCardCondensed.Action = ListCard.Action
+ListCardCondensed.Content = Content;
+ListCardCondensed.Info = Info;
+ListCardCondensed.Title = Title;
+ListCardCondensed.Footer = Footer;
+ListCardCondensed.Actions = Actions;
+ListCardCondensed.Action = ListCard.Action;
 
-export { ListCardCondensed }
+export { ListCardCondensed };
