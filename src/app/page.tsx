@@ -6,7 +6,6 @@ import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { getCurrentSystem } from "@/utils/system";
 import { Card } from "@/page-components/Card/Card";
-import { createTheme } from "@mitodl/smoot-design";
 import CartItem from "@/page-components/CartItem/CartItem";
 import CartSummary from "@/page-components/CartSummary/CartSummary";
 import StyledCard from "@/page-components/Card/StyledCard";
@@ -24,8 +23,6 @@ type CartProps = {
 type CartBodyProps = {
   systemId: number;
 };
-
-const theme = createTheme();
 
 const CartPageContainer = styled.div`
   margin: 64px 108px;

@@ -1,6 +1,5 @@
 import { render } from "@testing-library/react";
 import { ListCard } from "./ListCard";
-import React from "react";
 
 describe("ListCard", () => {
   test("has class MitCard-root on root element", () => {

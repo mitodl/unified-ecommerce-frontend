@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, Children, isValidElement } from "react";
+import { FC, ReactNode, Children, isValidElement } from "react";
 import styled from "@emotion/styled";
 import { RiDraggable } from "@remixicon/react";
 import { Wrapper } from "./Card";
