@@ -31,12 +31,14 @@ describe("EnsureSession", () => {
     window.location = {
       ...window.location,
       search: "?system=test-system&cat=meow&dog=woof",
-      href: "http://test.local:3000/?system=test-system&cat=meow&dog=woof"
+      href: "http://test.local:3000/?system=test-system&cat=meow&dog=woof",
     };
 
     setMockResponse.get(urls.userMe.get(), { id: null });
 
-    expect(window.location.search).toBe("?system=test-system&cat=meow&dog=woof");
+    expect(window.location.search).toBe(
+      "?system=test-system&cat=meow&dog=woof",
+    );
 
     renderWithProviders(<EnsureSession />);
 
