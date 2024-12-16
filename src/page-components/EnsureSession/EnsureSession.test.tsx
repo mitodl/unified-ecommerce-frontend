@@ -48,7 +48,6 @@ describe("EnsureSession", () => {
     });
 
     const url = new URL(mockAssign.mock.calls[0][0]);
-    console.log(mockAssign.mock.calls[0]);
     const expectedNext = encodeURIComponent("test-system");
     const expectedHref = `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${expectedNext}`;
     expect(url.href).toBe(expectedHref);
