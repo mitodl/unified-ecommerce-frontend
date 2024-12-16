@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
+import Container from "@mui/material/Container";
 import { getCurrentSystem } from "@/utils/system";
 import { Card } from "@/components/Card/Card";
 import CartItem from "@/page-components/CartItem/CartItem";
@@ -31,10 +32,6 @@ type CartProps = {
 type CartBodyProps = {
   systemId: number;
 };
-
-const CartPageContainer = styled.div`
-  margin: 64px 108px;
-`;
 
 const SelectSystemContainer = styled.div`
   margin: 16px 0;
@@ -145,7 +142,7 @@ const Home = () => {
   const specifiedSystem = getCurrentSystem(searchParams);
 
   return (
-    <CartPageContainer>
+    <Container>
       {specifiedSystem === "" && (
         <StyledCard>
           <Card.Content>
@@ -156,7 +153,7 @@ const Home = () => {
         </StyledCard>
       )}
       {specifiedSystem !== "" && <Cart system={specifiedSystem} />}
-    </CartPageContainer>
+    </Container>
   );
 };
 
