@@ -44,7 +44,7 @@ const usePaymentsBaksetCreateFromProduct = () => {
         .paymentsBasketsCreateFromProductCreate(slugAndSku)
         .then((response) => response.data),
     onSuccess: (_data) => {
-      client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
+      client.invalidateQueries({ queryKey: ["paymentsBaskets", _data] });
     },
   });
 };
@@ -57,7 +57,7 @@ const usePaymentsBasketAddDiscount = () => {
         .paymentsBasketsAddDiscountCreate(request)
         .then((response) => response.data),
     onSuccess: (_data) => {
-      client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
+      client.invalidateQueries({ queryKey: ["paymentsBaskets", _data] });
     },
   });
 };
