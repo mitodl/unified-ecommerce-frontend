@@ -17,6 +17,8 @@ import {
   usePaymentsBasketRetrieve,
   usePaymentsBasketAddDiscount,
 } from "@/services/ecommerce/payments/hooks";
+import { UseQueryResult } from "@tanstack/react-query";
+import { BasketWithProduct } from "@/services/ecommerce/generated/v0";
 
 type CartSummaryProps = {
   cartId: number;
@@ -108,7 +110,7 @@ const CartSummaryDiscount: React.FC<CartSummaryDiscountProps> = ({
 
 const CartSummary: React.FC<CartSummaryProps> = (props) => {
   const { cartId } = props;
-  const basket = usePaymentsBasketRetrieve(cartId);
+  const basket = usePaymentsBasketRetrieve(cartId) as UseQueryResult<BasketWithProduct>;
 
   return (
     basket.data && (
