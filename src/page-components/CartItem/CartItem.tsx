@@ -1,10 +1,10 @@
 import { BasketItemWithProduct } from "@/services/ecommerce/generated/v0";
 import { styled } from "@mitodl/smoot-design";
-import { Card } from "../Card/Card";
+import { Card } from "../../components/Card/Card";
 import { createTheme } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 
-import StyledCard from "../Card/StyledCard";
+import StyledCard from "../../components/Card/StyledCard";
 
 const theme = createTheme();
 

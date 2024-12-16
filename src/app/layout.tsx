@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import Header from "@/page-components/Header/Header";
+import Header from "@/components/Header/Header";
 import EnsureSession from "@/page-components/EnsureSession/EnsureSession";
 import "./global.css";
 import Providers from "./providers";

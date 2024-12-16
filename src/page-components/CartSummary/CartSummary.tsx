@@ -4,8 +4,8 @@ import { Button, styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { createTheme } from "@mitodl/smoot-design";
 import { InputBase as Input } from "@mui/material";
-import { Card } from "../Card/Card";
-import StyledCard from "../Card/StyledCard";
+import { Card } from "../../components/Card/Card";
+import StyledCard from "../../components/Card/StyledCard";
 import CartSummaryItem, {
   CartSummaryItemContainer,
   CartSummaryItemTitle,

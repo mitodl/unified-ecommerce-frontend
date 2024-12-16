@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQuery, useQueryClient, UseQueryOptions, useMutation } from "@tanstack/react-query";
 import { paymentsApi } from "../client";
 import type {
   PaymentsApiPaymentsBasketsListRequest,
@@ -9,46 +9,28 @@ import type {
 
 const usePaymentsBasketList = (
   options: PaymentsApiPaymentsBasketsListRequest,
+  opts: Omit<UseQueryOptions, "queryKey"> = {},
 ) =>
   useQuery({
-    queryKey: ["paymentsBaskets"],
+    queryKey: ["paymentsBaskets", options],
     queryFn: async () => {
       const response = await paymentsApi.paymentsBasketsList(options);
       return response.data;
     },
+    ...opts,
   });
 
-const useDeferredPaymentsBasketList = (
-  options: PaymentsApiPaymentsBasketsListRequest,
-  enabled: boolean,
-) =>
-  useQuery({
-    queryKey: ["paymentsBaskets"],
-    queryFn: async () => {
-      const response = await paymentsApi.paymentsBasketsList(options);
-      return response.data;
-    },
-    enabled: enabled,
-  });
-
-const usePaymentsBasketRetrieve = (id: number) => {
+const usePaymentsBasketRetrieve = (
+  id: number,
+  opts: Omit<UseQueryOptions, "queryKey"> = {},
+) => {
   return useQuery({
     queryKey: ["paymentsBaskets", id],
     queryFn: async () => {
       const response = await paymentsApi.paymentsBasketsRetrieve({ id });
       return response.data;
     },
-  });
-};
-
-const useDeferredPaymentsBasketRetrieve = (id: number, enabled: boolean) => {
-  return useQuery({
-    queryKey: ["paymentsBaskets", id],
-    queryFn: async () => {
-      const response = await paymentsApi.paymentsBasketsRetrieve({ id });
-      return response.data;
-    },
-    enabled: enabled,
+    ...opts,
   });
 };
 
@@ -91,9 +73,7 @@ const usePaymentsCheckoutStartCheckout = () => {
 
 export {
   usePaymentsBasketList,
-  useDeferredPaymentsBasketList,
   usePaymentsBasketRetrieve,
-  useDeferredPaymentsBasketRetrieve,
   usePaymentsBaksetCreateFromProduct,
   usePaymentsBasketAddDiscount,
   usePaymentsCheckoutStartCheckout,

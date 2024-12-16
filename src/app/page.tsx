@@ -1,20 +1,25 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { getCurrentSystem } from "@/utils/system";
-import { Card } from "@/page-components/Card/Card";
+import { Card } from "@/components/Card/Card";
 import CartItem from "@/page-components/CartItem/CartItem";
 import CartSummary from "@/page-components/CartSummary/CartSummary";
-import StyledCard from "@/page-components/Card/StyledCard";
+import StyledCard from "@/components/Card/StyledCard";
+import { UseQueryResult } from "@tanstack/react-query";
+import type {
+  PaginatedBasketWithProductList,
+  BasketWithProduct,
+} from "@/services/ecommerce/generated/v0";
 
 import {
   usePaymentsBasketList,
-  useDeferredPaymentsBasketRetrieve,
+  usePaymentsBasketRetrieve,
 } from "@/services/ecommerce/payments/hooks";
-import { IntegratedSystem } from "@/services/ecommerce/generated/v0";
+import { BasketItemWithProduct, IntegratedSystem } from "@/services/ecommerce/generated/v0";
 
 type CartProps = {
   system: string;
@@ -37,8 +42,6 @@ const SelectSystem: React.FC = () => {
   const router = useRouter();
 
   const hndSystemChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(ev.target.value);
-
     router.push(`/?system=${ev.target.value}`);
   };
 
@@ -84,18 +87,18 @@ const CartItemsContainer = styled.div`
 `;
 
 const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
-  const basket = usePaymentsBasketList({ integrated_system: systemId });
-  const basketDetails = useDeferredPaymentsBasketRetrieve(
+  const basket = usePaymentsBasketList({ integrated_system: systemId }) as UseQueryResult<PaginatedBasketWithProductList>;
+  const basketDetails = usePaymentsBasketRetrieve(
     basket.data?.results[0]?.id || 0,
-    !!basket.data?.count,
-  );
+    { enabled: !!basket.data?.count },
+  ) as UseQueryResult<BasketWithProduct>;
 
   return basketDetails.isFetched &&
     basketDetails?.data?.basket_items &&
     basketDetails.data.basket_items.length > 0 ? (
     <CartBodyContainer>
       <CartItemsContainer>
-        {basketDetails.data.basket_items.map((item) => (
+        {basketDetails.data.basket_items.map((item: BasketItemWithProduct) => (
           <CartItem item={item} key={`ue-basket-item-${item.id}`} />
         ))}
       </CartItemsContainer>
@@ -114,30 +117,19 @@ const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
 
 const Cart: React.FC<CartProps> = ({ system }) => {
   const systems = useMetaIntegratedSystemsList();
-  const [selectedSystem, setSelectedSystem] = useState<number | null>(null);
+  const selectedSystem = systems.data?.results.find(
+    (integratedSystem: IntegratedSystem) =>
+      integratedSystem.slug === system,
+  );
 
-  useEffect(() => {
-    if (system && systems.data) {
-      const foundSystem = systems.data.results.find(
-        (integratedSystem: IntegratedSystem) =>
-          integratedSystem.slug === system,
-      );
-
-      if (foundSystem) {
-        console.log("we found a system", foundSystem);
-        setSelectedSystem(foundSystem.id);
-      }
-    }
-  }, [system, systems, selectedSystem]);
-
-  return (
+  return selectedSystem && (
     <CartContainer>
       <CartHeader>
         <Typography variant="h3">
           You are about to purchase the following:
         </Typography>
       </CartHeader>
-      {selectedSystem && <CartBody systemId={selectedSystem} />}
+      {selectedSystem && <CartBody systemId={selectedSystem.id} />}
     </CartContainer>
   );
 };
