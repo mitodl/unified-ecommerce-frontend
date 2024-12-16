@@ -19,7 +19,10 @@ import {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
 } from "@/services/ecommerce/payments/hooks";
-import { BasketItemWithProduct, IntegratedSystem } from "@/services/ecommerce/generated/v0";
+import {
+  BasketItemWithProduct,
+  IntegratedSystem,
+} from "@/services/ecommerce/generated/v0";
 
 type CartProps = {
   system: string;
@@ -87,7 +90,9 @@ const CartItemsContainer = styled.div`
 `;
 
 const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
-  const basket = usePaymentsBasketList({ integrated_system: systemId }) as UseQueryResult<PaginatedBasketWithProductList>;
+  const basket = usePaymentsBasketList({
+    integrated_system: systemId,
+  }) as UseQueryResult<PaginatedBasketWithProductList>;
   const basketDetails = usePaymentsBasketRetrieve(
     basket.data?.results[0]?.id || 0,
     { enabled: !!basket.data?.count },
@@ -118,19 +123,20 @@ const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
 const Cart: React.FC<CartProps> = ({ system }) => {
   const systems = useMetaIntegratedSystemsList();
   const selectedSystem = systems.data?.results.find(
-    (integratedSystem: IntegratedSystem) =>
-      integratedSystem.slug === system,
+    (integratedSystem: IntegratedSystem) => integratedSystem.slug === system,
   );
 
-  return selectedSystem && (
-    <CartContainer>
-      <CartHeader>
-        <Typography variant="h3">
-          You are about to purchase the following:
-        </Typography>
-      </CartHeader>
-      {selectedSystem && <CartBody systemId={selectedSystem.id} />}
-    </CartContainer>
+  return (
+    selectedSystem && (
+      <CartContainer>
+        <CartHeader>
+          <Typography variant="h3">
+            You are about to purchase the following:
+          </Typography>
+        </CartHeader>
+        {selectedSystem && <CartBody systemId={selectedSystem.id} />}
+      </CartContainer>
+    )
   );
 };
 

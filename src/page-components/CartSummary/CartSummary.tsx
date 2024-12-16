@@ -110,7 +110,9 @@ const CartSummaryDiscount: React.FC<CartSummaryDiscountProps> = ({
 
 const CartSummary: React.FC<CartSummaryProps> = (props) => {
   const { cartId } = props;
-  const basket = usePaymentsBasketRetrieve(cartId) as UseQueryResult<BasketWithProduct>;
+  const basket = usePaymentsBasketRetrieve(
+    cartId,
+  ) as UseQueryResult<BasketWithProduct>;
 
   return (
     basket.data && (
