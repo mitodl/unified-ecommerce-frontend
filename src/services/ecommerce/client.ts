@@ -1,5 +1,5 @@
 import invariant from "tiny-invariant";
-import { PaymentsApi, UsersApi } from "./generated/v0/api";
+import { PaymentsApi, UsersApi, MetaApi } from "./generated/v0/api";
 import axios from "axios";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_UE_API_BASE_URL;
@@ -7,11 +7,16 @@ invariant(BASE_PATH, "NEXT_PUBLIC_UE_API_BASE_URL is required.");
 
 const instance = axios.create({
   withCredentials: true,
+  withXSRFToken: true,
+  xsrfCookieName: "csrftoken",
+  xsrfHeaderName: "X-CSRFTOKEN",
 });
 
 const paymentsApi = new PaymentsApi(undefined, BASE_PATH, instance);
 
 const usersApi = new UsersApi(undefined, BASE_PATH, instance);
+
+const metaApi = new MetaApi(undefined, BASE_PATH, instance);
 
 const devSameSiteCheck = () => {
   if (process.env.NODE_ENV === "development") {
@@ -41,4 +46,4 @@ const devSameSiteCheck = () => {
   }
 };
 
-export { paymentsApi, usersApi, BASE_PATH, devSameSiteCheck };
+export { paymentsApi, usersApi, metaApi, BASE_PATH, devSameSiteCheck };

@@ -30,9 +30,16 @@ describe("EnsureSession", () => {
   test("Unauthentiated users are redirected", async () => {
     window.location = {
       ...window.location,
-      href: `${window.location.origin}/some/path?cat=meow&dog=woof`,
+      search: "?system=test-system&cat=meow&dog=woof",
+      href: "http://test.local:3000/?system=test-system&cat=meow&dog=woof",
     };
+
     setMockResponse.get(urls.userMe.get(), { id: null });
+
+    expect(window.location.search).toBe(
+      "?system=test-system&cat=meow&dog=woof",
+    );
+
     renderWithProviders(<EnsureSession />);
 
     const mockAssign = jest.mocked(window.location.assign);
@@ -41,7 +48,7 @@ describe("EnsureSession", () => {
     });
 
     const url = new URL(mockAssign.mock.calls[0][0]);
-    const expectedNext = encodeURIComponent(window.location.href);
+    const expectedNext = encodeURIComponent("test-system");
     const expectedHref = `${process.env.NEXT_PUBLIC_UE_API_BASE_URL}/establish_session/?next=${expectedNext}`;
     expect(url.href).toBe(expectedHref);
   });

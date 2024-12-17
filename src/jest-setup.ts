@@ -2,6 +2,7 @@ import * as matchers from "jest-extended";
 import failOnConsole from "jest-fail-on-console";
 import { mockAxiosInstance } from "./test-utils/mockAxios";
 import { resetAllWhenMocks } from "jest-when";
+import "@testing-library/jest-dom";
 
 expect.extend(matchers);
 failOnConsole();

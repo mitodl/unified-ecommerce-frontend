@@ -47,12 +47,6 @@ import {
 export interface BasketItemWithProduct {
   /**
    *
-   * @type {Nested}
-   * @memberof BasketItemWithProduct
-   */
-  basket: Nested;
-  /**
-   *
    * @type {Product}
    * @memberof BasketItemWithProduct
    */
@@ -75,6 +69,18 @@ export interface BasketItemWithProduct {
    * @memberof BasketItemWithProduct
    */
   discounted_price: number;
+  /**
+   *
+   * @type {number}
+   * @memberof BasketItemWithProduct
+   */
+  quantity?: number;
+  /**
+   *
+   * @type {SimpleDiscount}
+   * @memberof BasketItemWithProduct
+   */
+  discount_applied: SimpleDiscount;
 }
 /**
  * Basket model serializer with items and products
@@ -96,10 +102,34 @@ export interface BasketWithProduct {
   user: number;
   /**
    *
+   * @type {IntegratedSystem}
+   * @memberof BasketWithProduct
+   */
+  integrated_system: IntegratedSystem;
+  /**
+   *
    * @type {Array<BasketItemWithProduct>}
    * @memberof BasketWithProduct
    */
   basket_items: Array<BasketItemWithProduct>;
+  /**
+   * Get the subtotal for the basket
+   * @type {number}
+   * @memberof BasketWithProduct
+   */
+  subtotal: number;
+  /**
+   * Get the tax for the basket
+   * @type {number}
+   * @memberof BasketWithProduct
+   */
+  tax: number;
+  /**
+   *
+   * @type {TaxRate}
+   * @memberof BasketWithProduct
+   */
+  tax_rate: TaxRate;
   /**
    * Get the total price for the basket
    * @type {number}
@@ -107,6 +137,1414 @@ export interface BasketWithProduct {
    */
   total_price: number;
 }
+/**
+ * Serializer for companies.
+ * @export
+ * @interface Company
+ */
+export interface Company {
+  /**
+   *
+   * @type {number}
+   * @memberof Company
+   */
+  id: number;
+  /**
+   *
+   * @type {string}
+   * @memberof Company
+   */
+  name: string;
+}
+/**
+ * * `AF` - Afghanistan * `AX` - Åland Islands * `AL` - Albania * `DZ` - Algeria * `AS` - American Samoa * `AD` - Andorra * `AO` - Angola * `AI` - Anguilla * `AQ` - Antarctica * `AG` - Antigua and Barbuda * `AR` - Argentina * `AM` - Armenia * `AW` - Aruba * `AU` - Australia * `AT` - Austria * `AZ` - Azerbaijan * `BS` - Bahamas * `BH` - Bahrain * `BD` - Bangladesh * `BB` - Barbados * `BY` - Belarus * `BE` - Belgium * `BZ` - Belize * `BJ` - Benin * `BM` - Bermuda * `BT` - Bhutan * `BO` - Bolivia * `BQ` - Bonaire, Sint Eustatius and Saba * `BA` - Bosnia and Herzegovina * `BW` - Botswana * `BV` - Bouvet Island * `BR` - Brazil * `IO` - British Indian Ocean Territory * `BN` - Brunei * `BG` - Bulgaria * `BF` - Burkina Faso * `BI` - Burundi * `CV` - Cabo Verde * `KH` - Cambodia * `CM` - Cameroon * `CA` - Canada * `KY` - Cayman Islands * `CF` - Central African Republic * `TD` - Chad * `CL` - Chile * `CN` - China * `CX` - Christmas Island * `CC` - Cocos (Keeling) Islands * `CO` - Colombia * `KM` - Comoros * `CG` - Congo * `CD` - Congo (the Democratic Republic of the) * `CK` - Cook Islands * `CR` - Costa Rica * `CI` - Côte d\'Ivoire * `HR` - Croatia * `CU` - Cuba * `CW` - Curaçao * `CY` - Cyprus * `CZ` - Czechia * `DK` - Denmark * `DJ` - Djibouti * `DM` - Dominica * `DO` - Dominican Republic * `EC` - Ecuador * `EG` - Egypt * `SV` - El Salvador * `GQ` - Equatorial Guinea * `ER` - Eritrea * `EE` - Estonia * `SZ` - Eswatini * `ET` - Ethiopia * `FK` - Falkland Islands (Malvinas) * `FO` - Faroe Islands * `FJ` - Fiji * `FI` - Finland * `FR` - France * `GF` - French Guiana * `PF` - French Polynesia * `TF` - French Southern Territories * `GA` - Gabon * `GM` - Gambia * `GE` - Georgia * `DE` - Germany * `GH` - Ghana * `GI` - Gibraltar * `GR` - Greece * `GL` - Greenland * `GD` - Grenada * `GP` - Guadeloupe * `GU` - Guam * `GT` - Guatemala * `GG` - Guernsey * `GN` - Guinea * `GW` - Guinea-Bissau * `GY` - Guyana * `HT` - Haiti * `HM` - Heard Island and McDonald Islands * `VA` - Holy See * `HN` - Honduras * `HK` - Hong Kong * `HU` - Hungary * `IS` - Iceland * `IN` - India * `ID` - Indonesia * `IR` - Iran * `IQ` - Iraq * `IE` - Ireland * `IM` - Isle of Man * `IL` - Israel * `IT` - Italy * `JM` - Jamaica * `JP` - Japan * `JE` - Jersey * `JO` - Jordan * `KZ` - Kazakhstan * `KE` - Kenya * `KI` - Kiribati * `KW` - Kuwait * `KG` - Kyrgyzstan * `LA` - Laos * `LV` - Latvia * `LB` - Lebanon * `LS` - Lesotho * `LR` - Liberia * `LY` - Libya * `LI` - Liechtenstein * `LT` - Lithuania * `LU` - Luxembourg * `MO` - Macao * `MG` - Madagascar * `MW` - Malawi * `MY` - Malaysia * `MV` - Maldives * `ML` - Mali * `MT` - Malta * `MH` - Marshall Islands * `MQ` - Martinique * `MR` - Mauritania * `MU` - Mauritius * `YT` - Mayotte * `MX` - Mexico * `FM` - Micronesia * `MD` - Moldova * `MC` - Monaco * `MN` - Mongolia * `ME` - Montenegro * `MS` - Montserrat * `MA` - Morocco * `MZ` - Mozambique * `MM` - Myanmar * `NA` - Namibia * `NR` - Nauru * `NP` - Nepal * `NL` - Netherlands * `NC` - New Caledonia * `NZ` - New Zealand * `NI` - Nicaragua * `NE` - Niger * `NG` - Nigeria * `NU` - Niue * `NF` - Norfolk Island * `KP` - North Korea * `MK` - North Macedonia * `MP` - Northern Mariana Islands * `NO` - Norway * `OM` - Oman * `PK` - Pakistan * `PW` - Palau * `PS` - Palestine, State of * `PA` - Panama * `PG` - Papua New Guinea * `PY` - Paraguay * `PE` - Peru * `PH` - Philippines * `PN` - Pitcairn * `PL` - Poland * `PT` - Portugal * `PR` - Puerto Rico * `QA` - Qatar * `RE` - Réunion * `RO` - Romania * `RU` - Russia * `RW` - Rwanda * `BL` - Saint Barthélemy * `SH` - Saint Helena, Ascension and Tristan da Cunha * `KN` - Saint Kitts and Nevis * `LC` - Saint Lucia * `MF` - Saint Martin (French part) * `PM` - Saint Pierre and Miquelon * `VC` - Saint Vincent and the Grenadines * `WS` - Samoa * `SM` - San Marino * `ST` - Sao Tome and Principe * `SA` - Saudi Arabia * `SN` - Senegal * `RS` - Serbia * `SC` - Seychelles * `SL` - Sierra Leone * `SG` - Singapore * `SX` - Sint Maarten (Dutch part) * `SK` - Slovakia * `SI` - Slovenia * `SB` - Solomon Islands * `SO` - Somalia * `ZA` - South Africa * `GS` - South Georgia and the South Sandwich Islands * `KR` - South Korea * `SS` - South Sudan * `ES` - Spain * `LK` - Sri Lanka * `SD` - Sudan * `SR` - Suriname * `SJ` - Svalbard and Jan Mayen * `SE` - Sweden * `CH` - Switzerland * `SY` - Syria * `TW` - Taiwan * `TJ` - Tajikistan * `TZ` - Tanzania * `TH` - Thailand * `TL` - Timor-Leste * `TG` - Togo * `TK` - Tokelau * `TO` - Tonga * `TT` - Trinidad and Tobago * `TN` - Tunisia * `TR` - Türkiye * `TM` - Turkmenistan * `TC` - Turks and Caicos Islands * `TV` - Tuvalu * `UG` - Uganda * `UA` - Ukraine * `AE` - United Arab Emirates * `GB` - United Kingdom * `UM` - United States Minor Outlying Islands * `US` - United States of America * `UY` - Uruguay * `UZ` - Uzbekistan * `VU` - Vanuatu * `VE` - Venezuela * `VN` - Vietnam * `VG` - Virgin Islands (British) * `VI` - Virgin Islands (U.S.) * `WF` - Wallis and Futuna * `EH` - Western Sahara * `YE` - Yemen * `ZM` - Zambia * `ZW` - Zimbabwe
+ * @export
+ * @enum {string}
+ */
+
+export const CountryCodeEnumDescriptions = {
+  AF: "Afghanistan",
+  AX: "Åland Islands",
+  AL: "Albania",
+  DZ: "Algeria",
+  AS: "American Samoa",
+  AD: "Andorra",
+  AO: "Angola",
+  AI: "Anguilla",
+  AQ: "Antarctica",
+  AG: "Antigua and Barbuda",
+  AR: "Argentina",
+  AM: "Armenia",
+  AW: "Aruba",
+  AU: "Australia",
+  AT: "Austria",
+  AZ: "Azerbaijan",
+  BS: "Bahamas",
+  BH: "Bahrain",
+  BD: "Bangladesh",
+  BB: "Barbados",
+  BY: "Belarus",
+  BE: "Belgium",
+  BZ: "Belize",
+  BJ: "Benin",
+  BM: "Bermuda",
+  BT: "Bhutan",
+  BO: "Bolivia",
+  BQ: "Bonaire, Sint Eustatius and Saba",
+  BA: "Bosnia and Herzegovina",
+  BW: "Botswana",
+  BV: "Bouvet Island",
+  BR: "Brazil",
+  IO: "British Indian Ocean Territory",
+  BN: "Brunei",
+  BG: "Bulgaria",
+  BF: "Burkina Faso",
+  BI: "Burundi",
+  CV: "Cabo Verde",
+  KH: "Cambodia",
+  CM: "Cameroon",
+  CA: "Canada",
+  KY: "Cayman Islands",
+  CF: "Central African Republic",
+  TD: "Chad",
+  CL: "Chile",
+  CN: "China",
+  CX: "Christmas Island",
+  CC: "Cocos (Keeling) Islands",
+  CO: "Colombia",
+  KM: "Comoros",
+  CG: "Congo",
+  CD: "Congo (the Democratic Republic of the)",
+  CK: "Cook Islands",
+  CR: "Costa Rica",
+  CI: "Côte d'Ivoire",
+  HR: "Croatia",
+  CU: "Cuba",
+  CW: "Curaçao",
+  CY: "Cyprus",
+  CZ: "Czechia",
+  DK: "Denmark",
+  DJ: "Djibouti",
+  DM: "Dominica",
+  DO: "Dominican Republic",
+  EC: "Ecuador",
+  EG: "Egypt",
+  SV: "El Salvador",
+  GQ: "Equatorial Guinea",
+  ER: "Eritrea",
+  EE: "Estonia",
+  SZ: "Eswatini",
+  ET: "Ethiopia",
+  FK: "Falkland Islands (Malvinas)",
+  FO: "Faroe Islands",
+  FJ: "Fiji",
+  FI: "Finland",
+  FR: "France",
+  GF: "French Guiana",
+  PF: "French Polynesia",
+  TF: "French Southern Territories",
+  GA: "Gabon",
+  GM: "Gambia",
+  GE: "Georgia",
+  DE: "Germany",
+  GH: "Ghana",
+  GI: "Gibraltar",
+  GR: "Greece",
+  GL: "Greenland",
+  GD: "Grenada",
+  GP: "Guadeloupe",
+  GU: "Guam",
+  GT: "Guatemala",
+  GG: "Guernsey",
+  GN: "Guinea",
+  GW: "Guinea-Bissau",
+  GY: "Guyana",
+  HT: "Haiti",
+  HM: "Heard Island and McDonald Islands",
+  VA: "Holy See",
+  HN: "Honduras",
+  HK: "Hong Kong",
+  HU: "Hungary",
+  IS: "Iceland",
+  IN: "India",
+  ID: "Indonesia",
+  IR: "Iran",
+  IQ: "Iraq",
+  IE: "Ireland",
+  IM: "Isle of Man",
+  IL: "Israel",
+  IT: "Italy",
+  JM: "Jamaica",
+  JP: "Japan",
+  JE: "Jersey",
+  JO: "Jordan",
+  KZ: "Kazakhstan",
+  KE: "Kenya",
+  KI: "Kiribati",
+  KW: "Kuwait",
+  KG: "Kyrgyzstan",
+  LA: "Laos",
+  LV: "Latvia",
+  LB: "Lebanon",
+  LS: "Lesotho",
+  LR: "Liberia",
+  LY: "Libya",
+  LI: "Liechtenstein",
+  LT: "Lithuania",
+  LU: "Luxembourg",
+  MO: "Macao",
+  MG: "Madagascar",
+  MW: "Malawi",
+  MY: "Malaysia",
+  MV: "Maldives",
+  ML: "Mali",
+  MT: "Malta",
+  MH: "Marshall Islands",
+  MQ: "Martinique",
+  MR: "Mauritania",
+  MU: "Mauritius",
+  YT: "Mayotte",
+  MX: "Mexico",
+  FM: "Micronesia",
+  MD: "Moldova",
+  MC: "Monaco",
+  MN: "Mongolia",
+  ME: "Montenegro",
+  MS: "Montserrat",
+  MA: "Morocco",
+  MZ: "Mozambique",
+  MM: "Myanmar",
+  NA: "Namibia",
+  NR: "Nauru",
+  NP: "Nepal",
+  NL: "Netherlands",
+  NC: "New Caledonia",
+  NZ: "New Zealand",
+  NI: "Nicaragua",
+  NE: "Niger",
+  NG: "Nigeria",
+  NU: "Niue",
+  NF: "Norfolk Island",
+  KP: "North Korea",
+  MK: "North Macedonia",
+  MP: "Northern Mariana Islands",
+  NO: "Norway",
+  OM: "Oman",
+  PK: "Pakistan",
+  PW: "Palau",
+  PS: "Palestine, State of",
+  PA: "Panama",
+  PG: "Papua New Guinea",
+  PY: "Paraguay",
+  PE: "Peru",
+  PH: "Philippines",
+  PN: "Pitcairn",
+  PL: "Poland",
+  PT: "Portugal",
+  PR: "Puerto Rico",
+  QA: "Qatar",
+  RE: "Réunion",
+  RO: "Romania",
+  RU: "Russia",
+  RW: "Rwanda",
+  BL: "Saint Barthélemy",
+  SH: "Saint Helena, Ascension and Tristan da Cunha",
+  KN: "Saint Kitts and Nevis",
+  LC: "Saint Lucia",
+  MF: "Saint Martin (French part)",
+  PM: "Saint Pierre and Miquelon",
+  VC: "Saint Vincent and the Grenadines",
+  WS: "Samoa",
+  SM: "San Marino",
+  ST: "Sao Tome and Principe",
+  SA: "Saudi Arabia",
+  SN: "Senegal",
+  RS: "Serbia",
+  SC: "Seychelles",
+  SL: "Sierra Leone",
+  SG: "Singapore",
+  SX: "Sint Maarten (Dutch part)",
+  SK: "Slovakia",
+  SI: "Slovenia",
+  SB: "Solomon Islands",
+  SO: "Somalia",
+  ZA: "South Africa",
+  GS: "South Georgia and the South Sandwich Islands",
+  KR: "South Korea",
+  SS: "South Sudan",
+  ES: "Spain",
+  LK: "Sri Lanka",
+  SD: "Sudan",
+  SR: "Suriname",
+  SJ: "Svalbard and Jan Mayen",
+  SE: "Sweden",
+  CH: "Switzerland",
+  SY: "Syria",
+  TW: "Taiwan",
+  TJ: "Tajikistan",
+  TZ: "Tanzania",
+  TH: "Thailand",
+  TL: "Timor-Leste",
+  TG: "Togo",
+  TK: "Tokelau",
+  TO: "Tonga",
+  TT: "Trinidad and Tobago",
+  TN: "Tunisia",
+  TR: "Türkiye",
+  TM: "Turkmenistan",
+  TC: "Turks and Caicos Islands",
+  TV: "Tuvalu",
+  UG: "Uganda",
+  UA: "Ukraine",
+  AE: "United Arab Emirates",
+  GB: "United Kingdom",
+  UM: "United States Minor Outlying Islands",
+  US: "United States of America",
+  UY: "Uruguay",
+  UZ: "Uzbekistan",
+  VU: "Vanuatu",
+  VE: "Venezuela",
+  VN: "Vietnam",
+  VG: "Virgin Islands (British)",
+  VI: "Virgin Islands (U.S.)",
+  WF: "Wallis and Futuna",
+  EH: "Western Sahara",
+  YE: "Yemen",
+  ZM: "Zambia",
+  ZW: "Zimbabwe",
+} as const;
+
+export const CountryCodeEnum = {
+  /**
+   * Afghanistan
+   */
+  Af: "AF",
+  /**
+   * Åland Islands
+   */
+  Ax: "AX",
+  /**
+   * Albania
+   */
+  Al: "AL",
+  /**
+   * Algeria
+   */
+  Dz: "DZ",
+  /**
+   * American Samoa
+   */
+  As: "AS",
+  /**
+   * Andorra
+   */
+  Ad: "AD",
+  /**
+   * Angola
+   */
+  Ao: "AO",
+  /**
+   * Anguilla
+   */
+  Ai: "AI",
+  /**
+   * Antarctica
+   */
+  Aq: "AQ",
+  /**
+   * Antigua and Barbuda
+   */
+  Ag: "AG",
+  /**
+   * Argentina
+   */
+  Ar: "AR",
+  /**
+   * Armenia
+   */
+  Am: "AM",
+  /**
+   * Aruba
+   */
+  Aw: "AW",
+  /**
+   * Australia
+   */
+  Au: "AU",
+  /**
+   * Austria
+   */
+  At: "AT",
+  /**
+   * Azerbaijan
+   */
+  Az: "AZ",
+  /**
+   * Bahamas
+   */
+  Bs: "BS",
+  /**
+   * Bahrain
+   */
+  Bh: "BH",
+  /**
+   * Bangladesh
+   */
+  Bd: "BD",
+  /**
+   * Barbados
+   */
+  Bb: "BB",
+  /**
+   * Belarus
+   */
+  By: "BY",
+  /**
+   * Belgium
+   */
+  Be: "BE",
+  /**
+   * Belize
+   */
+  Bz: "BZ",
+  /**
+   * Benin
+   */
+  Bj: "BJ",
+  /**
+   * Bermuda
+   */
+  Bm: "BM",
+  /**
+   * Bhutan
+   */
+  Bt: "BT",
+  /**
+   * Bolivia
+   */
+  Bo: "BO",
+  /**
+   * Bonaire, Sint Eustatius and Saba
+   */
+  Bq: "BQ",
+  /**
+   * Bosnia and Herzegovina
+   */
+  Ba: "BA",
+  /**
+   * Botswana
+   */
+  Bw: "BW",
+  /**
+   * Bouvet Island
+   */
+  Bv: "BV",
+  /**
+   * Brazil
+   */
+  Br: "BR",
+  /**
+   * British Indian Ocean Territory
+   */
+  Io: "IO",
+  /**
+   * Brunei
+   */
+  Bn: "BN",
+  /**
+   * Bulgaria
+   */
+  Bg: "BG",
+  /**
+   * Burkina Faso
+   */
+  Bf: "BF",
+  /**
+   * Burundi
+   */
+  Bi: "BI",
+  /**
+   * Cabo Verde
+   */
+  Cv: "CV",
+  /**
+   * Cambodia
+   */
+  Kh: "KH",
+  /**
+   * Cameroon
+   */
+  Cm: "CM",
+  /**
+   * Canada
+   */
+  Ca: "CA",
+  /**
+   * Cayman Islands
+   */
+  Ky: "KY",
+  /**
+   * Central African Republic
+   */
+  Cf: "CF",
+  /**
+   * Chad
+   */
+  Td: "TD",
+  /**
+   * Chile
+   */
+  Cl: "CL",
+  /**
+   * China
+   */
+  Cn: "CN",
+  /**
+   * Christmas Island
+   */
+  Cx: "CX",
+  /**
+   * Cocos (Keeling) Islands
+   */
+  Cc: "CC",
+  /**
+   * Colombia
+   */
+  Co: "CO",
+  /**
+   * Comoros
+   */
+  Km: "KM",
+  /**
+   * Congo
+   */
+  Cg: "CG",
+  /**
+   * Congo (the Democratic Republic of the)
+   */
+  Cd: "CD",
+  /**
+   * Cook Islands
+   */
+  Ck: "CK",
+  /**
+   * Costa Rica
+   */
+  Cr: "CR",
+  /**
+   * Côte d&#39;Ivoire
+   */
+  Ci: "CI",
+  /**
+   * Croatia
+   */
+  Hr: "HR",
+  /**
+   * Cuba
+   */
+  Cu: "CU",
+  /**
+   * Curaçao
+   */
+  Cw: "CW",
+  /**
+   * Cyprus
+   */
+  Cy: "CY",
+  /**
+   * Czechia
+   */
+  Cz: "CZ",
+  /**
+   * Denmark
+   */
+  Dk: "DK",
+  /**
+   * Djibouti
+   */
+  Dj: "DJ",
+  /**
+   * Dominica
+   */
+  Dm: "DM",
+  /**
+   * Dominican Republic
+   */
+  Do: "DO",
+  /**
+   * Ecuador
+   */
+  Ec: "EC",
+  /**
+   * Egypt
+   */
+  Eg: "EG",
+  /**
+   * El Salvador
+   */
+  Sv: "SV",
+  /**
+   * Equatorial Guinea
+   */
+  Gq: "GQ",
+  /**
+   * Eritrea
+   */
+  Er: "ER",
+  /**
+   * Estonia
+   */
+  Ee: "EE",
+  /**
+   * Eswatini
+   */
+  Sz: "SZ",
+  /**
+   * Ethiopia
+   */
+  Et: "ET",
+  /**
+   * Falkland Islands (Malvinas)
+   */
+  Fk: "FK",
+  /**
+   * Faroe Islands
+   */
+  Fo: "FO",
+  /**
+   * Fiji
+   */
+  Fj: "FJ",
+  /**
+   * Finland
+   */
+  Fi: "FI",
+  /**
+   * France
+   */
+  Fr: "FR",
+  /**
+   * French Guiana
+   */
+  Gf: "GF",
+  /**
+   * French Polynesia
+   */
+  Pf: "PF",
+  /**
+   * French Southern Territories
+   */
+  Tf: "TF",
+  /**
+   * Gabon
+   */
+  Ga: "GA",
+  /**
+   * Gambia
+   */
+  Gm: "GM",
+  /**
+   * Georgia
+   */
+  Ge: "GE",
+  /**
+   * Germany
+   */
+  De: "DE",
+  /**
+   * Ghana
+   */
+  Gh: "GH",
+  /**
+   * Gibraltar
+   */
+  Gi: "GI",
+  /**
+   * Greece
+   */
+  Gr: "GR",
+  /**
+   * Greenland
+   */
+  Gl: "GL",
+  /**
+   * Grenada
+   */
+  Gd: "GD",
+  /**
+   * Guadeloupe
+   */
+  Gp: "GP",
+  /**
+   * Guam
+   */
+  Gu: "GU",
+  /**
+   * Guatemala
+   */
+  Gt: "GT",
+  /**
+   * Guernsey
+   */
+  Gg: "GG",
+  /**
+   * Guinea
+   */
+  Gn: "GN",
+  /**
+   * Guinea-Bissau
+   */
+  Gw: "GW",
+  /**
+   * Guyana
+   */
+  Gy: "GY",
+  /**
+   * Haiti
+   */
+  Ht: "HT",
+  /**
+   * Heard Island and McDonald Islands
+   */
+  Hm: "HM",
+  /**
+   * Holy See
+   */
+  Va: "VA",
+  /**
+   * Honduras
+   */
+  Hn: "HN",
+  /**
+   * Hong Kong
+   */
+  Hk: "HK",
+  /**
+   * Hungary
+   */
+  Hu: "HU",
+  /**
+   * Iceland
+   */
+  Is: "IS",
+  /**
+   * India
+   */
+  In: "IN",
+  /**
+   * Indonesia
+   */
+  Id: "ID",
+  /**
+   * Iran
+   */
+  Ir: "IR",
+  /**
+   * Iraq
+   */
+  Iq: "IQ",
+  /**
+   * Ireland
+   */
+  Ie: "IE",
+  /**
+   * Isle of Man
+   */
+  Im: "IM",
+  /**
+   * Israel
+   */
+  Il: "IL",
+  /**
+   * Italy
+   */
+  It: "IT",
+  /**
+   * Jamaica
+   */
+  Jm: "JM",
+  /**
+   * Japan
+   */
+  Jp: "JP",
+  /**
+   * Jersey
+   */
+  Je: "JE",
+  /**
+   * Jordan
+   */
+  Jo: "JO",
+  /**
+   * Kazakhstan
+   */
+  Kz: "KZ",
+  /**
+   * Kenya
+   */
+  Ke: "KE",
+  /**
+   * Kiribati
+   */
+  Ki: "KI",
+  /**
+   * Kuwait
+   */
+  Kw: "KW",
+  /**
+   * Kyrgyzstan
+   */
+  Kg: "KG",
+  /**
+   * Laos
+   */
+  La: "LA",
+  /**
+   * Latvia
+   */
+  Lv: "LV",
+  /**
+   * Lebanon
+   */
+  Lb: "LB",
+  /**
+   * Lesotho
+   */
+  Ls: "LS",
+  /**
+   * Liberia
+   */
+  Lr: "LR",
+  /**
+   * Libya
+   */
+  Ly: "LY",
+  /**
+   * Liechtenstein
+   */
+  Li: "LI",
+  /**
+   * Lithuania
+   */
+  Lt: "LT",
+  /**
+   * Luxembourg
+   */
+  Lu: "LU",
+  /**
+   * Macao
+   */
+  Mo: "MO",
+  /**
+   * Madagascar
+   */
+  Mg: "MG",
+  /**
+   * Malawi
+   */
+  Mw: "MW",
+  /**
+   * Malaysia
+   */
+  My: "MY",
+  /**
+   * Maldives
+   */
+  Mv: "MV",
+  /**
+   * Mali
+   */
+  Ml: "ML",
+  /**
+   * Malta
+   */
+  Mt: "MT",
+  /**
+   * Marshall Islands
+   */
+  Mh: "MH",
+  /**
+   * Martinique
+   */
+  Mq: "MQ",
+  /**
+   * Mauritania
+   */
+  Mr: "MR",
+  /**
+   * Mauritius
+   */
+  Mu: "MU",
+  /**
+   * Mayotte
+   */
+  Yt: "YT",
+  /**
+   * Mexico
+   */
+  Mx: "MX",
+  /**
+   * Micronesia
+   */
+  Fm: "FM",
+  /**
+   * Moldova
+   */
+  Md: "MD",
+  /**
+   * Monaco
+   */
+  Mc: "MC",
+  /**
+   * Mongolia
+   */
+  Mn: "MN",
+  /**
+   * Montenegro
+   */
+  Me: "ME",
+  /**
+   * Montserrat
+   */
+  Ms: "MS",
+  /**
+   * Morocco
+   */
+  Ma: "MA",
+  /**
+   * Mozambique
+   */
+  Mz: "MZ",
+  /**
+   * Myanmar
+   */
+  Mm: "MM",
+  /**
+   * Namibia
+   */
+  Na: "NA",
+  /**
+   * Nauru
+   */
+  Nr: "NR",
+  /**
+   * Nepal
+   */
+  Np: "NP",
+  /**
+   * Netherlands
+   */
+  Nl: "NL",
+  /**
+   * New Caledonia
+   */
+  Nc: "NC",
+  /**
+   * New Zealand
+   */
+  Nz: "NZ",
+  /**
+   * Nicaragua
+   */
+  Ni: "NI",
+  /**
+   * Niger
+   */
+  Ne: "NE",
+  /**
+   * Nigeria
+   */
+  Ng: "NG",
+  /**
+   * Niue
+   */
+  Nu: "NU",
+  /**
+   * Norfolk Island
+   */
+  Nf: "NF",
+  /**
+   * North Korea
+   */
+  Kp: "KP",
+  /**
+   * North Macedonia
+   */
+  Mk: "MK",
+  /**
+   * Northern Mariana Islands
+   */
+  Mp: "MP",
+  /**
+   * Norway
+   */
+  No: "NO",
+  /**
+   * Oman
+   */
+  Om: "OM",
+  /**
+   * Pakistan
+   */
+  Pk: "PK",
+  /**
+   * Palau
+   */
+  Pw: "PW",
+  /**
+   * Palestine, State of
+   */
+  Ps: "PS",
+  /**
+   * Panama
+   */
+  Pa: "PA",
+  /**
+   * Papua New Guinea
+   */
+  Pg: "PG",
+  /**
+   * Paraguay
+   */
+  Py: "PY",
+  /**
+   * Peru
+   */
+  Pe: "PE",
+  /**
+   * Philippines
+   */
+  Ph: "PH",
+  /**
+   * Pitcairn
+   */
+  Pn: "PN",
+  /**
+   * Poland
+   */
+  Pl: "PL",
+  /**
+   * Portugal
+   */
+  Pt: "PT",
+  /**
+   * Puerto Rico
+   */
+  Pr: "PR",
+  /**
+   * Qatar
+   */
+  Qa: "QA",
+  /**
+   * Réunion
+   */
+  Re: "RE",
+  /**
+   * Romania
+   */
+  Ro: "RO",
+  /**
+   * Russia
+   */
+  Ru: "RU",
+  /**
+   * Rwanda
+   */
+  Rw: "RW",
+  /**
+   * Saint Barthélemy
+   */
+  Bl: "BL",
+  /**
+   * Saint Helena, Ascension and Tristan da Cunha
+   */
+  Sh: "SH",
+  /**
+   * Saint Kitts and Nevis
+   */
+  Kn: "KN",
+  /**
+   * Saint Lucia
+   */
+  Lc: "LC",
+  /**
+   * Saint Martin (French part)
+   */
+  Mf: "MF",
+  /**
+   * Saint Pierre and Miquelon
+   */
+  Pm: "PM",
+  /**
+   * Saint Vincent and the Grenadines
+   */
+  Vc: "VC",
+  /**
+   * Samoa
+   */
+  Ws: "WS",
+  /**
+   * San Marino
+   */
+  Sm: "SM",
+  /**
+   * Sao Tome and Principe
+   */
+  St: "ST",
+  /**
+   * Saudi Arabia
+   */
+  Sa: "SA",
+  /**
+   * Senegal
+   */
+  Sn: "SN",
+  /**
+   * Serbia
+   */
+  Rs: "RS",
+  /**
+   * Seychelles
+   */
+  Sc: "SC",
+  /**
+   * Sierra Leone
+   */
+  Sl: "SL",
+  /**
+   * Singapore
+   */
+  Sg: "SG",
+  /**
+   * Sint Maarten (Dutch part)
+   */
+  Sx: "SX",
+  /**
+   * Slovakia
+   */
+  Sk: "SK",
+  /**
+   * Slovenia
+   */
+  Si: "SI",
+  /**
+   * Solomon Islands
+   */
+  Sb: "SB",
+  /**
+   * Somalia
+   */
+  So: "SO",
+  /**
+   * South Africa
+   */
+  Za: "ZA",
+  /**
+   * South Georgia and the South Sandwich Islands
+   */
+  Gs: "GS",
+  /**
+   * South Korea
+   */
+  Kr: "KR",
+  /**
+   * South Sudan
+   */
+  Ss: "SS",
+  /**
+   * Spain
+   */
+  Es: "ES",
+  /**
+   * Sri Lanka
+   */
+  Lk: "LK",
+  /**
+   * Sudan
+   */
+  Sd: "SD",
+  /**
+   * Suriname
+   */
+  Sr: "SR",
+  /**
+   * Svalbard and Jan Mayen
+   */
+  Sj: "SJ",
+  /**
+   * Sweden
+   */
+  Se: "SE",
+  /**
+   * Switzerland
+   */
+  Ch: "CH",
+  /**
+   * Syria
+   */
+  Sy: "SY",
+  /**
+   * Taiwan
+   */
+  Tw: "TW",
+  /**
+   * Tajikistan
+   */
+  Tj: "TJ",
+  /**
+   * Tanzania
+   */
+  Tz: "TZ",
+  /**
+   * Thailand
+   */
+  Th: "TH",
+  /**
+   * Timor-Leste
+   */
+  Tl: "TL",
+  /**
+   * Togo
+   */
+  Tg: "TG",
+  /**
+   * Tokelau
+   */
+  Tk: "TK",
+  /**
+   * Tonga
+   */
+  To: "TO",
+  /**
+   * Trinidad and Tobago
+   */
+  Tt: "TT",
+  /**
+   * Tunisia
+   */
+  Tn: "TN",
+  /**
+   * Türkiye
+   */
+  Tr: "TR",
+  /**
+   * Turkmenistan
+   */
+  Tm: "TM",
+  /**
+   * Turks and Caicos Islands
+   */
+  Tc: "TC",
+  /**
+   * Tuvalu
+   */
+  Tv: "TV",
+  /**
+   * Uganda
+   */
+  Ug: "UG",
+  /**
+   * Ukraine
+   */
+  Ua: "UA",
+  /**
+   * United Arab Emirates
+   */
+  Ae: "AE",
+  /**
+   * United Kingdom
+   */
+  Gb: "GB",
+  /**
+   * United States Minor Outlying Islands
+   */
+  Um: "UM",
+  /**
+   * United States of America
+   */
+  Us: "US",
+  /**
+   * Uruguay
+   */
+  Uy: "UY",
+  /**
+   * Uzbekistan
+   */
+  Uz: "UZ",
+  /**
+   * Vanuatu
+   */
+  Vu: "VU",
+  /**
+   * Venezuela
+   */
+  Ve: "VE",
+  /**
+   * Vietnam
+   */
+  Vn: "VN",
+  /**
+   * Virgin Islands (British)
+   */
+  Vg: "VG",
+  /**
+   * Virgin Islands (U.S.)
+   */
+  Vi: "VI",
+  /**
+   * Wallis and Futuna
+   */
+  Wf: "WF",
+  /**
+   * Western Sahara
+   */
+  Eh: "EH",
+  /**
+   * Yemen
+   */
+  Ye: "YE",
+  /**
+   * Zambia
+   */
+  Zm: "ZM",
+  /**
+   * Zimbabwe
+   */
+  Zw: "ZW",
+} as const;
+
+export type CountryCodeEnum =
+  (typeof CountryCodeEnum)[keyof typeof CountryCodeEnum];
+
+/**
+ * Really basic serializer for the payload that we need to send to CyberSource.
+ * @export
+ * @interface CyberSourceCheckout
+ */
+export interface CyberSourceCheckout {
+  /**
+   *
+   * @type {{ [key: string]: any; }}
+   * @memberof CyberSourceCheckout
+   */
+  payload: { [key: string]: any };
+  /**
+   *
+   * @type {string}
+   * @memberof CyberSourceCheckout
+   */
+  url: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CyberSourceCheckout
+   */
+  method: string;
+}
+/**
+ * Serializer for discounts.
+ * @export
+ * @interface Discount
+ */
+export interface Discount {
+  /**
+   *
+   * @type {number}
+   * @memberof Discount
+   */
+  id: number;
+  /**
+   *
+   * @type {string}
+   * @memberof Discount
+   */
+  discount_code: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Discount
+   */
+  amount: string;
+  /**
+   *
+   * @type {PaymentTypeEnum}
+   * @memberof Discount
+   */
+  payment_type?: PaymentTypeEnum | null;
+  /**
+   *
+   * @type {number}
+   * @memberof Discount
+   */
+  max_redemptions?: number | null;
+  /**
+   * If set, this discount code will not be redeemable before this date.
+   * @type {string}
+   * @memberof Discount
+   */
+  activation_date?: string | null;
+  /**
+   * If set, this discount code will not be redeemable after this date.
+   * @type {string}
+   * @memberof Discount
+   */
+  expiration_date?: string | null;
+  /**
+   *
+   * @type {IntegratedSystem}
+   * @memberof Discount
+   */
+  integrated_system: IntegratedSystem;
+  /**
+   *
+   * @type {Product}
+   * @memberof Discount
+   */
+  product: Product;
+  /**
+   *
+   * @type {Array<User>}
+   * @memberof Discount
+   */
+  assigned_users: Array<User>;
+  /**
+   *
+   * @type {Company}
+   * @memberof Discount
+   */
+  company: Company;
+}
+
+/**
+ * * `percent-off` - percent-off * `dollars-off` - dollars-off * `fixed-price` - fixed-price
+ * @export
+ * @enum {string}
+ */
+
+export const DiscountTypeEnumDescriptions = {
+  "percent-off": "percent-off",
+  "dollars-off": "dollars-off",
+  "fixed-price": "fixed-price",
+} as const;
+
+export const DiscountTypeEnum = {
+  /**
+   * percent-off
+   */
+  PercentOff: "percent-off",
+  /**
+   * dollars-off
+   */
+  DollarsOff: "dollars-off",
+  /**
+   * fixed-price
+   */
+  FixedPrice: "fixed-price",
+} as const;
+
+export type DiscountTypeEnum =
+  (typeof DiscountTypeEnum)[keyof typeof DiscountTypeEnum];
+
 /**
  * Serializer for IntegratedSystem model.
  * @export
@@ -209,82 +1647,18 @@ export interface Line {
 /**
  *
  * @export
- * @interface Nested
+ * @enum {string}
  */
-export interface Nested {
-  /**
-   *
-   * @type {number}
-   * @memberof Nested
-   */
-  id: number;
-  /**
-   *
-   * @type {string}
-   * @memberof Nested
-   */
-  created_on: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Nested
-   */
-  updated_on: string;
-  /**
-   * The IP address of the user.
-   * @type {string}
-   * @memberof Nested
-   */
-  user_ip?: string;
-  /**
-   * The country code for the user for this basket for tax purposes.
-   * @type {string}
-   * @memberof Nested
-   */
-  user_taxable_country_code?: string | null;
-  /**
-   *
-   * @type {UserTaxableGeolocationTypeEnum}
-   * @memberof Nested
-   */
-  user_taxable_geolocation_type?: UserTaxableGeolocationTypeEnum;
-  /**
-   * The country code for the user for this basket for blocked items.
-   * @type {string}
-   * @memberof Nested
-   */
-  user_blockable_country_code?: string | null;
-  /**
-   * How the user\'s location was determined for blocked items.
-   * @type {string}
-   * @memberof Nested
-   */
-  user_blockable_geolocation_type?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof Nested
-   */
-  user: number;
-  /**
-   *
-   * @type {number}
-   * @memberof Nested
-   */
-  integrated_system: number;
-  /**
-   * The tax rate assessed for this basket.
-   * @type {number}
-   * @memberof Nested
-   */
-  tax_rate?: number | null;
-  /**
-   *
-   * @type {Array<number>}
-   * @memberof Nested
-   */
-  discounts: Array<number>;
-}
+
+export const NullEnumDescriptions = {
+  null: "",
+} as const;
+
+export const NullEnum = {
+  Null: "null",
+} as const;
+
+export type NullEnum = (typeof NullEnum)[keyof typeof NullEnum];
 
 /**
  * Serializer for order history.
@@ -510,12 +1884,6 @@ export interface PatchedProductRequest {
    */
   name?: string;
   /**
-   * Price (decimal to two places)
-   * @type {string}
-   * @memberof PatchedProductRequest
-   */
-  price?: string;
-  /**
    * Long description of the product.
    * @type {string}
    * @memberof PatchedProductRequest
@@ -533,7 +1901,68 @@ export interface PatchedProductRequest {
    * @memberof PatchedProductRequest
    */
   system?: number;
+  /**
+   * Price (decimal to two places)
+   * @type {string}
+   * @memberof PatchedProductRequest
+   */
+  price?: string;
 }
+/**
+ * * `marketing` - marketing * `sales` - sales * `financial-assistance` - financial-assistance * `customer-support` - customer-support * `staff` - staff * `legacy` - legacy * `credit_card` - credit_card * `purchase_order` - purchase_order
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentTypeEnumDescriptions = {
+  marketing: "marketing",
+  sales: "sales",
+  "financial-assistance": "financial-assistance",
+  "customer-support": "customer-support",
+  staff: "staff",
+  legacy: "legacy",
+  credit_card: "credit_card",
+  purchase_order: "purchase_order",
+} as const;
+
+export const PaymentTypeEnum = {
+  /**
+   * marketing
+   */
+  Marketing: "marketing",
+  /**
+   * sales
+   */
+  Sales: "sales",
+  /**
+   * financial-assistance
+   */
+  FinancialAssistance: "financial-assistance",
+  /**
+   * customer-support
+   */
+  CustomerSupport: "customer-support",
+  /**
+   * staff
+   */
+  Staff: "staff",
+  /**
+   * legacy
+   */
+  Legacy: "legacy",
+  /**
+   * credit_card
+   */
+  CreditCard: "credit_card",
+  /**
+   * purchase_order
+   */
+  PurchaseOrder: "purchase_order",
+} as const;
+
+export type PaymentTypeEnum =
+  (typeof PaymentTypeEnum)[keyof typeof PaymentTypeEnum];
+
 /**
  * Serializer for Product model.
  * @export
@@ -547,30 +1976,6 @@ export interface Product {
    */
   id: number;
   /**
-   *
-   * @type {string}
-   * @memberof Product
-   */
-  deleted_on: string | null;
-  /**
-   *
-   * @type {boolean}
-   * @memberof Product
-   */
-  deleted_by_cascade: boolean;
-  /**
-   *
-   * @type {string}
-   * @memberof Product
-   */
-  created_on: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Product
-   */
-  updated_on: string;
-  /**
    * SKU of the product.
    * @type {string}
    * @memberof Product
@@ -582,12 +1987,6 @@ export interface Product {
    * @memberof Product
    */
   name: string;
-  /**
-   * Price (decimal to two places)
-   * @type {string}
-   * @memberof Product
-   */
-  price: string;
   /**
    * Long description of the product.
    * @type {string}
@@ -606,6 +2005,18 @@ export interface Product {
    * @memberof Product
    */
   system: number;
+  /**
+   * Price (decimal to two places)
+   * @type {string}
+   * @memberof Product
+   */
+  price: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof Product
+   */
+  deleted_by_cascade: boolean;
 }
 /**
  * Serializer for Product model.
@@ -626,12 +2037,6 @@ export interface ProductRequest {
    */
   name: string;
   /**
-   * Price (decimal to two places)
-   * @type {string}
-   * @memberof ProductRequest
-   */
-  price: string;
-  /**
    * Long description of the product.
    * @type {string}
    * @memberof ProductRequest
@@ -649,7 +2054,51 @@ export interface ProductRequest {
    * @memberof ProductRequest
    */
   system: number;
+  /**
+   * Price (decimal to two places)
+   * @type {string}
+   * @memberof ProductRequest
+   */
+  price: string;
 }
+/**
+ * Simpler serializer for discounts.
+ * @export
+ * @interface SimpleDiscount
+ */
+export interface SimpleDiscount {
+  /**
+   *
+   * @type {number}
+   * @memberof SimpleDiscount
+   */
+  id: number;
+  /**
+   *
+   * @type {string}
+   * @memberof SimpleDiscount
+   */
+  discount_code: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SimpleDiscount
+   */
+  amount: string;
+  /**
+   *
+   * @type {DiscountTypeEnum}
+   * @memberof SimpleDiscount
+   */
+  discount_type: DiscountTypeEnum;
+  /**
+   * Return the formatted discount amount.  This quantizes percent discounts to whole numbers. This is probably fine.
+   * @type {string}
+   * @memberof SimpleDiscount
+   */
+  formatted_discount_amount: string;
+}
+
 /**
  * * `pending` - Pending * `fulfilled` - Fulfilled * `canceled` - Canceled * `refunded` - Refunded * `declined` - Declined * `errored` - Errored * `review` - Review
  * @export
@@ -700,6 +2149,38 @@ export const StateEnum = {
 export type StateEnum = (typeof StateEnum)[keyof typeof StateEnum];
 
 /**
+ * TaxRate model serializer
+ * @export
+ * @interface TaxRate
+ */
+export interface TaxRate {
+  /**
+   *
+   * @type {number}
+   * @memberof TaxRate
+   */
+  id: number;
+  /**
+   *
+   * @type {CountryCodeEnum}
+   * @memberof TaxRate
+   */
+  country_code: CountryCodeEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof TaxRate
+   */
+  tax_rate?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TaxRate
+   */
+  tax_rate_name?: string;
+}
+
+/**
  * Serializer for User model.
  * @export
  * @interface User
@@ -736,35 +2217,6 @@ export interface User {
    */
   last_name?: string;
 }
-/**
- * * `profile` - profile * `geoip` - geoip * `none` - none
- * @export
- * @enum {string}
- */
-
-export const UserTaxableGeolocationTypeEnumDescriptions = {
-  profile: "profile",
-  geoip: "geoip",
-  none: "none",
-} as const;
-
-export const UserTaxableGeolocationTypeEnum = {
-  /**
-   * profile
-   */
-  Profile: "profile",
-  /**
-   * geoip
-   */
-  Geoip: "geoip",
-  /**
-   * none
-   */
-  None: "none",
-} as const;
-
-export type UserTaxableGeolocationTypeEnum =
-  (typeof UserTaxableGeolocationTypeEnum)[keyof typeof UserTaxableGeolocationTypeEnum];
 
 /**
  * MetaApi - axios parameter creator
@@ -2452,14 +3904,22 @@ export const PaymentsApiAxiosParamCreator = function (
   return {
     /**
      * Creates or updates a basket for the current user, adding the discount if valid.
+     * @param {string} discount_code
      * @param {string} system_slug
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     paymentsBasketsAddDiscountCreate: async (
+      discount_code: string,
       system_slug: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
+      // verify required parameter 'discount_code' is not null or undefined
+      assertParamExists(
+        "paymentsBasketsAddDiscountCreate",
+        "discount_code",
+        discount_code,
+      );
       // verify required parameter 'system_slug' is not null or undefined
       assertParamExists(
         "paymentsBasketsAddDiscountCreate",
@@ -2485,6 +3945,10 @@ export const PaymentsApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (discount_code !== undefined) {
+        localVarQueryParameter["discount_code"] = discount_code;
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
@@ -2607,6 +4071,56 @@ export const PaymentsApiAxiosParamCreator = function (
       };
     },
     /**
+     * Returns or creates a basket for the current user and system.
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsForSystemRetrieve: async (
+      system_slug: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'system_slug' is not null or undefined
+      assertParamExists(
+        "paymentsBasketsForSystemRetrieve",
+        "system_slug",
+        system_slug,
+      );
+      const localVarPath =
+        `/api/v0/payments/baskets/for_system/{system_slug}/`.replace(
+          `{${"system_slug"}}`,
+          encodeURIComponent(String(system_slug)),
+        );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Retrives the current user\'s baskets, one per system.
      * @param {number} [integrated_system]
      * @param {number} [limit] Number of results to return per page.
@@ -2687,6 +4201,89 @@ export const PaymentsApiAxiosParamCreator = function (
 
       const localVarRequestOptions = {
         method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Generates and returns the form payload for the current basket for the specified system, which can be used to start the checkout process.
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsCheckoutCreate: async (
+      system_slug: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'system_slug' is not null or undefined
+      assertParamExists("paymentsCheckoutCreate", "system_slug", system_slug);
+      const localVarPath = `/api/v0/payments/checkout/{system_slug}/`.replace(
+        `{${"system_slug"}}`,
+        encodeURIComponent(String(system_slug)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create a discount.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsDiscountsCreate: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/payments/discounts/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
         ...baseOptions,
         ...options,
       };
@@ -2814,11 +4411,13 @@ export const PaymentsApiFp = function (configuration?: Configuration) {
   return {
     /**
      * Creates or updates a basket for the current user, adding the discount if valid.
+     * @param {string} discount_code
      * @param {string} system_slug
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async paymentsBasketsAddDiscountCreate(
+      discount_code: string,
       system_slug: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
@@ -2829,6 +4428,7 @@ export const PaymentsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.paymentsBasketsAddDiscountCreate(
+          discount_code,
           system_slug,
           options,
         );
@@ -2911,6 +4511,39 @@ export const PaymentsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath);
     },
     /**
+     * Returns or creates a basket for the current user and system.
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsBasketsForSystemRetrieve(
+      system_slug: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<BasketWithProduct>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsBasketsForSystemRetrieve(
+          system_slug,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["PaymentsApi.paymentsBasketsForSystemRetrieve"]?.[
+          index
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
      * Retrives the current user\'s baskets, one per system.
      * @param {number} [integrated_system]
      * @param {number} [limit] Number of results to return per page.
@@ -2967,6 +4600,60 @@ export const PaymentsApiFp = function (configuration?: Configuration) {
       const index = configuration?.serverIndex ?? 0;
       const operationBasePath =
         operationServerMap["PaymentsApi.paymentsBasketsRetrieve"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Generates and returns the form payload for the current basket for the specified system, which can be used to start the checkout process.
+     * @param {string} system_slug
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsCheckoutCreate(
+      system_slug: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<CyberSourceCheckout>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsCheckoutCreate(
+          system_slug,
+          options,
+        );
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["PaymentsApi.paymentsCheckoutCreate"]?.[index]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath);
+    },
+    /**
+     * Create a discount.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async paymentsDiscountsCreate(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Discount>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.paymentsDiscountsCreate(options);
+      const index = configuration?.serverIndex ?? 0;
+      const operationBasePath =
+        operationServerMap["PaymentsApi.paymentsDiscountsCreate"]?.[index]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -3065,6 +4752,7 @@ export const PaymentsApiFactory = function (
     ): AxiosPromise<BasketWithProduct> {
       return localVarFp
         .paymentsBasketsAddDiscountCreate(
+          requestParameters.discount_code,
           requestParameters.system_slug,
           options,
         )
@@ -3103,6 +4791,23 @@ export const PaymentsApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
+     * Returns or creates a basket for the current user and system.
+     * @param {PaymentsApiPaymentsBasketsForSystemRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsBasketsForSystemRetrieve(
+      requestParameters: PaymentsApiPaymentsBasketsForSystemRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<BasketWithProduct> {
+      return localVarFp
+        .paymentsBasketsForSystemRetrieve(
+          requestParameters.system_slug,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Retrives the current user\'s baskets, one per system.
      * @param {PaymentsApiPaymentsBasketsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3133,6 +4838,32 @@ export const PaymentsApiFactory = function (
     ): AxiosPromise<BasketWithProduct> {
       return localVarFp
         .paymentsBasketsRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Generates and returns the form payload for the current basket for the specified system, which can be used to start the checkout process.
+     * @param {PaymentsApiPaymentsCheckoutCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsCheckoutCreate(
+      requestParameters: PaymentsApiPaymentsCheckoutCreateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CyberSourceCheckout> {
+      return localVarFp
+        .paymentsCheckoutCreate(requestParameters.system_slug, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create a discount.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    paymentsDiscountsCreate(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Discount> {
+      return localVarFp
+        .paymentsDiscountsCreate(options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -3181,6 +4912,13 @@ export interface PaymentsApiPaymentsBasketsAddDiscountCreateRequest {
    * @type {string}
    * @memberof PaymentsApiPaymentsBasketsAddDiscountCreate
    */
+  readonly discount_code: string;
+
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentsApiPaymentsBasketsAddDiscountCreate
+   */
   readonly system_slug: string;
 }
 
@@ -3215,6 +4953,20 @@ export interface PaymentsApiPaymentsBasketsCreateFromProductCreateRequest {
    *
    * @type {string}
    * @memberof PaymentsApiPaymentsBasketsCreateFromProductCreate
+   */
+  readonly system_slug: string;
+}
+
+/**
+ * Request parameters for paymentsBasketsForSystemRetrieve operation in PaymentsApi.
+ * @export
+ * @interface PaymentsApiPaymentsBasketsForSystemRetrieveRequest
+ */
+export interface PaymentsApiPaymentsBasketsForSystemRetrieveRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentsApiPaymentsBasketsForSystemRetrieve
    */
   readonly system_slug: string;
 }
@@ -3259,6 +5011,20 @@ export interface PaymentsApiPaymentsBasketsRetrieveRequest {
    * @memberof PaymentsApiPaymentsBasketsRetrieve
    */
   readonly id: number;
+}
+
+/**
+ * Request parameters for paymentsCheckoutCreate operation in PaymentsApi.
+ * @export
+ * @interface PaymentsApiPaymentsCheckoutCreateRequest
+ */
+export interface PaymentsApiPaymentsCheckoutCreateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentsApiPaymentsCheckoutCreate
+   */
+  readonly system_slug: string;
 }
 
 /**
@@ -3315,7 +5081,11 @@ export class PaymentsApi extends BaseAPI {
     options?: RawAxiosRequestConfig,
   ) {
     return PaymentsApiFp(this.configuration)
-      .paymentsBasketsAddDiscountCreate(requestParameters.system_slug, options)
+      .paymentsBasketsAddDiscountCreate(
+        requestParameters.discount_code,
+        requestParameters.system_slug,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -3356,6 +5126,22 @@ export class PaymentsApi extends BaseAPI {
   }
 
   /**
+   * Returns or creates a basket for the current user and system.
+   * @param {PaymentsApiPaymentsBasketsForSystemRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsBasketsForSystemRetrieve(
+    requestParameters: PaymentsApiPaymentsBasketsForSystemRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsBasketsForSystemRetrieve(requestParameters.system_slug, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * Retrives the current user\'s baskets, one per system.
    * @param {PaymentsApiPaymentsBasketsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -3389,6 +5175,34 @@ export class PaymentsApi extends BaseAPI {
   ) {
     return PaymentsApiFp(this.configuration)
       .paymentsBasketsRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Generates and returns the form payload for the current basket for the specified system, which can be used to start the checkout process.
+   * @param {PaymentsApiPaymentsCheckoutCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsCheckoutCreate(
+    requestParameters: PaymentsApiPaymentsCheckoutCreateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsCheckoutCreate(requestParameters.system_slug, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create a discount.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentsApi
+   */
+  public paymentsDiscountsCreate(options?: RawAxiosRequestConfig) {
+    return PaymentsApiFp(this.configuration)
+      .paymentsDiscountsCreate(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
