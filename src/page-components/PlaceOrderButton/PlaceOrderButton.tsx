@@ -14,33 +14,30 @@ const PlaceOrderButton: React.FC<PlaceOrderButtonProps> = ({ systemSlug }) => {
   const checkoutMutation = usePaymentsCheckoutStartCheckout();
 
   const handleClick = async () => {
-    await checkoutMutation.mutateAsync({ system_slug: systemSlug });
+    const checkout = await checkoutMutation.mutateAsync({
+      system_slug: systemSlug,
+    });
 
-    if (checkoutMutation.isSuccess) {
-      // Construct the form based on the data we got back, then submit it.
+    // Construct the form based on the data we got back, then submit it.
 
-      const checkout = checkoutMutation.data;
+    console.log("checkout", checkout);
 
-      console.log("checkout", checkout);
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = checkout.url;
 
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = checkout.url;
+    Object.getOwnPropertyNames(checkout.payload).forEach((propName: string) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = propName;
+      input.value = checkout.payload[propName];
 
-      Object.getOwnPropertyNames(checkout.payload).forEach(
-        (propName: string) => {
-          const input = document.createElement("input");
-          input.type = "hidden";
-          input.name = propName;
-          input.value = checkout.payload[propName];
+      form.appendChild(input);
+    });
 
-          form.appendChild(input);
-        },
-      );
-
-      document.body.appendChild(form);
-      form.submit();
-    }
+    document.body.appendChild(form);
+    console.log(form);
+    form.submit();
   };
 
   return <CartPayButton onClick={handleClick}>Place Order</CartPayButton>;

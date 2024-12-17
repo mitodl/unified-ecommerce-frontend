@@ -2,8 +2,7 @@
 import React from "react";
 import { Button, styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
-import { createTheme } from "@mitodl/smoot-design";
-import { InputBase as Input } from "@mui/material";
+import { TextField } from "@mitodl/smoot-design";
 import { Card } from "../../components/Card/Card";
 import StyledCard from "../../components/Card/StyledCard";
 import CartSummaryItem, {
@@ -28,8 +27,6 @@ type CartSummaryDiscountProps = {
   systemSlug: string;
 };
 
-const theme = createTheme();
-
 const CartSummaryContainer = styled.div(() => ({
   width: "488px",
   padding: "0",
@@ -46,7 +43,7 @@ const CartSummaryReceiptContainer = styled.div(() => ({
 }));
 
 const CartSummaryTotalContainer = styled.div`
-  ${{ ...theme.typography.h5 }},
+  ${({ theme }) => ({ ...theme.typography.h5 })};
   margin-bottom: 20px;
   margin-top: 8px;
 `;
@@ -61,13 +58,20 @@ const CartSummaryTermsContainer = styled.div`
 
 const CartSummaryDiscountContainer = styled.div`
   margin-top: 20px;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+`;
+
+const ApplyButton = styled(Button)`
+  margin-top: 20px;
 `;
 
 const CartSummaryDiscount: React.FC<CartSummaryDiscountProps> = ({
   systemSlug,
 }) => {
   const discountMutation = usePaymentsBasketAddDiscount();
-  const [discountCode, setDiscountCode] = React.useState<string>("");
+  const [discountCode, setDiscountCode] = React.useState("");
 
   const hndUpdateCode = (ev: React.ChangeEvent<HTMLInputElement>) => {
     setDiscountCode(ev.target.value);
@@ -82,28 +86,18 @@ const CartSummaryDiscount: React.FC<CartSummaryDiscountProps> = ({
 
   return (
     <CartSummaryDiscountContainer>
-      <label htmlFor="discountcode">Coupon Code</label>
-      <CartSummaryItemContainer>
-        <CartSummaryItemTitle>
-          <Input
-            size="small"
-            name="discountcode"
-            type="text"
-            onChange={hndUpdateCode}
-            error={discountMutation.isError}
-          />
-          {discountMutation.isError && (
-            <Typography variant="caption" color="error">
-              Invalid discount code
-            </Typography>
-          )}
-        </CartSummaryItemTitle>
-        <CartSummaryItemValue>
-          <Button variant="unstable_inverted" onClick={hndApplyDiscount}>
-            Apply
-          </Button>
-        </CartSummaryItemValue>
-      </CartSummaryItemContainer>
+      <TextField
+        size="small"
+        label="Coupon Code"
+        name="discountcode"
+        type="text"
+        onChange={hndUpdateCode}
+        error={discountMutation.isError}
+        helpText={discountMutation.isError ? "Invalid discount code" : ""}
+      />
+      <ApplyButton variant="unstable_inverted" onClick={hndApplyDiscount}>
+        Apply
+      </ApplyButton>
     </CartSummaryDiscountContainer>
   );
 };

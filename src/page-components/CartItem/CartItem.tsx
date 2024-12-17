@@ -1,12 +1,9 @@
 import { BasketItemWithProduct } from "@/services/ecommerce/generated/v0";
 import { styled } from "@mitodl/smoot-design";
 import { Card } from "../../components/Card/Card";
-import { createTheme } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 
 import StyledCard from "../../components/Card/StyledCard";
-
-const theme = createTheme();
 
 type CartItemProps = {
   item: BasketItemWithProduct;
@@ -38,12 +35,12 @@ const CartItemProductMeta = styled.div`
 
 const CartItemProductPrice = styled.div`
   margin-left: auto;
-  ${{ ...theme.typography.h5 }},
+  ${({ theme }) => ({ ...theme.typography.h5 })};
 `;
 
 const CartItemProductSku = styled.div`
-  ${{ ...theme.typography.body1 }},
-  color: ${theme.custom.colors.silverGrayLight},
+  ${({ theme }) => ({ ...theme.typography.body1 })};
+  color: ${({ theme }) => theme.custom.colors.silverGrayLight};
 `;
 
 const CartItemProductDescription = styled.div`

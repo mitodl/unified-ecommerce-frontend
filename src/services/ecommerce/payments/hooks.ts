@@ -12,9 +12,11 @@ import type {
   PaymentsApiPaymentsCheckoutCreateRequest,
 } from "../generated/v0/api";
 
+type ExtraQueryOpts = Omit<UseQueryOptions, "queryKey" | "queryFn">;
+
 const usePaymentsBasketList = (
   options: PaymentsApiPaymentsBasketsListRequest,
-  opts: Omit<UseQueryOptions, "queryKey"> = {},
+  opts: ExtraQueryOpts = {},
 ) =>
   useQuery({
     queryKey: ["paymentsBaskets", options],
@@ -25,10 +27,7 @@ const usePaymentsBasketList = (
     ...opts,
   });
 
-const usePaymentsBasketRetrieve = (
-  id: number,
-  opts: Omit<UseQueryOptions, "queryKey"> = {},
-) => {
+const usePaymentsBasketRetrieve = (id: number, opts: ExtraQueryOpts = {}) => {
   return useQuery({
     queryKey: ["paymentsBaskets", id],
     queryFn: async () => {
