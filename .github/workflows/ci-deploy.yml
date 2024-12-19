@@ -26,10 +26,9 @@ jobs:
         run: yarn build
         env:
           NODE_ENV: production
-          NEXT_PUBLIC_UE_API_BASE_URL: "http://ue.test.local:9080"
-
+          NEXT_PUBLIC_UE_API_BASE_URL: ${{ vars.API_BASE_CI}}
       - name: Write commit SHA to file
-        run: echo $GITHUB_SHA > frontends/main/public/hash.txt
+        run: echo $GITHUB_SHA > out/hash.txt
 
       - name: Upload frontend build to s3
         uses: jakejarvis/s3-sync-action@master
