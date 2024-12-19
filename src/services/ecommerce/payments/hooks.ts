@@ -75,10 +75,20 @@ const usePaymentsCheckoutStartCheckout = () => {
   });
 };
 
+const usePaymentsOrderHistory = () => {
+  return useMutation({
+    mutationFn: (request: paymentsOrdersHistoryList) =>
+      paymentsApi
+        .paymentsCheckoutCreate(request)
+        .then((response) => response.data),
+  });
+};
+
 export {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
   usePaymentsBaksetCreateFromProduct,
   usePaymentsBasketAddDiscount,
   usePaymentsCheckoutStartCheckout,
+  usePaymentsOrderHistory,
 };
