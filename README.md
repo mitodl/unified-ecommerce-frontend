@@ -4,13 +4,15 @@ This is a frontend for the [Unified Ecommerce](https://github.com/mitodl/unified
 
 ## Initial Setup
 
-First, ensure that you have the [Unified Ecommerce Bakend](https://github.com/mitodl/unified-ecommerce) up and running locally.
+First, ensure that you have the [Unified Ecommerce Backend](https://github.com/mitodl/unified-ecommerce) up and running locally.
 
 ### Configure Required Environment Variables
 
-Environment variables are described in detail in `env/env.defaults.public`; all env vars should have functional defaults. However, a few dependencies to note:
+Environment variables are described in detail in `env/env.defaults`; all env vars should have functional defaults. However, a few dependencies to note:
 
 - In the Unified Ecommerce backend, `MITOL_UE_PAYMENT_BASKET_ROOT` and `MITOL_UE_PAYMENT_BASKET_CHOOSER` should point to the this repo's frontend. (e.g., `https://ue.odl.local:8072`)
+
+_It's easiest if the React app and the backend use the same hostname._ Otherwise, you may run into some CORS and CSRF errors.
 
 ### Run the app
 
@@ -26,6 +28,17 @@ You can run the app outside of docker. This may be faster and more convenient. T
 2. A NodeJS runtime; [`nvm`](https://github.com/nvm-sh/nvm) is a simple tool for managing NodeJS versions.
 
 With that done, `yarn start`, `yarn install`, and visit http://ue.odl.local:8072
+
+### Testing the Build
+
+You can test the build using the Docker Compose environment.
+
+Run the app: `docker compose --profile build up`
+
+This will run a container that will produce a build of the app, and then start an nginx container configured to serve it on port 7777. You can then go to http://ue.odl.local:7777 to test. This won't hot-reload, and you'll need to restart both `build` and `nginx` to see changes come through.
+
+> [!IMPORTANT]
+> This _also_ runs the `watch` container. You can use it too if you want - just _wait for `build` to finish doing its thing first_. (Otherwise, they step on each other.)
 
 ## Accessing the Application
 

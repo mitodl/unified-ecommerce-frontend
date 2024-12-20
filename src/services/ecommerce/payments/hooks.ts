@@ -10,7 +10,7 @@ import type {
   PaymentsApiPaymentsBasketsCreateFromProductCreateRequest,
   PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
   PaymentsApiPaymentsCheckoutCreateRequest,
-} from "../generated/v0/api";
+} from "@mitodl/unified-ecommerce-api-axios/v0";
 
 type ExtraQueryOpts = Omit<UseQueryOptions, "queryKey" | "queryFn">;
 

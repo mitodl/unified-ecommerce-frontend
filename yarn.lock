@@ -1223,13 +1223,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/unified-ecommerce-api-axios@npm:^2024.12.19":
-  version: 2024.12.19
-  resolution: "@mitodl/unified-ecommerce-api-axios@npm:2024.12.19"
+"@mitodl/unified-ecommerce-api-axios@npm:^2024.12.20":
+  version: 2024.12.20
+  resolution: "@mitodl/unified-ecommerce-api-axios@npm:2024.12.20"
   dependencies:
     "@types/node": "npm:^20.11.19"
     axios: "npm:^1.6.5"
-  checksum: 10c0/013d5d404d1f7b11ca1ecca6a2a3e6e752660ca574efb31ea5b217decad211d036be3a009b8d1e68f047af92a4d5bb349d1691542c1f67c867da25bfd9fc8482
+  checksum: 10c0/4690438e59a84b5e6673912dbebcf886b966b903d631d44ea6b2449ed8c835bd1a9fddd3a955e776f99abd09c6d3e1d6d14b1eb52fdb6513fda7ae08e28b4380
   languageName: node
   linkType: hard
 
@@ -9644,7 +9644,7 @@ __metadata:
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^9.0.0"
     "@mitodl/smoot-design": "npm:^1.1.1"
-    "@mitodl/unified-ecommerce-api-axios": "npm:^2024.12.19"
+    "@mitodl/unified-ecommerce-api-axios": "npm:^2024.12.20"
     "@mui/material": "npm:^6.1.8"
     "@mui/material-nextjs": "npm:^6.1.8"
     "@remixicon/react": "npm:^4.2.0"
