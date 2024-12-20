@@ -20,7 +20,7 @@ services:
         condition: service_completed_successfully
     image: node:22.11
     entrypoint: ["/bin/sh", "-c"]
-    command: 
+    command:
     - |
       yarn start
     ports:
@@ -33,7 +33,7 @@ services:
         required: false
 
   build:
-    profiles: 
+    profiles:
     - build
     depends_on:
       install:
