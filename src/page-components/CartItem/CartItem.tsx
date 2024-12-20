@@ -1,4 +1,4 @@
-import { BasketItemWithProduct } from "@/services/ecommerce/generated/v0";
+import { BasketItemWithProduct } from "@mitodl/unified-ecommerce-api-axios/v0";
 import { styled } from "@mitodl/smoot-design";
 import { Card } from "../../components/Card/Card";
 import { Typography } from "@mui/material";

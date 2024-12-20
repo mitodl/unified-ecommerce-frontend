@@ -1,11 +1,27 @@
 services:
+  install:
+    working_dir: /src
+    image: node:22.11
+    entrypoint: ["/bin/sh", "-c"]
+    command: yarn install
+    ports:
+      - "8072:8072"
+    volumes:
+      - .:/src
+    env_file:
+      - path: env/env.defaults
+      - path: env/env.local
+        required: false
+
   watch:
     working_dir: /src
+    depends_on:
+      install:
+        condition: service_completed_successfully
     image: node:22.11
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
-        yarn install
         yarn start
     ports:
       - "8072:8072"
@@ -15,3 +31,35 @@ services:
       - path: env/env.defaults
       - path: env/env.local
         required: false
+
+  build:
+    profiles:
+      - build
+    depends_on:
+      install:
+        condition: service_completed_successfully
+    working_dir: /src
+    image: node:22.11
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        yarn build
+    volumes:
+      - .:/src
+    env_file:
+      - path: env/env.defaults
+      - path: env/env.local
+        required: false
+
+  nginx:
+    profiles:
+      - build
+    depends_on:
+      build:
+        condition: service_completed_successfully
+    image: nginx:mainline
+    ports:
+      - "7777:7777"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
+      - ./:/src

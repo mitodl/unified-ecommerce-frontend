@@ -14,7 +14,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import type {
   PaginatedBasketWithProductList,
   BasketWithProduct,
-} from "@/services/ecommerce/generated/v0";
+} from "@mitodl/unified-ecommerce-api-axios/v0";
 
 import {
   usePaymentsBasketList,
@@ -23,7 +23,7 @@ import {
 import {
   BasketItemWithProduct,
   IntegratedSystem,
-} from "@/services/ecommerce/generated/v0";
+} from "@mitodl/unified-ecommerce-api-axios/v0";
 
 type CartProps = {
   system: string;
