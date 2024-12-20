@@ -17,7 +17,7 @@ import {
   usePaymentsBasketAddDiscount,
 } from "@/services/ecommerce/payments/hooks";
 import { UseQueryResult } from "@tanstack/react-query";
-import { BasketWithProduct } from "@/services/ecommerce/generated/v0";
+import { BasketWithProduct } from "@mitodl/unified-ecommerce-api-axios/v0";
 
 type CartSummaryProps = {
   cartId: number;

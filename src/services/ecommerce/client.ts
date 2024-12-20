@@ -1,7 +1,11 @@
 import invariant from "tiny-invariant";
 import axios from "axios";
 
-import { PaymentsApi, UsersApi, MetaApi } from "@mitodl/unified-ecommerce-api-axios/v0";
+import {
+  PaymentsApi,
+  UsersApi,
+  MetaApi,
+} from "@mitodl/unified-ecommerce-api-axios/v0";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_UE_API_BASE_URL;
 invariant(BASE_PATH, "NEXT_PUBLIC_UE_API_BASE_URL is required.");

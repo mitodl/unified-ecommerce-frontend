@@ -4,7 +4,7 @@ import { styled } from "@mitodl/smoot-design";
 import {
   BasketItemWithProduct,
   BasketWithProduct,
-} from "@/services/ecommerce/generated/v0";
+} from "@mitodl/unified-ecommerce-api-axios/v0";
 
 type CartSummaryItemVariant = "tax" | "item";
 type CartSummaryItemTitleVariant = "" | "discount";
