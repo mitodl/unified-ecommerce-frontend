@@ -3,6 +3,8 @@ import React from "react";
 import { Button, styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { UseQueryResult } from "react-query";
+import { PaginatedOrderHistoryList } from "@/services/ecommerce/payments/types";
+import { usePaymentsOrderHistory } from "@/services/ecommerce/payments/hooks";
 
 
 
