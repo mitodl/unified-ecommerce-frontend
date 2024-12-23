@@ -75,14 +75,18 @@ const usePaymentsCheckoutStartCheckout = () => {
   });
 };
 
-const usePaymentsOrderHistory = () => {
-  return useMutation({
-    mutationFn: (request: paymentsOrdersHistoryList) =>
-      paymentsApi
-        .paymentsCheckoutCreate(request)
-        .then((response) => response.data),
+const usePaymentsOrderHistory = (
+  options: PaymentsApiPaymentsOrdersHistoryListRequest,
+  opts: ExtraQueryOpts = {},
+) =>
+  useQuery({
+    queryKey: ["paymentsOrders", options],
+    queryFn: async () => {
+      const response = await paymentsApi.paymentsOrdersHistoryList(options);
+      return response.data;
+    },
+    ...opts,
   });
-};
 
 export {
   usePaymentsBasketList,
