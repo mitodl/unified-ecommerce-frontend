@@ -18,4 +18,22 @@ const getCurrentSystem = (urlParams: URLSearchParams) => {
   return system;
 };
 
-export { getCurrentSystem };
+const getCurrentStatus = (urlParams: URLSearchParams) => {
+  let status: string = "";
+
+  if (urlParams.has("fulfilled")) {
+    status = "fulfilled";
+  }
+
+  if (urlParams.has("pending")) {
+    status = "pending";
+  }
+
+  if (urlParams.has("status")) {
+    status = encodeURIComponent(urlParams.get("status") as string);
+  }
+
+  return status;
+};
+
+export { getCurrentSystem, getCurrentStatus };
