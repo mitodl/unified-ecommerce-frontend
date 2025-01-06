@@ -67,8 +67,9 @@ const OrderHistory: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>(specifiedStatus);
 
   interface OrderHistoryRow {
-    lines: { product: { system: number } }[]; // Adjusted to match the actual type
-    state?: string; // Make state optional
+    lines: { product: { system: number } }[];
+    state?: string;
+    total_price_paid: number;
   }
 
   const data = useMemo(() => {
@@ -84,7 +85,6 @@ const OrderHistory: React.FC = () => {
     return filteredData;
   }, [history.data, selectedSystem, selectedStatus]);
 
-  // Define columns before using them in useTable
   const columns = useMemo(
     () => [
       {
@@ -97,11 +97,11 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Number of Products",
-        accessor: (row: OrderHistoryRow) => row.lines.length,
+        accessor: (row) => row.lines.length,
       },
       {
         Header: "System",
-        accessor: (row: OrderHistoryRow) => {
+        accessor: (row) => {
           const systemId = row.lines[0]?.product.system;
           const system = integratedSystemList.data?.results.find(
             (sys) => sys.id === systemId,
@@ -111,19 +111,17 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Total Price Paid",
-        accessor: (row: OrderHistoryRow) =>
-          Number(row.total_price_paid).toFixed(2),
+        accessor: (row) => Number(row.total_price_paid).toFixed(2),
       },
       {
         Header: "Created On",
-        accessor: (row: OrderHistoryRow) =>
-          new Date(row.created_on).toLocaleString(),
+        accessor: (row) => new Date(row.created_on).toLocaleString(),
       },
     ],
     [integratedSystemList.data],
   );
 
-  // Initialize sorting from URL query parameters after data is loaded
+
   const {
     getTableProps,
     getTableBodyProps,
