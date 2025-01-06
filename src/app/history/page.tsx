@@ -66,9 +66,14 @@ const OrderHistory: React.FC = () => {
   const [selectedSystem, setSelectedSystem] = useState<string>(specifiedSystem);
   const [selectedStatus, setSelectedStatus] = useState<string>(specifiedStatus);
 
+  interface OrderHistoryRow {
+    lines: { product: { system: string } }[];
+    state: string;
+  }
+
   const data = useMemo(() => {
     if (!history.data) return [];
-    const filteredData = history.data.results.filter((row) => {
+    const filteredData = history.data.results.filter((row: OrderHistoryRow) => {
       const system = String(row.lines[0]?.product.system);
       const status = row.state;
       return (
