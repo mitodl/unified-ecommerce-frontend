@@ -121,7 +121,6 @@ const OrderHistory: React.FC = () => {
     [integratedSystemList.data],
   );
 
-
   const {
     getTableProps,
     getTableBodyProps,
