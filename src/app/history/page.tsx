@@ -99,30 +99,19 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Number of Products",
-        accessor: (row: OrderHistoryRow) => row.lines.length,
-      },
-      {
-        Header: "System",
-        accessor: (row: OrderHistoryRow) => {
-          const systemId = row.lines[0]?.product.system;
-          const system = integratedSystemList.data?.results.find(
-            (sys) => sys.id === systemId,
-          );
-          return system ? system.name : "N/A";
-        },
       },
       {
         Header: "Total Price Paid",
-        accessor: (row: OrderHistoryRow) =>
-          Number(row.total_price_paid).toFixed(2),
+        accessor: "total_price_paid",
+        Cell: ({ value }) => `$${value.toFixed(2)}`, // Ensure value is a number
       },
       {
         Header: "Created On",
-        accessor: (row: OrderHistoryRow) =>
-          new Date(row.created_on).toLocaleString(),
+        accessor: "created_on",
+        Cell: ({ value }) => new Date(value).toLocaleDateString(), // Ensure value is a string
       },
     ],
-    [integratedSystemList.data?.results],
+    [],
   );
 
   const {
