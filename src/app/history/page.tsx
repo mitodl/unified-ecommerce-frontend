@@ -11,6 +11,13 @@ import { PaginatedOrderHistoryList } from "@/services/ecommerce/generated/v0";
 import { usePaymentsOrderHistory } from "@/services/ecommerce/payments/hooks";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 
+// Extend the TableState type to include sortBy
+declare module "react-table" {
+  export interface TableState<D extends object = object> {
+    sortBy: Array<{ id: keyof D; desc: boolean }>;
+  }
+}
+
 const OrderHistoryContainer = styled.div(() => ({
   width: "100%",
   padding: "32px",
@@ -114,20 +121,13 @@ const OrderHistory: React.FC = () => {
     [],
   );
 
-  declare module "react-table" {
-    export interface TableState<D extends object = object> {
-      sortBy: Array<{ id: keyof D; desc: boolean }>;
-    }
-  }
-
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-    state: { sortBy },
-    setSortBy,
+    state: { sortBy }, // Ensure sortBy is part of the state
   } = useTable<OrderHistoryRow>(
     {
       columns,
