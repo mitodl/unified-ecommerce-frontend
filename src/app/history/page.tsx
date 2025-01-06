@@ -111,11 +111,13 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Total Price Paid",
-        accessor: (row: OrderHistoryRow) => Number(row.total_price_paid).toFixed(2),
+        accessor: (row: OrderHistoryRow) =>
+          Number(row.total_price_paid).toFixed(2),
       },
       {
         Header: "Created On",
-        accessor: (row: OrderHistoryRow) => new Date(row.created_on).toLocaleString(),
+        accessor: (row: OrderHistoryRow) =>
+          new Date(row.created_on).toLocaleString(),
       },
     ],
     [integratedSystemList.data],
