@@ -75,17 +75,16 @@ const OrderHistory: React.FC = () => {
     created_on: string;
   };
 
-  const data = useMemo(() => {
+  // Ensure that the state property is always a string
+  const filteredData = useMemo(() => {
     if (!history.data) return [];
-    const filteredData = history.data.results.filter((row: OrderHistoryRow) => {
-      const system = String(row.lines[0]?.product.system);
-      const status = row.state;
-      return (
-        (selectedSystem ? system === selectedSystem : true) &&
-        (selectedStatus ? status === selectedStatus : true)
-      );
+    return history.data.filter((row: OrderHistoryRow) => {
+      const systemMatch = selectedSystem
+        ? row.lines.some((line) => line.product.system === selectedSystem)
+        : true;
+      const statusMatch = selectedStatus ? row.state === selectedStatus : true;
+      return systemMatch && statusMatch;
     });
-    return filteredData;
   }, [history.data, selectedSystem, selectedStatus]);
 
   const columns: Column<OrderHistoryRow>[] = useMemo(
@@ -137,7 +136,7 @@ const OrderHistory: React.FC = () => {
   } = useTable<OrderHistoryRow>(
     {
       columns,
-      data,
+      data: filteredData,
     },
     useSortBy,
   );
