@@ -77,7 +77,7 @@ const OrderHistory: React.FC = () => {
 
   // Ensure that the state property is always a string
   const filteredData = useMemo(() => {
-    if (!history.data) return [];
+    if (!history.data || !Array.isArray(history.data)) return [];
     return history.data.filter((row: OrderHistoryRow) => {
       const systemMatch = selectedSystem
         ? row.lines.some((line) => line.product.system === selectedSystem)
