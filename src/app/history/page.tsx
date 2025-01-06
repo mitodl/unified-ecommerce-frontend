@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useTable, useSortBy } from "react-table";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
@@ -59,10 +59,11 @@ const OrderHistory: React.FC = () => {
   const searchParams = useSearchParams();
   const specifiedSystem = getCurrentSystem(searchParams);
   const specifiedStatus = getCurrentStatus(searchParams);
-  const [selectedSystem, setSelectedSystem] = useState<string>(specifiedSystem);
-  const [selectedStatus, setSelectedStatus] = useState<string>(specifiedStatus);
   const router = useRouter();
   const pathName = usePathname();
+
+  const [selectedSystem, setSelectedSystem] = useState<string>(specifiedSystem);
+  const [selectedStatus, setSelectedStatus] = useState<string>(specifiedStatus);
 
   const data = useMemo(() => {
     if (!history.data) return [];
@@ -75,6 +76,7 @@ const OrderHistory: React.FC = () => {
     return filteredData;
   }, [history.data, selectedSystem, selectedStatus]);
 
+  // Define columns before using them in useTable
   const columns = useMemo(
     () => [
       {
@@ -111,28 +113,54 @@ const OrderHistory: React.FC = () => {
     [integratedSystemList.data]
   );
 
+  // Initialize sorting from URL query parameters after data is loaded
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
+    state: { sortBy },
+    setSortBy,
   } = useTable({ columns, data }, useSortBy);
+
+  // On component mount, check if sorting params exist in the URL
+  useEffect(() => {
+    if (history.data) {
+      const sort = searchParams.get("sort");
+      const direction = searchParams.get("direction");
+      if (sort && direction) {
+        // Set the initial sorting parameters from the URL
+        setSortBy([{ id: sort, desc: direction === "desc" }]);
+      }
+    }
+  }, [history.data, searchParams, setSortBy]);
+
+  // Sync sorting state with URL after data is loaded
+  useEffect(() => {
+    if (sortBy.length > 0) {
+      const { id, desc } = sortBy[0];
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.set("sort", id);
+      newParams.set("direction", desc ? "desc" : "asc");
+      router.push(`${pathName}?${newParams.toString()}`);
+    }
+  }, [sortBy, searchParams, router, pathName]);
 
   const handleSystemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSystem = event.target.value.toString();
     const newParams = new URLSearchParams(searchParams.toString());
     setSelectedSystem(newSystem);
-    newParams.append("system", newSystem);
-    router.push(`${pathName  }/?${  newParams.toString()}`);
+    newParams.set("system", newSystem);
+    router.push(`${pathName}?${newParams.toString()}`);
   };
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newStatus = event.target.value.toString();
     const newParams = new URLSearchParams(searchParams.toString());
     setSelectedStatus(newStatus);
-    newParams.append("status", newStatus);
-    router.push(`${pathName  }/?${  newParams.toString()}`);
+    newParams.set("status", newStatus);
+    router.push(`${pathName}?${newParams.toString()}`);
   };
 
   const uniqueSystems = useMemo(() => {
