@@ -54,7 +54,8 @@ const FilterTd = styled.td`
 `;
 
 const OrderHistory: React.FC = () => {
-  const history = usePaymentsOrderHistory() as UseQueryResult<PaginatedOrderHistoryList>;
+  const history =
+    usePaymentsOrderHistory() as UseQueryResult<PaginatedOrderHistoryList>;
   const integratedSystemList = useMetaIntegratedSystemsList();
   const searchParams = useSearchParams();
   const specifiedSystem = getCurrentSystem(searchParams);
@@ -67,11 +68,13 @@ const OrderHistory: React.FC = () => {
 
   const data = useMemo(() => {
     if (!history.data) return [];
-    const filteredData = history.data.results.filter(row => {
+    const filteredData = history.data.results.filter((row) => {
       const system = String(row.lines[0]?.product.system);
       const status = row.state;
-      return (selectedSystem ? system === selectedSystem : true) &&
-             (selectedStatus ? status === selectedStatus : true);
+      return (
+        (selectedSystem ? system === selectedSystem : true) &&
+        (selectedStatus ? status === selectedStatus : true)
+      );
     });
     return filteredData;
   }, [history.data, selectedSystem, selectedStatus]);
@@ -96,7 +99,7 @@ const OrderHistory: React.FC = () => {
         accessor: (row) => {
           const systemId = row.lines[0]?.product.system;
           const system = integratedSystemList.data?.results.find(
-            (sys) => sys.id === systemId
+            (sys) => sys.id === systemId,
           );
           return system ? system.name : "N/A";
         },
@@ -110,7 +113,7 @@ const OrderHistory: React.FC = () => {
         accessor: (row) => new Date(row.created_on).toLocaleString(),
       },
     ],
-    [integratedSystemList.data]
+    [integratedSystemList.data],
   );
 
   // Initialize sorting from URL query parameters after data is loaded
@@ -164,12 +167,16 @@ const OrderHistory: React.FC = () => {
   };
 
   const uniqueSystems = useMemo(() => {
-    const systems = history.data?.results.map(row => row.lines[0]?.product.system).filter(Boolean);
+    const systems = history.data?.results
+      .map((row) => row.lines[0]?.product.system)
+      .filter(Boolean);
     return Array.from(new Set(systems));
   }, [history.data]);
 
   const uniqueStatuses = useMemo(() => {
-    const statuses = history.data?.results.map(row => row.state).filter(Boolean);
+    const statuses = history.data?.results
+      .map((row) => row.state)
+      .filter(Boolean);
     return Array.from(new Set(statuses));
   }, [history.data]);
 
@@ -183,7 +190,10 @@ const OrderHistory: React.FC = () => {
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                   {headerGroup.headers.map((column) => (
-                    <StyledTh {...column.getHeaderProps(column.getSortByToggleProps())} key={column.id}>
+                    <StyledTh
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      key={column.id}
+                    >
                       {column.render("Header")}
                       <span>
                         {column.isSorted
@@ -199,9 +209,13 @@ const OrderHistory: React.FC = () => {
               <FilterContainer>
                 <FilterTd>
                   <label htmlFor="status-filter">Status:</label>
-                  <select id="status-filter" value={selectedStatus} onChange={handleStatusChange}>
+                  <select
+                    id="status-filter"
+                    value={selectedStatus}
+                    onChange={handleStatusChange}
+                  >
                     <option value="">All Statuses</option>
-                    {uniqueStatuses.map(status => (
+                    {uniqueStatuses.map((status) => (
                       <option key={status} value={status}>
                         {status}
                       </option>
@@ -211,11 +225,19 @@ const OrderHistory: React.FC = () => {
                 <FilterTd colSpan={2}></FilterTd>
                 <FilterTd>
                   <label htmlFor="system-filter">System:</label>
-                  <select id="system-filter" value={selectedSystem} onChange={handleSystemChange}>
+                  <select
+                    id="system-filter"
+                    value={selectedSystem}
+                    onChange={handleSystemChange}
+                  >
                     <option value="">All Systems</option>
-                    {uniqueSystems.map(system => (
+                    {uniqueSystems.map((system) => (
                       <option key={system} value={String(system)}>
-                        {integratedSystemList.data?.results.find((sys) => sys.id === system)?.name}
+                        {
+                          integratedSystemList.data?.results.find(
+                            (sys) => sys.id === system,
+                          )?.name
+                        }
                       </option>
                     ))}
                   </select>
