@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
-import { useTable, useSortBy } from "react-table";
+import { useTable, useSortBy, TableState, Column } from "react-table";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { UseQueryResult } from "@tanstack/react-query";
@@ -66,12 +66,14 @@ const OrderHistory: React.FC = () => {
   const [selectedSystem, setSelectedSystem] = useState<string>(specifiedSystem);
   const [selectedStatus, setSelectedStatus] = useState<string>(specifiedStatus);
 
-  interface OrderHistoryRow {
-    lines: { product: { system: number } }[];
-    state?: string;
-    total_price_paid: string;
+  // Define the OrderHistoryRow type
+  type OrderHistoryRow = {
+    state: string;
+    reference_number: string;
+    lines: { product: { system: string } }[];
+    total_price_paid: number;
     created_on: string;
-  }
+  };
 
   const data = useMemo(() => {
     if (!history.data) return [];
@@ -86,7 +88,7 @@ const OrderHistory: React.FC = () => {
     return filteredData;
   }, [history.data, selectedSystem, selectedStatus]);
 
-  const columns = useMemo(
+  const columns: Column<OrderHistoryRow>[] = useMemo(
     () => [
       {
         Header: "Status",
@@ -121,7 +123,7 @@ const OrderHistory: React.FC = () => {
           new Date(row.created_on).toLocaleString(),
       },
     ],
-    [integratedSystemList.data],
+    [integratedSystemList.data?.results],
   );
 
   const {
@@ -132,7 +134,13 @@ const OrderHistory: React.FC = () => {
     prepareRow,
     state: { sortBy },
     setSortBy,
-  } = useTable({ columns, data }, useSortBy);
+  } = useTable<OrderHistoryRow>(
+    {
+      columns,
+      data,
+    },
+    useSortBy,
+  );
 
   // On component mount, check if sorting params exist in the URL
   useEffect(() => {
