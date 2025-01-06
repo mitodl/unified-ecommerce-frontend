@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
-import { useTable, useSortBy, TableState, Column } from "react-table";
+import { useTable, useSortBy, Column } from "react-table";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { UseQueryResult } from "@tanstack/react-query";
