@@ -222,7 +222,10 @@ const OrderHistory: React.FC = () => {
                     ))}
                   </select>
                 </FilterTd>
-                <FilterTd colSpan={2} aria-label="Empty Filter Column"></FilterTd>
+                <FilterTd
+                  colSpan={2}
+                  aria-label="Empty Filter Column"
+                ></FilterTd>
                 <FilterTd>
                   <label htmlFor="system-filter">System:</label>
                   <select
@@ -242,7 +245,10 @@ const OrderHistory: React.FC = () => {
                     ))}
                   </select>
                 </FilterTd>
-                <FilterTd colSpan={2} aria-label="Empty Filter Column"></FilterTd>
+                <FilterTd
+                  colSpan={2}
+                  aria-label="Empty Filter Column"
+                ></FilterTd>
               </FilterContainer>
             </thead>
             <tbody {...getTableBodyProps()}>
