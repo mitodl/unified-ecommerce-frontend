@@ -146,7 +146,7 @@ const OrderHistory: React.FC = () => {
         setSortBy([{ id: sort, desc: direction === "desc" }]);
       }
     }
-  }, [history.data, searchParams, setSortBy]);
+  }, [history.data, searchParams]);
 
   // Sync sorting state with URL after data is loaded
   useEffect(() => {
