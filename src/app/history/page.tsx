@@ -68,7 +68,7 @@ const OrderHistory: React.FC = () => {
 
   interface OrderHistoryRow {
     lines: { product: { system: number } }[]; // Adjusted to match the actual type
-    state: string | undefined; // Allow state to be string or undefined
+    state?: string; // Make state optional
   }
 
   const data = useMemo(() => {
