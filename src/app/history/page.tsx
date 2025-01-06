@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getCurrentSystem, getCurrentStatus } from "@/utils/system";
-import { PaginatedOrderHistoryList } from "@/services/ecommerce/payments/types";
+import { PaginatedOrderHistoryList } from "@/services/ecommerce/generate/v0";
 import { usePaymentsOrderHistory } from "@/services/ecommerce/payments/hooks";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 
