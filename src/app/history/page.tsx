@@ -97,11 +97,11 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Number of Products",
-        accessor: (row) => row.lines.length,
+        accessor: (row: OrderHistoryRow) => row.lines.length,
       },
       {
         Header: "System",
-        accessor: (row) => {
+        accessor: (row: OrderHistoryRow) => {
           const systemId = row.lines[0]?.product.system;
           const system = integratedSystemList.data?.results.find(
             (sys) => sys.id === systemId,
@@ -111,11 +111,11 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Total Price Paid",
-        accessor: (row) => Number(row.total_price_paid).toFixed(2),
+        accessor: (row: OrderHistoryRow) => Number(row.total_price_paid).toFixed(2),
       },
       {
         Header: "Created On",
-        accessor: (row) => new Date(row.created_on).toLocaleString(),
+        accessor: (row: OrderHistoryRow) => new Date(row.created_on).toLocaleString(),
       },
     ],
     [integratedSystemList.data],
