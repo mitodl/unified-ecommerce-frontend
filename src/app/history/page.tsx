@@ -11,13 +11,6 @@ import { PaginatedOrderHistoryList } from "@/services/ecommerce/generated/v0";
 import { usePaymentsOrderHistory } from "@/services/ecommerce/payments/hooks";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 
-// Extend the TableState type to include sortBy
-declare module "react-table" {
-  export interface TableState<D extends object = object> {
-    sortBy: Array<{ id: keyof D; desc: boolean }>;
-  }
-}
-
 const OrderHistoryContainer = styled.div(() => ({
   width: "100%",
   padding: "32px",
@@ -80,6 +73,11 @@ const OrderHistory: React.FC = () => {
     lines: { product: { system: string } }[];
     total_price_paid: number;
     created_on: string;
+  };
+
+  type sortBy = {
+    id: string;
+    desc: string;
   };
 
   // Ensure that the state property is always a string
