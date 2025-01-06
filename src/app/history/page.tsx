@@ -114,6 +114,12 @@ const OrderHistory: React.FC = () => {
     [],
   );
 
+  declare module "react-table" {
+    export interface TableState<D extends object = object> {
+      sortBy: Array<{ id: keyof D; desc: boolean }>;
+    }
+  }
+
   const {
     getTableProps,
     getTableBodyProps,
