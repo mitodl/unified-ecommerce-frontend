@@ -69,7 +69,7 @@ const OrderHistory: React.FC = () => {
   interface OrderHistoryRow {
     lines: { product: { system: number } }[];
     state?: string;
-    total_price_paid: number;
+    total_price_paid: string;
   }
 
   const data = useMemo(() => {
