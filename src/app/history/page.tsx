@@ -4,7 +4,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import { useTable, useSortBy } from "react-table";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
-import { UseQueryResult } from "react-query";
+import { UseQueryResult } from "@tanstack/react-query";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getCurrentSystem, getCurrentStatus } from "@/utils/system";
 import { PaginatedOrderHistoryList } from "@/services/ecommerce/payments/types";
