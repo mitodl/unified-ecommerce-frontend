@@ -75,10 +75,7 @@ const usePaymentsCheckoutStartCheckout = () => {
   });
 };
 
-const usePaymentsOrderHistory = (
-  options: PaymentsApiPaymentsOrdersHistoryListRequest,
-  opts: ExtraQueryOpts = {},
-) =>
+const usePaymentsOrderHistory = () =>
   useQuery({
     queryKey: ["paymentsOrders", options],
     queryFn: async () => {
