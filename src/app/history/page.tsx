@@ -67,14 +67,14 @@ const OrderHistory: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>(specifiedStatus);
 
   interface OrderHistoryRow {
-    lines: { product: { system: string } }[];
+    lines: { product: { system: number } }[]; // Adjusted to match the actual type
     state: string;
   }
 
   const data = useMemo(() => {
     if (!history.data) return [];
     const filteredData = history.data.results.filter((row: OrderHistoryRow) => {
-      const system = String(row.lines[0]?.product.system);
+      const system = String(row.lines[0]?.product.system); // Convert number to string
       const status = row.state;
       return (
         (selectedSystem ? system === selectedSystem : true) &&
