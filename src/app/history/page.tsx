@@ -92,11 +92,11 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Number of Products",
-        accessor: (row: OrderHistoryRow) => row.lines.length,
+        accessor: (row) => row.lines.length,
       },
       {
         Header: "System",
-        accessor: (row: OrderHistoryRow) => {
+        accessor: (row) => {
           const systemId = row.lines[0]?.product.system;
           const system = integratedSystemList.data?.results.find(
             (sys) => sys.id === systemId,
@@ -106,11 +106,11 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Total Price Paid",
-        accessor: (row: OrderHistoryRow) => Number(row.total_price_paid).toFixed(2),
+        accessor: (row) => Number(row.total_price_paid).toFixed(2),
       },
       {
         Header: "Created On",
-        accessor: (row: OrderHistoryRow) => new Date(row.created_on).toLocaleString(),
+        accessor: (row) => new Date(row.created_on).toLocaleString(),
       },
     ],
     [integratedSystemList.data],
@@ -222,10 +222,10 @@ const OrderHistory: React.FC = () => {
                     ))}
                   </select>
                 </FilterTd>
-                <FilterTd colSpan={2}>
-                  <label htmlFor="dummy-filter" style={{ display: "none" }}>Dummy Filter</label>
-                  <input type="text" id="dummy-filter" style={{ display: "none" }} />
-                </FilterTd>
+                <FilterTd
+                  colSpan={2}
+                  aria-label="Empty Filter Column"
+                ></FilterTd>
                 <FilterTd>
                   <label htmlFor="system-filter">System:</label>
                   <select
@@ -245,10 +245,10 @@ const OrderHistory: React.FC = () => {
                     ))}
                   </select>
                 </FilterTd>
-                <FilterTd colSpan={2}>
-                  <label htmlFor="dummy-filter" style={{ display: "none" }}>Dummy Filter</label>
-                  <input type="text" id="dummy-filter" style={{ display: "none" }} />
-                </FilterTd>
+                <FilterTd
+                  colSpan={2}
+                  aria-label="Empty Filter Column"
+                ></FilterTd>
               </FilterContainer>
             </thead>
             <tbody {...getTableBodyProps()}>
