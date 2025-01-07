@@ -1,7 +1,14 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
-import { useTable, useSortBy } from "react-table";
+import React, { useMemo, useEffect, useState } from "react";
+import {
+  useReactTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  flexRender,
+} from "@tanstack/react-table";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { UseQueryResult } from "@tanstack/react-query";
@@ -16,7 +23,6 @@ const OrderHistoryContainer = styled.div(() => ({
   padding: "32px",
   backgroundColor: "#f9f9f9",
   borderRadius: "8px",
-  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
 }));
 
 const TableContainer = styled.div`
@@ -28,8 +34,6 @@ const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   background-color: #fff;
-  border-radius: 8px;
-  overflow: hidden;
 `;
 
 const StyledTh = styled.th`
@@ -38,6 +42,7 @@ const StyledTh = styled.th`
   text-align: left;
   font-weight: bold;
   border-bottom: 1px solid #ddd;
+  cursor: pointer;
 `;
 
 const StyledTd = styled.td`
@@ -45,230 +50,201 @@ const StyledTd = styled.td`
   border-bottom: 1px solid #ddd;
 `;
 
-const FilterContainer = styled.tr`
-  background-color: #f1f1f1;
-`;
-
 const FilterTd = styled.td`
   padding: 8px 16px;
+  background-color: #f9f9f9;
 `;
 
+const DebouncedInput = ({
+  value: initialValue,
+  onChange,
+  debounce = 500,
+  ...props
+}) => {
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      onChange(value);
+    }, debounce);
+    return () => clearTimeout(timeout);
+  }, [value]);
+
+  return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
+};
+
+const Filter = ({ column }) => {
+  const columnFilterValue = column.getFilterValue();
+  return (
+    <DebouncedInput
+      type="text"
+      value={columnFilterValue ?? ""}
+      onChange={(value) => column.setFilterValue(value)}
+      placeholder={`Search...`}
+      className="w-36 border shadow rounded"
+    />
+  );
+};
+
 const OrderHistory: React.FC = () => {
-  const history =
-    usePaymentsOrderHistory() as UseQueryResult<PaginatedOrderHistoryList>;
+  const history = usePaymentsOrderHistory() as UseQueryResult<PaginatedOrderHistoryList>;
   const integratedSystemList = useMetaIntegratedSystemsList();
   const searchParams = useSearchParams();
-  const specifiedSystem = getCurrentSystem(searchParams);
-  const specifiedStatus = getCurrentStatus(searchParams);
   const router = useRouter();
   const pathName = usePathname();
 
-  const [selectedSystem, setSelectedSystem] = useState<string>(specifiedSystem);
-  const [selectedStatus, setSelectedStatus] = useState<string>(specifiedStatus);
-
   const data = useMemo(() => {
     if (!history.data) return [];
-    const filteredData = history.data.results.filter((row) => {
+    const specifiedSystem = getCurrentSystem(searchParams);
+    const specifiedStatus = getCurrentStatus(searchParams);
+    return history.data.results.filter((row) => {
       const system = String(row.lines[0]?.product.system);
       const status = row.state;
       return (
-        (selectedSystem ? system === selectedSystem : true) &&
-        (selectedStatus ? status === selectedStatus : true)
+        (specifiedSystem ? system === specifiedSystem : true) &&
+        (specifiedStatus ? status === specifiedStatus : true)
       );
     });
-    return filteredData;
-  }, [history.data, selectedSystem, selectedStatus]);
+  }, [history.data, searchParams]);
 
-  // Define columns before using them in useTable
   const columns = useMemo(
     () => [
       {
-        Header: "Status",
-        accessor: "state",
+        header: "Status",
+        accessorKey: "state",
+        enableSorting: true,
+        enableFiltering: true,
+        cell: (info) => info.getValue(),
       },
       {
-        Header: "Reference Number",
-        accessor: "reference_number",
+        header: "Reference Number",
+        accessorKey: "reference_number",
+        enableSorting: true,
+        enableFiltering: true,
       },
       {
-        Header: "Number of Products",
-        accessor: (row: OrderHistory) => row.lines.length,
+        header: "Number of Products",
+        accessorFn: (row: OrderHistory) => row.lines.length,
       },
       {
-        Header: "System",
-        accessor: (row: OrderHistory) => {
+        header: "System",
+        accessorFn: (row: OrderHistory) => {
           const systemId = row.lines[0]?.product.system;
           const system = integratedSystemList.data?.results.find(
-            (sys) => sys.id === systemId,
+            (sys) => sys.id === systemId
           );
           return system ? system.name : "N/A";
         },
+        enableFiltering: true,
       },
       {
-        Header: "Total Price Paid",
-        accessor: (row: OrderHistory) => Number(row.total_price_paid).toFixed(2),
+        header: "Total Price Paid",
+        accessorFn: (row: OrderHistory) => Number(row.total_price_paid).toFixed(2),
       },
       {
-        Header: "Created On",
-        accessor: (row: OrderHistory) => new Date(row.created_on).toLocaleString(),
+        header: "Created On",
+        accessorFn: (row: OrderHistory) => new Date(row.created_on).toLocaleString(),
+        enableSorting: true,
       },
     ],
-    [integratedSystemList.data],
+    [integratedSystemList.data]
   );
 
-  // Initialize sorting from URL query parameters after data is loaded
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    state: { sortBy },
-    setSortBy,
-  } = useTable({ columns, data }, useSortBy);
-
-  // On component mount, check if sorting params exist in the URL
-  useEffect(() => {
-    if (history.data) {
-      const sort = searchParams.get("sort");
-      const direction = searchParams.get("direction");
-      if (sort && direction) {
-        // Set the initial sorting parameters from the URL
-        setSortBy([{ id: sort, desc: direction === "desc" }]);
+  const initialSorting = useMemo(() => {
+    const sorting = [];
+    searchParams.forEach((value, key) => {
+      if (key.startsWith("sort_")) {
+        sorting.push({
+          id: key.replace("sort_", ""),
+          desc: value === "desc",
+        });
       }
-    }
-  }, [history.data, searchParams, setSortBy]);
+    });
+    return sorting;
+  }, [searchParams]);
 
-  // Sync sorting state with URL after data is loaded
+  const initialFilters = useMemo(() => {
+    const filters = [];
+    searchParams.forEach((value, key) => {
+      if (key.startsWith("filter_")) {
+        filters.push({
+          id: key.replace("filter_", ""),
+          value,
+        });
+      }
+    });
+    return filters;
+  }, [searchParams]);
+
+  const table = useReactTable({
+    data,
+    columns,
+    initialState: {
+      sorting: initialSorting,
+      columnFilters: initialFilters,
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  });
+
   useEffect(() => {
-    if (sortBy.length > 0) {
-      const { id, desc } = sortBy[0];
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("sort", id);
-      newParams.set("direction", desc ? "desc" : "asc");
-      router.push(`${pathName}?${newParams.toString()}`);
-    }
-  }, [sortBy, searchParams, router, pathName]);
+    const params = new URLSearchParams();
 
-  const handleSystemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newSystem = event.target.value.toString();
-    const newParams = new URLSearchParams(searchParams.toString());
-    setSelectedSystem(newSystem);
-    newParams.set("system", newSystem);
-    router.push(`${pathName}?${newParams.toString()}`);
-  };
+    table.getState().sorting.forEach((sort) => {
+      params.append(`sort_${sort.id}`, sort.desc ? "desc" : "asc");
+    });
 
-  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newStatus = event.target.value.toString();
-    const newParams = new URLSearchParams(searchParams.toString());
-    setSelectedStatus(newStatus);
-    newParams.set("status", newStatus);
-    router.push(`${pathName}?${newParams.toString()}`);
-  };
+    table.getState().columnFilters.forEach((filter) => {
+      params.append(`filter_${filter.id}`, filter.value);
+    });
 
-  const uniqueSystems = useMemo(() => {
-    const systems = history.data?.results
-      .map((row) => row.lines[0]?.product.system)
-      .filter(Boolean);
-    return Array.from(new Set(systems));
-  }, [history.data]);
-
-  const uniqueStatuses = useMemo(() => {
-    const statuses = history.data?.results
-      .map((row) => row.state)
-      .filter(Boolean);
-    return Array.from(new Set(statuses));
-  }, [history.data]);
+    router.push(`${pathName}?${params.toString()}`, undefined, { shallow: true });
+  }, [table.getState().sorting, table.getState().columnFilters]);
 
   return (
-    history.data && (
-      <OrderHistoryContainer>
-        <Typography variant="h4">Order History</Typography>
-        <TableContainer>
-          <StyledTable {...getTableProps()}>
-            <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
-                  {headerGroup.headers.map((column) => (
-                    <StyledTh
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      key={column.id}
-                    >
-                      {column.render("Header")}
-                      <span>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? " 🔽"
-                            : " 🔼"
-                          : ""}
-                      </span>
-                    </StyledTh>
-                  ))}
-                </tr>
+    <OrderHistoryContainer>
+      <Typography variant="h4">Order History</Typography>
+      <TableContainer>
+        <StyledTable>
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <StyledTh key={header.id} onClick={header.column.getToggleSortingHandler()}>
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                    {header.column.getIsSorted() === "asc" ? " 🔼" : header.column.getIsSorted() === "desc" ? " 🔽" : null}
+                  </StyledTh>
+                ))}
+              </tr>
+            ))}
+            <tr>
+              {table.getHeaderGroups()[0].headers.map((header) => (
+                <FilterTd key={header.id}>
+                  {header.column.getCanFilter() ? <Filter column={header.column} /> : null}
+                </FilterTd>
               ))}
-              <FilterContainer>
-                <FilterTd>
-                  <label htmlFor="status-filter">Status:</label>
-                  <select
-                    id="status-filter"
-                    value={selectedStatus}
-                    onChange={handleStatusChange}
-                  >
-                    <option value="">All Statuses</option>
-                    {uniqueStatuses.map((status) => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                  </select>
-                </FilterTd>
-                <FilterTd
-                  colSpan={2}
-                  aria-label="Empty Filter Column"
-                ></FilterTd>
-                <FilterTd>
-                  <label htmlFor="system-filter">System:</label>
-                  <select
-                    id="system-filter"
-                    value={selectedSystem}
-                    onChange={handleSystemChange}
-                  >
-                    <option value="">All Systems</option>
-                    {uniqueSystems.map((system) => (
-                      <option key={system} value={String(system)}>
-                        {
-                          integratedSystemList.data?.results.find(
-                            (sys) => sys.id === system,
-                          )?.name
-                        }
-                      </option>
-                    ))}
-                  </select>
-                </FilterTd>
-                <FilterTd
-                  colSpan={2}
-                  aria-label="Empty Filter Column"
-                ></FilterTd>
-              </FilterContainer>
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()} key={row.id}>
-                    {row.cells.map((cell) => (
-                      <StyledTd {...cell.getCellProps()} key={cell.column.id}>
-                        {cell.render("Cell")}
-                      </StyledTd>
-                    ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </StyledTable>
-        </TableContainer>
-      </OrderHistoryContainer>
-    )
+            </tr>
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <StyledTd key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </StyledTd>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </StyledTable>
+      </TableContainer>
+    </OrderHistoryContainer>
   );
 };
 
