@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
-import { useTable, useSortBy, Column } from "react-table";
+import { useTable, useSortBy } from "react-table";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { UseQueryResult } from "@tanstack/react-query";
@@ -66,33 +66,21 @@ const OrderHistory: React.FC = () => {
   const [selectedSystem, setSelectedSystem] = useState<string>(specifiedSystem);
   const [selectedStatus, setSelectedStatus] = useState<string>(specifiedStatus);
 
-  // Define the OrderHistoryRow type
-  type OrderHistoryRow = {
-    state: string;
-    reference_number: string;
-    lines: { product: { system: string } }[];
-    total_price_paid: number;
-    created_on: string;
-  };
-
-  type sortBy = {
-    id: string;
-    desc: string;
-  };
-
-  // Ensure that the state property is always a string
-  const filteredData = useMemo(() => {
-    if (!history.data || !Array.isArray(history.data)) return [];
-    return history.data.filter((row: OrderHistoryRow) => {
-      const systemMatch = selectedSystem
-        ? row.lines.some((line) => line.product.system === selectedSystem)
-        : true;
-      const statusMatch = selectedStatus ? row.state === selectedStatus : true;
-      return systemMatch && statusMatch;
+  const data = useMemo(() => {
+    if (!history.data) return [];
+    const filteredData = history.data.results.filter((row) => {
+      const system = String(row.lines[0]?.product.system);
+      const status = row.state;
+      return (
+        (selectedSystem ? system === selectedSystem : true) &&
+        (selectedStatus ? status === selectedStatus : true)
+      );
     });
+    return filteredData;
   }, [history.data, selectedSystem, selectedStatus]);
 
-  const columns: Column<OrderHistoryRow>[] = useMemo(
+  // Define columns before using them in useTable
+  const columns = useMemo(
     () => [
       {
         Header: "Status",
@@ -104,35 +92,40 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Number of Products",
+        accessor: (row: OrderHistoryRow) => row.lines.length,
+      },
+      {
+        Header: "System",
+        accessor: (row: OrderHistoryRow) => {
+          const systemId = row.lines[0]?.product.system;
+          const system = integratedSystemList.data?.results.find(
+            (sys) => sys.id === systemId,
+          );
+          return system ? system.name : "N/A";
+        },
       },
       {
         Header: "Total Price Paid",
-        accessor: "total_price_paid",
-        Cell: ({ value }) => `$${value.toFixed(2)}`, // Ensure value is a number
+        accessor: (row: OrderHistoryRow) => Number(row.total_price_paid).toFixed(2),
       },
       {
         Header: "Created On",
-        accessor: "created_on",
-        Cell: ({ value }) => new Date(value).toLocaleDateString(), // Ensure value is a string
+        accessor: (row: OrderHistoryRow) => new Date(row.created_on).toLocaleString(),
       },
     ],
-    [],
+    [integratedSystemList.data],
   );
 
+  // Initialize sorting from URL query parameters after data is loaded
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-    state: { sortBy }, // Ensure sortBy is part of the state
-  } = useTable<OrderHistoryRow>(
-    {
-      columns,
-      data: filteredData,
-    },
-    useSortBy,
-  );
+    state: { sortBy },
+    setSortBy,
+  } = useTable({ columns, data }, useSortBy);
 
   // On component mount, check if sorting params exist in the URL
   useEffect(() => {
@@ -144,7 +137,7 @@ const OrderHistory: React.FC = () => {
         setSortBy([{ id: sort, desc: direction === "desc" }]);
       }
     }
-  }, [history.data, searchParams]);
+  }, [history.data, searchParams, setSortBy]);
 
   // Sync sorting state with URL after data is loaded
   useEffect(() => {
@@ -229,10 +222,10 @@ const OrderHistory: React.FC = () => {
                     ))}
                   </select>
                 </FilterTd>
-                <FilterTd
-                  colSpan={2}
-                  aria-label="Empty Filter Column"
-                ></FilterTd>
+                <FilterTd colSpan={2}>
+                  <label htmlFor="dummy-filter" style={{ display: "none" }}>Dummy Filter</label>
+                  <input type="text" id="dummy-filter" style={{ display: "none" }} />
+                </FilterTd>
                 <FilterTd>
                   <label htmlFor="system-filter">System:</label>
                   <select
@@ -252,10 +245,10 @@ const OrderHistory: React.FC = () => {
                     ))}
                   </select>
                 </FilterTd>
-                <FilterTd
-                  colSpan={2}
-                  aria-label="Empty Filter Column"
-                ></FilterTd>
+                <FilterTd colSpan={2}>
+                  <label htmlFor="dummy-filter" style={{ display: "none" }}>Dummy Filter</label>
+                  <input type="text" id="dummy-filter" style={{ display: "none" }} />
+                </FilterTd>
               </FilterContainer>
             </thead>
             <tbody {...getTableBodyProps()}>
