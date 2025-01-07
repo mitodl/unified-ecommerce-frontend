@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getCurrentSystem, getCurrentStatus } from "@/utils/system";
-import { PaginatedOrderHistoryList } from "@/services/ecommerce/generated/v0";
+import type { PaginatedOrderHistoryList, OrderHistory } from "@/services/ecommerce/generated/v0";
 import { usePaymentsOrderHistory } from "@/services/ecommerce/payments/hooks";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 
@@ -92,11 +92,11 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Number of Products",
-        accessor: (row) => row.lines.length,
+        accessor: (row: OrderHistory) => row.lines.length,
       },
       {
         Header: "System",
-        accessor: (row) => {
+        accessor: (row: OrderHistory) => {
           const systemId = row.lines[0]?.product.system;
           const system = integratedSystemList.data?.results.find(
             (sys) => sys.id === systemId,
@@ -106,11 +106,11 @@ const OrderHistory: React.FC = () => {
       },
       {
         Header: "Total Price Paid",
-        accessor: (row) => Number(row.total_price_paid).toFixed(2),
+        accessor: (row: OrderHistory) => Number(row.total_price_paid).toFixed(2),
       },
       {
         Header: "Created On",
-        accessor: (row) => new Date(row.created_on).toLocaleString(),
+        accessor: (row: OrderHistory) => new Date(row.created_on).toLocaleString(),
       },
     ],
     [integratedSystemList.data],
