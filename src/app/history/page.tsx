@@ -14,8 +14,7 @@ import {
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { UseQueryResult } from "@tanstack/react-query";
-import { useSearchParams, usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { getCurrentSystem, getCurrentStatus } from "@/utils/system";
 import type {
   PaginatedOrderHistoryList,
@@ -233,14 +232,8 @@ const OrderHistory: React.FC = () => {
       params.append(`filter_${filter.id}`, String(filter.value));
     });
 
-    router.push(
-      {
-        pathname: pathName,
-        query: params.toString(),
-      },
-      undefined,
-      { shallow: true },
-    );
+    const queryString = params.toString();
+    router.push(`${pathName}?${queryString}`);
   }, [pathName, router, table, tableSorting, tableFiltering]);
 
   return (
