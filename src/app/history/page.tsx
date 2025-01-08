@@ -8,11 +8,14 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   flexRender,
+  Column,
+  CellContext,
 } from "@tanstack/react-table";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { UseQueryResult } from "@tanstack/react-query";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
+import { useRouter } from "next/router"
 import { getCurrentSystem, getCurrentStatus } from "@/utils/system";
 import type { PaginatedOrderHistoryList, OrderHistory } from "@/services/ecommerce/generated/v0";
 import { usePaymentsOrderHistory } from "@/services/ecommerce/payments/hooks";
@@ -55,7 +58,14 @@ const FilterTd = styled.td`
   background-color: #f9f9f9;
 `;
 
-const DebouncedInput = ({
+interface DebouncedInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  debounce?: number;
+  [key: string]: unknown;
+}
+
+const DebouncedInput: React.FC<DebouncedInputProps> = ({
   value: initialValue,
   onChange,
   debounce = 500,
@@ -77,14 +87,18 @@ const DebouncedInput = ({
   return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
 };
 
-const Filter = ({ column }) => {
-  const columnFilterValue = column.getFilterValue();
+interface FilterProps<TData> {
+  column: Column<TData, unknown>;
+}
+
+const Filter = <TData,>({ column }: FilterProps<TData>) => {
+  const columnFilterValue = column.getFilterValue() as string | undefined;
   return (
     <DebouncedInput
       type="text"
       value={columnFilterValue ?? ""}
       onChange={(value) => column.setFilterValue(value)}
-      placeholder={`Search...`}
+      placeholder={"Search..."}
       className="w-36 border shadow rounded"
     />
   );
@@ -118,7 +132,7 @@ const OrderHistory: React.FC = () => {
         accessorKey: "state",
         enableSorting: true,
         enableFiltering: true,
-        cell: (info) => info.getValue(),
+        cell: (info: CellContext<OrderHistory, unknown>) => info.getValue(),
       },
       {
         header: "Reference Number",
@@ -155,7 +169,7 @@ const OrderHistory: React.FC = () => {
   );
 
   const initialSorting = useMemo(() => {
-    const sorting = [];
+    const sorting: { id: string; desc: boolean }[] = [];
     searchParams.forEach((value, key) => {
       if (key.startsWith("sort_")) {
         sorting.push({
@@ -168,12 +182,12 @@ const OrderHistory: React.FC = () => {
   }, [searchParams]);
 
   const initialFilters = useMemo(() => {
-    const filters = [];
+    const filters: { id: string; value: string }[] = [];
     searchParams.forEach((value, key) => {
       if (key.startsWith("filter_")) {
         filters.push({
           id: key.replace("filter_", ""),
-          value,
+          value: String(value),
         });
       }
     });
@@ -193,19 +207,25 @@ const OrderHistory: React.FC = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  const tableSorting = table.getState().sorting;
+  const tableFiltering = table.getState().columnFilters;
+
   useEffect(() => {
     const params = new URLSearchParams();
-
-    table.getState().sorting.forEach((sort) => {
+  
+    tableSorting.forEach((sort) => {
       params.append(`sort_${sort.id}`, sort.desc ? "desc" : "asc");
     });
-
-    table.getState().columnFilters.forEach((filter) => {
-      params.append(`filter_${filter.id}`, filter.value);
+  
+    tableFiltering.forEach((filter) => {
+      params.append(`filter_${filter.id}`, String(filter.value));
     });
-
-    router.push(`${pathName}?${params.toString()}`, undefined, { shallow: true });
-  }, [table.getState().sorting, table.getState().columnFilters]);
+  
+    router.push({
+      pathname: pathName,
+      query: params.toString(),
+    }, undefined, { shallow: true });
+  }, [pathName, router, table, tableSorting, tableFiltering]);
 
   return (
     <OrderHistoryContainer>
