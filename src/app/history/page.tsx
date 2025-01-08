@@ -84,7 +84,7 @@ const DebouncedInput: React.FC<DebouncedInputProps> = ({
       onChange(value);
     }, debounce);
     return () => clearTimeout(timeout);
-  }, [value]);
+  }, [debounce, onChange, value]);
 
   return (
     <input
