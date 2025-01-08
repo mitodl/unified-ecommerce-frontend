@@ -75,9 +75,7 @@ const usePaymentsCheckoutStartCheckout = () => {
   });
 };
 
-const usePaymentsOrderHistory = (
-  opts: ExtraQueryOpts = {},
-) =>
+const usePaymentsOrderHistory = (opts: ExtraQueryOpts = {}) =>
   useQuery({
     queryKey: ["paymentsOrders"],
     queryFn: async () => {
