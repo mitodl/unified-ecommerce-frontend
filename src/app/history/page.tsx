@@ -15,9 +15,12 @@ import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useSearchParams, usePathname } from "next/navigation";
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 import { getCurrentSystem, getCurrentStatus } from "@/utils/system";
-import type { PaginatedOrderHistoryList, OrderHistory } from "@/services/ecommerce/generated/v0";
+import type {
+  PaginatedOrderHistoryList,
+  OrderHistory,
+} from "@/services/ecommerce/generated/v0";
 import { usePaymentsOrderHistory } from "@/services/ecommerce/payments/hooks";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 
@@ -84,7 +87,13 @@ const DebouncedInput: React.FC<DebouncedInputProps> = ({
     return () => clearTimeout(timeout);
   }, [value]);
 
-  return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
+  return (
+    <input
+      {...props}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
 };
 
 interface FilterProps<TData> {
@@ -105,7 +114,8 @@ const Filter = <TData,>({ column }: FilterProps<TData>) => {
 };
 
 const OrderHistory: React.FC = () => {
-  const history = usePaymentsOrderHistory() as UseQueryResult<PaginatedOrderHistoryList>;
+  const history =
+    usePaymentsOrderHistory() as UseQueryResult<PaginatedOrderHistoryList>;
   const integratedSystemList = useMetaIntegratedSystemsList();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -149,7 +159,7 @@ const OrderHistory: React.FC = () => {
         accessorFn: (row: OrderHistory) => {
           const systemId = row.lines[0]?.product.system;
           const system = integratedSystemList.data?.results.find(
-            (sys) => sys.id === systemId
+            (sys) => sys.id === systemId,
           );
           return system ? system.name : "N/A";
         },
@@ -157,15 +167,17 @@ const OrderHistory: React.FC = () => {
       },
       {
         header: "Total Price Paid",
-        accessorFn: (row: OrderHistory) => Number(row.total_price_paid).toFixed(2),
+        accessorFn: (row: OrderHistory) =>
+          Number(row.total_price_paid).toFixed(2),
       },
       {
         header: "Created On",
-        accessorFn: (row: OrderHistory) => new Date(row.created_on).toLocaleString(),
+        accessorFn: (row: OrderHistory) =>
+          new Date(row.created_on).toLocaleString(),
         enableSorting: true,
       },
     ],
-    [integratedSystemList.data]
+    [integratedSystemList.data],
   );
 
   const initialSorting = useMemo(() => {
@@ -212,19 +224,23 @@ const OrderHistory: React.FC = () => {
 
   useEffect(() => {
     const params = new URLSearchParams();
-  
+
     tableSorting.forEach((sort) => {
       params.append(`sort_${sort.id}`, sort.desc ? "desc" : "asc");
     });
-  
+
     tableFiltering.forEach((filter) => {
       params.append(`filter_${filter.id}`, String(filter.value));
     });
-  
-    router.push({
-      pathname: pathName,
-      query: params.toString(),
-    }, undefined, { shallow: true });
+
+    router.push(
+      {
+        pathname: pathName,
+        query: params.toString(),
+      },
+      undefined,
+      { shallow: true },
+    );
   }, [pathName, router, table, tableSorting, tableFiltering]);
 
   return (
@@ -236,9 +252,19 @@ const OrderHistory: React.FC = () => {
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <StyledTh key={header.id} onClick={header.column.getToggleSortingHandler()}>
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                    {header.column.getIsSorted() === "asc" ? " 🔼" : header.column.getIsSorted() === "desc" ? " 🔽" : null}
+                  <StyledTh
+                    key={header.id}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
+                    {header.column.getIsSorted() === "asc"
+                      ? " 🔼"
+                      : header.column.getIsSorted() === "desc"
+                        ? " 🔽"
+                        : null}
                   </StyledTh>
                 ))}
               </tr>
@@ -246,7 +272,9 @@ const OrderHistory: React.FC = () => {
             <tr>
               {table.getHeaderGroups()[0].headers.map((header) => (
                 <FilterTd key={header.id}>
-                  {header.column.getCanFilter() ? <Filter column={header.column} /> : null}
+                  {header.column.getCanFilter() ? (
+                    <Filter column={header.column} />
+                  ) : null}
                 </FilterTd>
               ))}
             </tr>
