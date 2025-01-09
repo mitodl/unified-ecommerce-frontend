@@ -68,6 +68,7 @@ module.exports = {
           "Do not specify `fontFamily` manually. Prefer spreading `theme.typography.subtitle1` or similar. If using neue-haas-grotesk-text, this is ThemeProvider's default fontFamily.",
       },
     ],
+    "react-hooks/exhaustive-deps": ["error"],
   },
   overrides: [
     {
