@@ -1,7 +1,7 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
+import { useMetaIntegratedSystemsList, useMetaProductsList } from "@/services/ecommerce/meta/hooks";
 import { styled } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -23,6 +23,7 @@ import {
 import {
   BasketItemWithProduct,
   IntegratedSystem,
+  Product,
 } from "@mitodl/unified-ecommerce-api-axios/v0";
 
 type CartProps = {
@@ -37,32 +38,51 @@ const SelectSystemContainer = styled.div`
   margin: 16px 0;
 `;
 
+const ProductListContainer = styled.div`
+  margin: 16px 0;
+`;
+
 const SelectSystem: React.FC = () => {
   const systems = useMetaIntegratedSystemsList();
+  const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
+  const products = useMetaProductsList(selectedSystem || "");
   const router = useRouter();
 
   const hndSystemChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSystem(ev.target.value);
     router.push(`/?system=${ev.target.value}`);
   };
 
   return (
-    <SelectSystemContainer>
-      {systems.isFetched && systems.data ? (
-        <>
-          <label htmlFor="system">Select a system:</label>
-          <select name="system" id="system" onChange={hndSystemChange}>
-            <option value="">Select a system</option>
-            {systems.data.results.map((system) => (
-              <option key={system.id} value={system.slug || ""}>
-                {system.name}
-              </option>
+    <>
+      <SelectSystemContainer>
+        {systems.isFetched && systems.data ? (
+          <>
+            <label htmlFor="system">Select a system:</label>
+            <select name="system" id="system" onChange={hndSystemChange}>
+              <option value="">Select a system</option>
+              {systems.data.results.map((system: IntegratedSystem) => (
+                <option key={system.id} value={system.slug || ""}>
+                  {system.name}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : (
+          <p>Loading systems...</p>
+        )}
+      </SelectSystemContainer>
+      {selectedSystem && products.isFetched && products.data && (
+        <ProductListContainer>
+          <Typography variant="h6">Products:</Typography>
+          <ul>
+            {products.data.results.map((product: Product) => (
+              <li key={product.id}>{product.name}</li>
             ))}
-          </select>
-        </>
-      ) : (
-        <p>Loading systems...</p>
+          </ul>
+        </ProductListContainer>
       )}
-    </SelectSystemContainer>
+    </>
   );
 };
 
