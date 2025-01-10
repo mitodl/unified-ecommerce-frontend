@@ -75,10 +75,21 @@ const usePaymentsCheckoutStartCheckout = () => {
   });
 };
 
+const usePaymentsOrderHistory = (opts: ExtraQueryOpts = {}) =>
+  useQuery({
+    queryKey: ["paymentsOrders"],
+    queryFn: async () => {
+      const response = await paymentsApi.paymentsOrdersHistoryList();
+      return response.data;
+    },
+    ...opts,
+  });
+
 export {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
   usePaymentsBaksetCreateFromProduct,
   usePaymentsBasketAddDiscount,
   usePaymentsCheckoutStartCheckout,
+  usePaymentsOrderHistory,
 };
