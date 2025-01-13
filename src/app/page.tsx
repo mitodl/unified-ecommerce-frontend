@@ -49,7 +49,6 @@ const ProductListContainer = styled.div`
 
 const SelectSystem: React.FC = () => {
   const systems = useMetaIntegratedSystemsList();
-  const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
   const router = useRouter();
 
   const hndSystemChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
