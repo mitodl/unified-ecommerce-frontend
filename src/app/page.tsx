@@ -1,7 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useMetaIntegratedSystemsList, useMetaProductsList } from "@/services/ecommerce/meta/hooks";
+import {
+  useMetaIntegratedSystemsList,
+  useMetaProductsList,
+} from "@/services/ecommerce/meta/hooks";
 import { styled } from "@mitodl/smoot-design";
 import { Typography, Button } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -19,6 +22,7 @@ import type {
 import {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
+  usePaymentsBasketCreateFromProduct,
 } from "@/services/ecommerce/payments/hooks";
 import {
   BasketItemWithProduct,
@@ -96,41 +100,31 @@ const CartItemsContainer = styled.div`
   flex-grow: 1;
 `;
 
-const CartBody: React.FC<CartBodyProps> = ({ systemId, cartItems }) => {
+const CartBody: React.FC<CartBodyProps & { refreshKey: number }> = ({
+  systemId,
+  refreshKey,
+}) => {
   const basket = usePaymentsBasketList({
     integrated_system: systemId,
   }) as UseQueryResult<PaginatedBasketWithProductList>;
   const basketDetails = usePaymentsBasketRetrieve(
     basket.data?.results[0]?.id || 0,
-    { enabled: !!basket.data?.count },
+    {
+      enabled: !!basket.data?.count,
+      queryKey: ["basketDetails", systemId, refreshKey], // Add refreshKey to query key
+    },
   ) as UseQueryResult<BasketWithProduct>;
-  let cartItemsList = cartItems;
-
-  // Update the basket with items from cartItemsList
-  
-
-  if (
-    basketDetails.isFetched &&
-    basketDetails?.data?.basket_items &&
-    basketDetails.data.basket_items.length > 0
-  ) {
-    cartItemsList = cartItemsList.concat(
-      basketDetails.data.basket_items.map(
-        (item: BasketItemWithProduct) => item,
-      ),
-    );
-  }
 
   return basketDetails.isFetched &&
     basketDetails?.data?.id &&
-    cartItemsList.length > 0 ? (
+    basketDetails.data.basket_items.length > 0 ? (
     <CartBodyContainer>
       <CartItemsContainer>
-        {cartItemsList.map((item: BasketItemWithProduct) => (
+        {basketDetails.data.basket_items.map((item: BasketItemWithProduct) => (
           <CartItem item={item} key={`ue-basket-item-${item.id}`} />
         ))}
       </CartItemsContainer>
-      <CartSummary cartId={basketDetails.data.id} />
+      <CartSummary cartId={basketDetails.data.id} refreshKey={refreshKey} />
     </CartBodyContainer>
   ) : (
     <CartBodyContainer>
@@ -148,32 +142,29 @@ const Cart: React.FC<CartProps> = ({ system }) => {
   const selectedSystem = systems.data?.results.find(
     (integratedSystem: IntegratedSystem) => integratedSystem.slug === system,
   );
-  const products = useMetaProductsList(selectedSystem || "");
-  const [cartItems, setCartItems] = useState<BasketItemWithProduct[]>([]);
-  const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+  const products = useMetaProductsList(system || "");
+  const createBasketFromProduct = usePaymentsBasketCreateFromProduct();
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    null,
+  );
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  const addToCart = () => {
-    if (!selectedProductId) return;
-
-    const selectedProduct = products.data?.results.find(
+  const addToCart = async () => {
+    const selectedProduct = products.data.results.find(
       (product: Product) => product.id === selectedProductId,
     );
 
-    if (
-      selectedProduct &&
-      !cartItems.some((item) => item.product.id === selectedProduct.id)
-    ) {
-      const basketItemWithProduct = {
-        id: selectedProduct.id,
-        product: selectedProduct,
-        quantity: 1,
-        price: selectedProduct.price,
-        total: selectedProduct.price,
-        product_name: selectedProduct.name,
-        product_description: selectedProduct.description,
-        product_image: selectedProduct.image,
-      };
-      setCartItems((prevItems) => [...prevItems, basketItemWithProduct]);
+    try {
+      const response = await createBasketFromProduct.mutateAsync({
+        sku: selectedProduct.sku,
+        system_slug: selectedSystem?.slug,
+      });
+
+      if (response && response.id) {
+        setRefreshKey((prev) => prev + 1); // Increment refreshKey to trigger updates
+      }
+    } catch (error) {
+      console.error("Failed to add product to cart", error);
     }
   };
 
@@ -210,7 +201,9 @@ const Cart: React.FC<CartProps> = ({ system }) => {
             You are about to purchase the following:
           </Typography>
         </CartHeader>
-        {selectedSystem && <CartBody systemId={selectedSystem.id} cartItems={cartItems} />}
+        {selectedSystem && (
+          <CartBody systemId={selectedSystem.id} refreshKey={refreshKey} />
+        )}
       </CartContainer>
     )
   );

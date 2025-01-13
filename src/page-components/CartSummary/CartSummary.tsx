@@ -21,6 +21,7 @@ import { BasketWithProduct } from "@mitodl/unified-ecommerce-api-axios/v0";
 
 type CartSummaryProps = {
   cartId: number;
+  refreshKey: number;
 };
 
 type CartSummaryDiscountProps = {
@@ -102,11 +103,10 @@ const CartSummaryDiscount: React.FC<CartSummaryDiscountProps> = ({
   );
 };
 
-const CartSummary: React.FC<CartSummaryProps> = (props) => {
-  const { cartId } = props;
-  const basket = usePaymentsBasketRetrieve(
-    cartId,
-  ) as UseQueryResult<BasketWithProduct>;
+const CartSummary: React.FC<CartSummaryProps> = ({ cartId, refreshKey }) => {
+  const basket = usePaymentsBasketRetrieve(cartId, {
+    queryKey: ["basket", cartId, refreshKey], // Include refreshKey in the query key
+  }) as UseQueryResult<BasketWithProduct>;
 
   return (
     basket.data && (

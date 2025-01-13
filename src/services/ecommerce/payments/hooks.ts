@@ -38,7 +38,7 @@ const usePaymentsBasketRetrieve = (id: number, opts: ExtraQueryOpts = {}) => {
   });
 };
 
-const usePaymentsBaksetCreateFromProduct = () => {
+const usePaymentsBasketCreateFromProduct = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: (
@@ -78,7 +78,7 @@ const usePaymentsCheckoutStartCheckout = () => {
 export {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
-  usePaymentsBaksetCreateFromProduct,
+  usePaymentsBasketCreateFromProduct,
   usePaymentsBasketAddDiscount,
   usePaymentsCheckoutStartCheckout,
 };
