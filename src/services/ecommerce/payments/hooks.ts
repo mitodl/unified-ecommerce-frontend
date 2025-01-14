@@ -27,18 +27,22 @@ const usePaymentsBasketList = (
     ...opts,
   });
 
-const usePaymentsBasketRetrieve = (id: number, opts: ExtraQueryOpts = {}) => {
+const usePaymentsBasketRetrieve = (
+  id: number,
+  opts: ExtraQueryOpts & { queryKey?: UseQueryOptions["queryKey"] } = {},
+) => {
+  const { queryKey, ...restOpts } = opts; // Destructure queryKey from opts
   return useQuery({
-    queryKey: ["paymentsBaskets", id],
+    queryKey: queryKey || ["paymentsBaskets", id], // Use queryKey from opts or default
     queryFn: async () => {
       const response = await paymentsApi.paymentsBasketsRetrieve({ id });
       return response.data;
     },
-    ...opts,
+    ...restOpts, // Spread the remaining options
   });
 };
 
-const usePaymentsBaksetCreateFromProduct = () => {
+const usePaymentsBasketCreateFromProduct = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: (
@@ -88,7 +92,7 @@ const usePaymentsOrderHistory = (opts: ExtraQueryOpts = {}) =>
 export {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
-  usePaymentsBaksetCreateFromProduct,
+  usePaymentsBasketCreateFromProduct,
   usePaymentsBasketAddDiscount,
   usePaymentsCheckoutStartCheckout,
   usePaymentsOrderHistory,

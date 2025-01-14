@@ -1,8 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
-import { styled } from "@mitodl/smoot-design";
+import {
+  useMetaIntegratedSystemsList,
+  useMetaProductsList,
+} from "@/services/ecommerce/meta/hooks";
+import { styled, Button } from "@mitodl/smoot-design";
 import { Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import { getCurrentSystem } from "@/utils/system";
@@ -19,10 +22,12 @@ import type {
 import {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
+  usePaymentsBasketCreateFromProduct,
 } from "@/services/ecommerce/payments/hooks";
 import {
   BasketItemWithProduct,
   IntegratedSystem,
+  Product,
 } from "@mitodl/unified-ecommerce-api-axios/v0";
 
 type CartProps = {
@@ -37,11 +42,16 @@ const SelectSystemContainer = styled.div`
   margin: 16px 0;
 `;
 
+const ProductListContainer = styled.div`
+  margin: 16px 0;
+`;
+
 const SelectSystem: React.FC = () => {
   const systems = useMetaIntegratedSystemsList();
   const router = useRouter();
-
+  const [_selectedSystem, setSelectedSystem] = useState<string | null>(null);
   const hndSystemChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSystem(ev.target.value);
     router.push(`/?system=${ev.target.value}`);
   };
 
@@ -52,7 +62,7 @@ const SelectSystem: React.FC = () => {
           <label htmlFor="system">Select a system:</label>
           <select name="system" id="system" onChange={hndSystemChange}>
             <option value="">Select a system</option>
-            {systems.data.results.map((system) => (
+            {systems.data.results.map((system: IntegratedSystem) => (
               <option key={system.id} value={system.slug || ""}>
                 {system.name}
               </option>
@@ -86,17 +96,23 @@ const CartItemsContainer = styled.div`
   flex-grow: 1;
 `;
 
-const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
+const CartBody: React.FC<CartBodyProps & { refreshKey: number }> = ({
+  systemId,
+  refreshKey,
+}) => {
   const basket = usePaymentsBasketList({
     integrated_system: systemId,
   }) as UseQueryResult<PaginatedBasketWithProductList>;
   const basketDetails = usePaymentsBasketRetrieve(
     basket.data?.results[0]?.id || 0,
-    { enabled: !!basket.data?.count },
+    {
+      enabled: !!basket.data?.count,
+      queryKey: ["basketDetails", systemId, refreshKey], // Add refreshKey to query key
+    },
   ) as UseQueryResult<BasketWithProduct>;
 
   return basketDetails.isFetched &&
-    basketDetails?.data?.basket_items &&
+    basketDetails?.data?.id &&
     basketDetails.data.basket_items.length > 0 ? (
     <CartBodyContainer>
       <CartItemsContainer>
@@ -104,7 +120,7 @@ const CartBody: React.FC<CartBodyProps> = ({ systemId }) => {
           <CartItem item={item} key={`ue-basket-item-${item.id}`} />
         ))}
       </CartItemsContainer>
-      <CartSummary cartId={basketDetails.data.id} />
+      <CartSummary cartId={basketDetails.data.id} refreshKey={refreshKey} />
     </CartBodyContainer>
   ) : (
     <CartBodyContainer>
@@ -122,16 +138,70 @@ const Cart: React.FC<CartProps> = ({ system }) => {
   const selectedSystem = systems.data?.results.find(
     (integratedSystem: IntegratedSystem) => integratedSystem.slug === system,
   );
+  const products = useMetaProductsList(system || "");
+  const createBasketFromProduct = usePaymentsBasketCreateFromProduct();
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    null,
+  );
+  const [refreshKey, setRefreshKey] = useState(0);
 
+  const addToCart = async () => {
+    const selectedProduct =
+      products &&
+      products.data &&
+      products.data.results.find(
+        (product: Product) => product.id === selectedProductId,
+      );
+
+    if (!selectedProduct) {
+      return;
+    }
+
+    try {
+      const response = await createBasketFromProduct.mutateAsync({
+        sku: selectedProduct.sku,
+        system_slug: selectedSystem?.slug ?? "",
+      });
+
+      if (response && response.id) {
+        setRefreshKey((prev) => prev + 1); // Increment refreshKey to trigger updates
+      }
+    } catch (error) {
+      console.error("Failed to add product to cart", error);
+    }
+  };
+  console.log(products.data);
   return (
-    selectedSystem && (
+    selectedSystem &&
+    products.isFetched &&
+    products.data && (
       <CartContainer>
+        <ProductListContainer>
+          <Typography variant="h6">Products:</Typography>
+          <label htmlFor="products">Select a product:</label>
+          <select
+            id="products"
+            onChange={(e) => setSelectedProductId(Number(e.target.value))}
+          >
+            <option value="">Select a product</option>
+            {products.data.results.map((product) => (
+              <option key={product.id} value={product.id}>
+                {product.name}
+              </option>
+            ))}
+          </select>
+          <Button onClick={addToCart} style={{ marginLeft: "8px" }}>
+            Add to Cart
+          </Button>
+        </ProductListContainer>
         <CartHeader>
           <Typography variant="h3">
             You are about to purchase the following:
           </Typography>
         </CartHeader>
-        {selectedSystem && <CartBody systemId={selectedSystem.id} />}
+        {selectedSystem && (
+          <CartBody systemId={selectedSystem.id} refreshKey={refreshKey} />
+        )}
       </CartContainer>
     )
   );
