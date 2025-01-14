@@ -190,12 +190,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
               </option>
             ))}
           </select>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={addToCart}
-            style={{ marginLeft: "8px" }}
-          >
+          <Button onClick={addToCart} style={{ marginLeft: "8px" }}>
             Add to Cart
           </Button>
         </ProductListContainer>
