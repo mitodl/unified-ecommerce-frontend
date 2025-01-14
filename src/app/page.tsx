@@ -36,7 +36,6 @@ type CartProps = {
 
 type CartBodyProps = {
   systemId: number;
-  cartItems: BasketItemWithProduct[];
 };
 
 const SelectSystemContainer = styled.div`
@@ -50,7 +49,7 @@ const ProductListContainer = styled.div`
 const SelectSystem: React.FC = () => {
   const systems = useMetaIntegratedSystemsList();
   const router = useRouter();
-
+  const [_selectedSystem, setSelectedSystem] = useState<string | null>(null);
   const hndSystemChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedSystem(ev.target.value);
     router.push(`/?system=${ev.target.value}`);
@@ -149,14 +148,21 @@ const Cart: React.FC<CartProps> = ({ system }) => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const addToCart = async () => {
-    const selectedProduct = products.data.results.find(
-      (product: Product) => product.id === selectedProductId,
-    );
+    const selectedProduct =
+      products &&
+      products.data &&
+      products.data.results.find(
+        (product: Product) => product.id === selectedProductId,
+      );
+
+    if (!selectedProduct) {
+      return;
+    }
 
     try {
       const response = await createBasketFromProduct.mutateAsync({
         sku: selectedProduct.sku,
-        system_slug: selectedSystem?.slug,
+        system_slug: selectedSystem?.slug ?? "",
       });
 
       if (response && response.id) {
@@ -166,7 +172,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
       console.error("Failed to add product to cart", error);
     }
   };
-
+  console.log(products.data);
   return (
     selectedSystem &&
     products.isFetched &&
@@ -180,7 +186,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
             onChange={(e) => setSelectedProductId(Number(e.target.value))}
           >
             <option value="">Select a product</option>
-            {products.data.results.map((product: Product) => (
+            {products.data.results.map((product) => (
               <option key={product.id} value={product.id}>
                 {product.name}
               </option>
