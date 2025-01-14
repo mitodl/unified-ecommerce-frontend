@@ -5,8 +5,8 @@ import {
   useMetaIntegratedSystemsList,
   useMetaProductsList,
 } from "@/services/ecommerce/meta/hooks";
-import { styled } from "@mitodl/smoot-design";
-import { Typography, Button } from "@mui/material";
+import { styled, Button } from "@mitodl/smoot-design";
+import { Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import { getCurrentSystem } from "@/utils/system";
 import { Card } from "@/components/Card/Card";
@@ -56,25 +56,23 @@ const SelectSystem: React.FC = () => {
   };
 
   return (
-    <>
-      <SelectSystemContainer>
-        {systems.isFetched && systems.data ? (
-          <>
-            <label htmlFor="system">Select a system:</label>
-            <select name="system" id="system" onChange={hndSystemChange}>
-              <option value="">Select a system</option>
-              {systems.data.results.map((system: IntegratedSystem) => (
-                <option key={system.id} value={system.slug || ""}>
-                  {system.name}
-                </option>
-              ))}
-            </select>
-          </>
-        ) : (
-          <p>Loading systems...</p>
-        )}
-      </SelectSystemContainer>
-    </>
+    <SelectSystemContainer>
+      {systems.isFetched && systems.data ? (
+        <>
+          <label htmlFor="system">Select a system:</label>
+          <select name="system" id="system" onChange={hndSystemChange}>
+            <option value="">Select a system</option>
+            {systems.data.results.map((system: IntegratedSystem) => (
+              <option key={system.id} value={system.slug || ""}>
+                {system.name}
+              </option>
+            ))}
+          </select>
+        </>
+      ) : (
+        <p>Loading systems...</p>
+      )}
+    </SelectSystemContainer>
   );
 };
 
