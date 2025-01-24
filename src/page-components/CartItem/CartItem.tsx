@@ -7,6 +7,7 @@ import StyledCard from "../../components/Card/StyledCard";
 
 type CartItemProps = {
   item: BasketItemWithProduct;
+  removeItem: (id: number) => void;
 };
 
 const CartItemContainer = styled.div(() => ({
@@ -47,7 +48,7 @@ const CartItemProductDescription = styled.div`
   margin: 8px 0;
 `;
 
-const CartItem: React.FC<CartItemProps> = ({ item }) => {
+const CartItem: React.FC<CartItemProps> = ({ item, removeItem }) => {
   return (
     <StyledCard key={`ue-basket-item-${item.id}`}>
       <Card.Content>
@@ -73,6 +74,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
             <CartItemProductDescription>
               {item.product.description}
             </CartItemProductDescription>
+            <button onClick={() => removeItem(item.id)}>Remove</button>
           </CartItemContentContainer>
         </CartItemContainer>
       </Card.Content>

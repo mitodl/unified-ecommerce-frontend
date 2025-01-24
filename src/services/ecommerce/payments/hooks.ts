@@ -70,6 +70,17 @@ const usePaymentsBasketAddDiscount = () => {
   });
 };
 
+const usePaymentsBasketitemsDestroy = () => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) =>
+      paymentsApi.paymentsBasketitemsDestroy({ id }).then((response) => response.data),
+    onSuccess: () => {
+      client.invalidateQueries(["paymentsBaskets"]);
+    },
+  });
+}
+
 const usePaymentsCheckoutStartCheckout = () => {
   return useMutation({
     mutationFn: (request: PaymentsApiPaymentsCheckoutCreateRequest) =>
@@ -96,4 +107,5 @@ export {
   usePaymentsBasketAddDiscount,
   usePaymentsCheckoutStartCheckout,
   usePaymentsOrderHistory,
+  usePaymentsBasketitemsDestroy,
 };

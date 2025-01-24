@@ -23,6 +23,7 @@ import {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
   usePaymentsBasketCreateFromProduct,
+  usePaymentsBasketitemsDestroy,
 } from "@/services/ecommerce/payments/hooks";
 import {
   BasketItemWithProduct,
@@ -111,13 +112,26 @@ const CartBody: React.FC<CartBodyProps & { refreshKey: number }> = ({
     },
   ) as UseQueryResult<BasketWithProduct>;
 
+  const removeItem = usePaymentsBasketitemsDestroy();
+
+  const handleRemoveItem = (itemId: number) => {
+    console.log("Removing item", itemId);
+    removeItem.mutate(itemId, {
+      onSuccess: () => {
+        // Optionally, refetch the basket details or update the state to reflect the removal
+        basket.refetch();
+      },
+    });
+  };
+
   return basketDetails.isFetched &&
     basketDetails?.data?.id &&
     basketDetails.data.basket_items.length > 0 ? (
     <CartBodyContainer>
       <CartItemsContainer>
         {basketDetails.data.basket_items.map((item: BasketItemWithProduct) => (
-          <CartItem item={item} key={`ue-basket-item-${item.id}`} />
+          <CartItem item={item} removeItem={handleRemoveItem} key={`ue-basket-item-${item.id}`}>
+          </CartItem>
         ))}
       </CartItemsContainer>
       <CartSummary cartId={basketDetails.data.id} refreshKey={refreshKey} />
@@ -170,7 +184,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
       console.error("Failed to add product to cart", error);
     }
   };
-  console.log(products.data);
+
   return (
     selectedSystem &&
     products.isFetched &&
