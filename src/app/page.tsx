@@ -97,9 +97,10 @@ const CartItemsContainer = styled.div`
   flex-grow: 1;
 `;
 
-const CartBody: React.FC<CartBodyProps & { refreshKey: number }> = ({
+const CartBody: React.FC<CartBodyProps & { refreshKey: number, setRefreshKey: (refreshKey: number) => void;}> = ({
   systemId,
   refreshKey,
+  setRefreshKey,
 }) => {
   const basket = usePaymentsBasketList({
     integrated_system: systemId,
@@ -214,7 +215,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
           </Typography>
         </CartHeader>
         {selectedSystem && (
-          <CartBody systemId={selectedSystem.id} refreshKey={refreshKey} />
+          <CartBody systemId={selectedSystem.id} refreshKey={refreshKey} setRefreshKey={setRefreshKey} />
         )}
       </CartContainer>
     )
