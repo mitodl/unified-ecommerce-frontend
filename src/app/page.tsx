@@ -112,16 +112,16 @@ const CartBody: React.FC<CartBodyProps & { refreshKey: number }> = ({
     },
   ) as UseQueryResult<BasketWithProduct>;
 
+  // remove item from basket
   const removeItem = usePaymentsBasketitemsDestroy();
 
-  const handleRemoveItem = (itemId: number) => {
-    console.log("Removing item", itemId);
-    removeItem.mutate(itemId, {
-      onSuccess: () => {
-        // Optionally, refetch the basket details or update the state to reflect the removal
-        basket.refetch();
-      },
-    });
+  const handleRemoveItem = async (id: number) => {
+    try {
+      await removeItem.mutateAsync(id);
+      setRefreshKey((prev) => prev + 1);
+    } catch (error) {
+      console.error("Failed to remove item from cart", error);
+    }
   };
 
   return basketDetails.isFetched &&

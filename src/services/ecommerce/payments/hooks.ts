@@ -10,6 +10,7 @@ import type {
   PaymentsApiPaymentsBasketsCreateFromProductCreateRequest,
   PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
   PaymentsApiPaymentsCheckoutCreateRequest,
+  PaymentsApiPaymentsBasketitemsDestroyRequest,
 } from "@mitodl/unified-ecommerce-api-axios/v0";
 
 type ExtraQueryOpts = Omit<UseQueryOptions, "queryKey" | "queryFn">;
@@ -42,6 +43,20 @@ const usePaymentsBasketRetrieve = (
   });
 };
 
+const usePaymentsBasketitemsDestroy = () => {
+  const client = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: number) =>
+      paymentsApi
+        .paymentsBasketitemsDestroy({ id })
+        .then((response) => response.data),
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
+    },
+  });
+};
+
 const usePaymentsBasketCreateFromProduct = () => {
   const client = useQueryClient();
   return useMutation({
@@ -69,17 +84,6 @@ const usePaymentsBasketAddDiscount = () => {
     },
   });
 };
-
-const usePaymentsBasketitemsDestroy = () => {
-  const client = useQueryClient();
-  return useMutation({
-    mutationFn: (id: number) =>
-      paymentsApi.paymentsBasketitemsDestroy({ id }).then((response) => response.data),
-    onSuccess: () => {
-      client.invalidateQueries(["paymentsBaskets"]);
-    },
-  });
-}
 
 const usePaymentsCheckoutStartCheckout = () => {
   return useMutation({
