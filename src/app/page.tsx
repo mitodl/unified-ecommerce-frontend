@@ -121,7 +121,7 @@ const CartBody: React.FC<
   const handleRemoveItem = async (id: number) => {
     try {
       await removeItem.mutateAsync(id);
-      setRefreshKey((prev: int) => prev + 1);
+      setRefreshKey(refreshKey + 1);
     } catch (error) {
       console.error("Failed to remove item from cart", error);
     }
@@ -164,7 +164,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null,
   );
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [refreshKey, setRefreshKey] = useState<number>(0);
 
   const addToCart = async () => {
     const selectedProduct =
@@ -185,7 +185,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
       });
 
       if (response && response.id) {
-        setRefreshKey((prev: int) => prev + 1); // Increment refreshKey to trigger updates
+        setRefreshKey((prev) => prev + 1); // Increment refreshKey to trigger updates
       }
     } catch (error) {
       console.error("Failed to add product to cart", error);
@@ -194,10 +194,10 @@ const Cart: React.FC<CartProps> = ({ system }) => {
 
   const handleClearCart = async () => {
     try {
-      await clearBasket.mutateAsync({
-        system_slug: selectedSystem?.slug ?? "",
-      });
-      setRefreshKey((prev: int) => prev + 1); // Trigger a basket reload after clearing
+      await clearBasket.mutateAsync(
+        selectedSystem?.slug ?? "",
+      );
+      setRefreshKey((prev) => prev + 1); // Trigger a basket reload after clearing
       console.log("Cart cleared successfully.");
     } catch (error) {
       console.error("Failed to clear cart", error);
@@ -240,7 +240,6 @@ const Cart: React.FC<CartProps> = ({ system }) => {
           />
         )}
         <Button
-          variant="contained"
           color="secondary"
           onClick={handleClearCart}
           style={{ marginTop: "20px", marginBottom: "20px" }}
@@ -249,9 +248,11 @@ const Cart: React.FC<CartProps> = ({ system }) => {
         </Button>
         {selectedSystem && (
           <Button
-            variant="contained"
-            color="primary"
-            onClick={() => (window.location.href = selectedSystem.homepage_url)}
+            onClick={() => {
+              if (selectedSystem?.homepage_url) {
+                window.location.href = selectedSystem.homepage_url;
+              }
+            }}
             style={{
               marginLeft: "10px",
               marginTop: "20px",
