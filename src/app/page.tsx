@@ -121,7 +121,7 @@ const CartBody: React.FC<
   const handleRemoveItem = async (id: number) => {
     try {
       await removeItem.mutateAsync(id);
-      setRefreshKey((prev) => prev + 1);
+      setRefreshKey((prev: int) => prev + 1);
     } catch (error) {
       console.error("Failed to remove item from cart", error);
     }
@@ -185,7 +185,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
       });
 
       if (response && response.id) {
-        setRefreshKey((prev) => prev + 1); // Increment refreshKey to trigger updates
+        setRefreshKey((prev: int) => prev + 1); // Increment refreshKey to trigger updates
       }
     } catch (error) {
       console.error("Failed to add product to cart", error);
@@ -197,14 +197,12 @@ const Cart: React.FC<CartProps> = ({ system }) => {
       await clearBasket.mutateAsync({
         system_slug: selectedSystem?.slug ?? "",
       });
-      setRefreshKey((prev) => prev + 1); // Trigger a basket reload after clearing
+      setRefreshKey((prev: int) => prev + 1); // Trigger a basket reload after clearing
       console.log("Cart cleared successfully.");
     } catch (error) {
       console.error("Failed to clear cart", error);
     }
   };
-
-  console.log(selectedSystem);
 
   return (
     selectedSystem &&
