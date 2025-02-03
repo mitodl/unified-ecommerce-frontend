@@ -1,7 +1,7 @@
 import { BasketItemWithProduct } from "@mitodl/unified-ecommerce-api-axios/v0";
 import { styled } from "@mitodl/smoot-design";
 import { Card } from "../../components/Card/Card";
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 
 import StyledCard from "../../components/Card/StyledCard";
 
@@ -74,7 +74,23 @@ const CartItem: React.FC<CartItemProps> = ({ item, removeItem }) => {
             <CartItemProductDescription>
               {item.product.description}
             </CartItemProductDescription>
-            <button onClick={() => removeItem(item.id)}>Remove</button>
+            <Button
+              variant="contained"
+              color="primary"
+              href={item.product.details_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Resource Details
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => removeItem(item.id)}
+              style={{ marginLeft: "8px" }}
+            >
+              Remove
+            </Button>
           </CartItemContentContainer>
         </CartItemContainer>
       </Card.Content>
