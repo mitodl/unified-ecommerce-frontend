@@ -198,6 +198,8 @@ const Cart: React.FC<CartProps> = ({ system }) => {
     }
   };
 
+  console.log(selectedSystem);
+
   return (
     selectedSystem &&
     products.isFetched &&
@@ -233,10 +235,20 @@ const Cart: React.FC<CartProps> = ({ system }) => {
           variant="contained"
           color="secondary"
           onClick={handleClearCart}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px", marginBottom: "20px" }}
         >
           Clear Cart
         </Button>
+        {selectedSystem && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => window.location.href = selectedSystem.homepage_url}
+            style={{ marginLeft: "10px" ,marginTop: "20px", marginBottom: "20px" }}
+          >
+            Back to {selectedSystem.name}
+          </Button>
+        )}
       </CartContainer>
     )
   );
