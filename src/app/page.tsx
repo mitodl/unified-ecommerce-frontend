@@ -194,9 +194,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
 
   const handleClearCart = async () => {
     try {
-      await clearBasket.mutateAsync(
-        selectedSystem?.slug ?? "",
-      );
+      await clearBasket.mutateAsync(selectedSystem?.slug ?? "");
       setRefreshKey((prev) => prev + 1); // Trigger a basket reload after clearing
       console.log("Cart cleared successfully.");
     } catch (error) {

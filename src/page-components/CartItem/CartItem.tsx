@@ -74,10 +74,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, removeItem }) => {
             <CartItemProductDescription>
               {item.product.description}
             </CartItemProductDescription>
-            <Button
-              href={item.product.details_url}
-              rel="noopener noreferrer"
-            >
+            <Button href={item.product.details_url} rel="noopener noreferrer">
               Resource Details
             </Button>
             <Button
