@@ -19,7 +19,7 @@ import { getCurrentSystem, getCurrentStatus } from "@/utils/system";
 import type {
   PaginatedOrderHistoryList,
   OrderHistory,
-} from "@/services/ecommerce/generated/v0";
+} from "@mitodl/unified-ecommerce-api-axios/v0";
 import { usePaymentsOrderHistory } from "@/services/ecommerce/payments/hooks";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
 
