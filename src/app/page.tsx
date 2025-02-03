@@ -98,11 +98,12 @@ const CartItemsContainer = styled.div`
   flex-grow: 1;
 `;
 
-const CartBody: React.FC<CartBodyProps & { refreshKey: number, setRefreshKey: (refreshKey: number) => void;}> = ({
-  systemId,
-  refreshKey,
-  setRefreshKey,
-}) => {
+const CartBody: React.FC<
+  CartBodyProps & {
+    refreshKey: number;
+    setRefreshKey: (refreshKey: number) => void;
+  }
+> = ({ systemId, refreshKey, setRefreshKey }) => {
   const basket = usePaymentsBasketList({
     integrated_system: systemId,
   }) as UseQueryResult<PaginatedBasketWithProductList>;
@@ -132,8 +133,11 @@ const CartBody: React.FC<CartBodyProps & { refreshKey: number, setRefreshKey: (r
     <CartBodyContainer>
       <CartItemsContainer>
         {basketDetails.data.basket_items.map((item: BasketItemWithProduct) => (
-          <CartItem item={item} removeItem={handleRemoveItem} key={`ue-basket-item-${item.id}`}>
-          </CartItem>
+          <CartItem
+            item={item}
+            removeItem={handleRemoveItem}
+            key={`ue-basket-item-${item.id}`}
+          ></CartItem>
         ))}
       </CartItemsContainer>
       <CartSummary cartId={basketDetails.data.id} refreshKey={refreshKey} />
@@ -190,7 +194,9 @@ const Cart: React.FC<CartProps> = ({ system }) => {
 
   const handleClearCart = async () => {
     try {
-      await clearBasket.mutateAsync({system_slug: selectedSystem?.slug ?? "",});
+      await clearBasket.mutateAsync({
+        system_slug: selectedSystem?.slug ?? "",
+      });
       setRefreshKey((prev) => prev + 1); // Trigger a basket reload after clearing
       console.log("Cart cleared successfully.");
     } catch (error) {
@@ -229,7 +235,11 @@ const Cart: React.FC<CartProps> = ({ system }) => {
           </Typography>
         </CartHeader>
         {selectedSystem && (
-          <CartBody systemId={selectedSystem.id} refreshKey={refreshKey} setRefreshKey={setRefreshKey} />
+          <CartBody
+            systemId={selectedSystem.id}
+            refreshKey={refreshKey}
+            setRefreshKey={setRefreshKey}
+          />
         )}
         <Button
           variant="contained"
@@ -243,8 +253,12 @@ const Cart: React.FC<CartProps> = ({ system }) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => window.location.href = selectedSystem.homepage_url}
-            style={{ marginLeft: "10px" ,marginTop: "20px", marginBottom: "20px" }}
+            onClick={() => (window.location.href = selectedSystem.homepage_url)}
+            style={{
+              marginLeft: "10px",
+              marginTop: "20px",
+              marginBottom: "20px",
+            }}
           >
             Back to {selectedSystem.name}
           </Button>

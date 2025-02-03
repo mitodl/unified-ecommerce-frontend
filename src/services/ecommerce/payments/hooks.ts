@@ -61,14 +61,16 @@ const usePaymentsBasketsClearDestroy = () => {
 
   return useMutation({
     mutationFn: (systemSlug: string) =>
-      paymentsApi.paymentsBasketsClearDestroy( {
-        system_slug: systemSlug,
-      } ).then((response) => response.data),
+      paymentsApi
+        .paymentsBasketsClearDestroy({
+          system_slug: systemSlug,
+        })
+        .then((response) => response.data),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
     },
   });
-}
+};
 
 const usePaymentsBasketCreateFromProduct = () => {
   const client = useQueryClient();
