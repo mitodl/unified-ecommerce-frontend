@@ -24,6 +24,7 @@ import {
   usePaymentsBasketRetrieve,
   usePaymentsBasketCreateFromProduct,
   usePaymentsBasketitemsDestroy,
+  usePaymentsBasketsClearDestroy,
 } from "@/services/ecommerce/payments/hooks";
 import {
   BasketItemWithProduct,
@@ -155,6 +156,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
   );
   const products = useMetaProductsList(system || "");
   const createBasketFromProduct = usePaymentsBasketCreateFromProduct();
+  const clearBasket = usePaymentsBasketsClearDestroy();
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null,
   );
@@ -183,6 +185,16 @@ const Cart: React.FC<CartProps> = ({ system }) => {
       }
     } catch (error) {
       console.error("Failed to add product to cart", error);
+    }
+  };
+
+  const handleClearCart = async () => {
+    try {
+      await clearBasket.mutateAsync({system_slug: selectedSystem?.slug ?? "",});
+      setRefreshKey((prev) => prev + 1); // Trigger a basket reload after clearing
+      console.log("Cart cleared successfully.");
+    } catch (error) {
+      console.error("Failed to clear cart", error);
     }
   };
 
@@ -217,6 +229,14 @@ const Cart: React.FC<CartProps> = ({ system }) => {
         {selectedSystem && (
           <CartBody systemId={selectedSystem.id} refreshKey={refreshKey} setRefreshKey={setRefreshKey} />
         )}
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleClearCart}
+          style={{ marginTop: "20px" }}
+        >
+          Clear Cart
+        </Button>
       </CartContainer>
     )
   );
