@@ -42,6 +42,36 @@ const usePaymentsBasketRetrieve = (
   });
 };
 
+const usePaymentsBasketitemsDestroy = () => {
+  const client = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: number) =>
+      paymentsApi
+        .paymentsBasketitemsDestroy({ id })
+        .then((response) => response.data),
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
+    },
+  });
+};
+
+const usePaymentsBasketsClearDestroy = () => {
+  const client = useQueryClient();
+
+  return useMutation({
+    mutationFn: (systemSlug: string) =>
+      paymentsApi
+        .paymentsBasketsClearDestroy({
+          system_slug: systemSlug,
+        })
+        .then((response) => response.data),
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
+    },
+  });
+};
+
 const usePaymentsBasketCreateFromProduct = () => {
   const client = useQueryClient();
   return useMutation({
@@ -96,4 +126,6 @@ export {
   usePaymentsBasketAddDiscount,
   usePaymentsCheckoutStartCheckout,
   usePaymentsOrderHistory,
+  usePaymentsBasketitemsDestroy,
+  usePaymentsBasketsClearDestroy,
 };

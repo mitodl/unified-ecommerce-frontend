@@ -23,6 +23,8 @@ import {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
   usePaymentsBasketCreateFromProduct,
+  usePaymentsBasketitemsDestroy,
+  usePaymentsBasketsClearDestroy,
 } from "@/services/ecommerce/payments/hooks";
 import {
   BasketItemWithProduct,
@@ -96,10 +98,12 @@ const CartItemsContainer = styled.div`
   flex-grow: 1;
 `;
 
-const CartBody: React.FC<CartBodyProps & { refreshKey: number }> = ({
-  systemId,
-  refreshKey,
-}) => {
+const CartBody: React.FC<
+  CartBodyProps & {
+    refreshKey: number;
+    setRefreshKey: (refreshKey: number) => void;
+  }
+> = ({ systemId, refreshKey, setRefreshKey }) => {
   const basket = usePaymentsBasketList({
     integrated_system: systemId,
   }) as UseQueryResult<PaginatedBasketWithProductList>;
@@ -111,13 +115,29 @@ const CartBody: React.FC<CartBodyProps & { refreshKey: number }> = ({
     },
   ) as UseQueryResult<BasketWithProduct>;
 
+  // remove item from basket
+  const removeItem = usePaymentsBasketitemsDestroy();
+
+  const handleRemoveItem = async (id: number) => {
+    try {
+      await removeItem.mutateAsync(id);
+      setRefreshKey(refreshKey + 1);
+    } catch (error) {
+      console.error("Failed to remove item from cart", error);
+    }
+  };
+
   return basketDetails.isFetched &&
     basketDetails?.data?.id &&
     basketDetails.data.basket_items.length > 0 ? (
     <CartBodyContainer>
       <CartItemsContainer>
         {basketDetails.data.basket_items.map((item: BasketItemWithProduct) => (
-          <CartItem item={item} key={`ue-basket-item-${item.id}`} />
+          <CartItem
+            item={item}
+            removeItem={handleRemoveItem}
+            key={`ue-basket-item-${item.id}`}
+          ></CartItem>
         ))}
       </CartItemsContainer>
       <CartSummary cartId={basketDetails.data.id} refreshKey={refreshKey} />
@@ -140,10 +160,11 @@ const Cart: React.FC<CartProps> = ({ system }) => {
   );
   const products = useMetaProductsList(system || "");
   const createBasketFromProduct = usePaymentsBasketCreateFromProduct();
+  const clearBasket = usePaymentsBasketsClearDestroy();
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null,
   );
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [refreshKey, setRefreshKey] = useState<number>(0);
 
   const addToCart = async () => {
     const selectedProduct =
@@ -170,7 +191,17 @@ const Cart: React.FC<CartProps> = ({ system }) => {
       console.error("Failed to add product to cart", error);
     }
   };
-  console.log(products.data);
+
+  const handleClearCart = async () => {
+    try {
+      await clearBasket.mutateAsync(selectedSystem?.slug ?? "");
+      setRefreshKey((prev) => prev + 1); // Trigger a basket reload after clearing
+      console.log("Cart cleared successfully.");
+    } catch (error) {
+      console.error("Failed to clear cart", error);
+    }
+  };
+
   return (
     selectedSystem &&
     products.isFetched &&
@@ -200,7 +231,34 @@ const Cart: React.FC<CartProps> = ({ system }) => {
           </Typography>
         </CartHeader>
         {selectedSystem && (
-          <CartBody systemId={selectedSystem.id} refreshKey={refreshKey} />
+          <CartBody
+            systemId={selectedSystem.id}
+            refreshKey={refreshKey}
+            setRefreshKey={setRefreshKey}
+          />
+        )}
+        <Button
+          color="secondary"
+          onClick={handleClearCart}
+          style={{ marginTop: "20px", marginBottom: "20px" }}
+        >
+          Clear Cart
+        </Button>
+        {selectedSystem && (
+          <Button
+            onClick={() => {
+              if (selectedSystem?.homepage_url) {
+                window.location.href = selectedSystem.homepage_url;
+              }
+            }}
+            style={{
+              marginLeft: "10px",
+              marginTop: "20px",
+              marginBottom: "20px",
+            }}
+          >
+            Back to {selectedSystem.name}
+          </Button>
         )}
       </CartContainer>
     )
