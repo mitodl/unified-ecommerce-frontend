@@ -119,6 +119,15 @@ const usePaymentsOrderHistory = (opts: ExtraQueryOpts = {}) =>
     ...opts,
   });
 
+const usePayementsOrdersHistoryRetrieve = () => {
+  return useMutation({
+      mutationFn: (id: number) =>
+        paymentsApi
+          .paymentsOrdersHistoryRetrieve({ id })
+          .then((response) => response.data)
+  });
+};
+
 export {
   usePaymentsBasketList,
   usePaymentsBasketRetrieve,
@@ -128,4 +137,5 @@ export {
   usePaymentsOrderHistory,
   usePaymentsBasketitemsDestroy,
   usePaymentsBasketsClearDestroy,
+  usePayementsOrdersHistoryRetrieve,
 };
