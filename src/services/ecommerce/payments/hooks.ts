@@ -121,10 +121,10 @@ const usePaymentsOrderHistory = (opts: ExtraQueryOpts = {}) =>
 
 const usePayementsOrdersHistoryRetrieve = () => {
   return useMutation({
-      mutationFn: (id: number) =>
-        paymentsApi
-          .paymentsOrdersHistoryRetrieve({ id })
-          .then((response) => response.data)
+    mutationFn: (id: number) =>
+      paymentsApi
+        .paymentsOrdersHistoryRetrieve({ id })
+        .then((response) => response.data),
   });
 };
 
