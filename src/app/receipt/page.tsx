@@ -58,7 +58,7 @@ const Receipt: React.FC = () => {
           <Typography variant="h5">Receipt</Typography>
           <Button variant="contained" color="primary" onClick={handlePrint}>Print</Button>
         </div>
-        
+
         <div id="printable-area">
           <Typography variant="h6">Order Details</Typography>
           <Typography><strong>State:</strong> {state}</Typography>
