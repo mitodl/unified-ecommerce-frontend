@@ -13,8 +13,6 @@ const Receipt: React.FC = () => {
   const {
     mutateAsync: fetchOrder,
     data: order,
-    isLoading,
-    error,
   } = usePayementsOrdersHistoryRetrieve();
 
   const [hasFetched, setHasFetched] = useState(false);
@@ -38,16 +36,19 @@ const Receipt: React.FC = () => {
     window.print();
   };
 
-  if (isLoading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography color="error">Error loading order. Please try again later.</Typography>;
-  if (!order) return <Typography>No order information available.</Typography>;
-
-  const { state, reference_number: referenceNumber, total_price_paid: totalPricePaid, lines, transactions, created_on: createdOn, updated_on: updatedOn, discounts_applied } = order;
+  const state = order?.state;
+  const totalPricePaid = order?.total_price_paid || 0;
+  const lines = order?.lines || [];
+  const transactions = Array.isArray(order?.transactions) ? order.transactions : [];
   const transaction = transactions.length > 0 ? transactions[0] : null;
+
+
 
   const subtotal = lines.reduce((acc, line) => acc + Number(line.total_price), 0);
   const totalTax = transaction?.data?.req_tax_amount ? Number(transaction.data.req_tax_amount) : 0;
-  const totalDiscount = discounts_applied.reduce((acc, discount) => acc + Number(discount.amount), 0);
+  const discountsApplied = Array.isArray(order?.discounts_applied) ? order.discounts_applied : [];
+  const totalDiscount = discountsApplied.reduce((acc, discount) => acc + Number(discount.amount), 0);
+
   const grandTotal = subtotal + totalTax - totalDiscount;
 
   return (
@@ -60,11 +61,8 @@ const Receipt: React.FC = () => {
         
         <div id="printable-area">
           <Typography variant="h6">Order Details</Typography>
-          <Typography><strong>Reference Number:</strong> {referenceNumber}</Typography>
           <Typography><strong>State:</strong> {state}</Typography>
           <Typography><strong>Total Price Paid:</strong> ${Number(totalPricePaid).toFixed(2)}</Typography>
-          <Typography><strong>Created On:</strong> {new Date(createdOn).toLocaleString()}</Typography>
-          <Typography><strong>Last Updated:</strong> {new Date(updatedOn).toLocaleString()}</Typography>
 
           <Typography variant="h6" sx={{ mt: 2 }}>Purchased Items</Typography>
           <Table>
@@ -97,12 +95,8 @@ const Receipt: React.FC = () => {
               {transaction && (
                 <>
                   <Typography variant="subtitle1">Transaction Details</Typography>
-                  <Typography>Transaction ID: {transaction.transaction_id}</Typography>
-                  <Typography>Transaction Type: {transaction.transaction_type}</Typography>
-                  <Typography>Amount: ${Number(transaction.amount).toFixed(2)}</Typography>
                   <Typography>Payment Method: {transaction.data.card_type_name}</Typography>
                   <Typography>Card Number: {transaction.data.req_card_number}</Typography>
-                  <Typography>Auth Code: {transaction.data.auth_code}</Typography>
                   <Typography>Transaction Time: {new Date(transaction.created_on).toLocaleString()}</Typography>
                 </>
               )}
