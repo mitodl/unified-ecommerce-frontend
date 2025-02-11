@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { usePayementsOrdersHistoryRetrieve } from "@/services/ecommerce/payments/hooks";
-import { Button, Card, CardContent, Typography, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { Button, Card, CardContent, Typography, Table, TableHead, TableRow, TableCell, TableBody, Grid } from "@mui/material";
 
 const Receipt: React.FC = () => {
   const searchParams = useSearchParams();
@@ -42,7 +42,13 @@ const Receipt: React.FC = () => {
   if (error) return <Typography color="error">Error loading order. Please try again later.</Typography>;
   if (!order) return <Typography>No order information available.</Typography>;
 
-  const { state, reference_number: referenceNumber, total_price_paid: totalPricePaid, lines } = order;
+  const { state, reference_number: referenceNumber, total_price_paid: totalPricePaid, lines, transactions, created_on: createdOn, updated_on: updatedOn, discounts_applied } = order;
+  const transaction = transactions.length > 0 ? transactions[0] : null;
+
+  const subtotal = lines.reduce((acc, line) => acc + Number(line.total_price), 0);
+  const totalTax = transaction?.data?.req_tax_amount ? Number(transaction.data.req_tax_amount) : 0;
+  const totalDiscount = discounts_applied.reduce((acc, discount) => acc + Number(discount.amount), 0);
+  const grandTotal = subtotal + totalTax - totalDiscount;
 
   return (
     <Card sx={{ maxWidth: 800, margin: "auto", mt: 4, p: 3, backgroundColor: "#fff" }}>
@@ -57,6 +63,8 @@ const Receipt: React.FC = () => {
           <Typography><strong>Reference Number:</strong> {referenceNumber}</Typography>
           <Typography><strong>State:</strong> {state}</Typography>
           <Typography><strong>Total Price Paid:</strong> ${Number(totalPricePaid).toFixed(2)}</Typography>
+          <Typography><strong>Created On:</strong> {new Date(createdOn).toLocaleString()}</Typography>
+          <Typography><strong>Last Updated:</strong> {new Date(updatedOn).toLocaleString()}</Typography>
 
           <Typography variant="h6" sx={{ mt: 2 }}>Purchased Items</Typography>
           <Table>
@@ -83,25 +91,32 @@ const Receipt: React.FC = () => {
               ))}
             </TableBody>
           </Table>
+
+          <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid item xs={8}>
+              {transaction && (
+                <>
+                  <Typography variant="subtitle1">Transaction Details</Typography>
+                  <Typography>Transaction ID: {transaction.transaction_id}</Typography>
+                  <Typography>Transaction Type: {transaction.transaction_type}</Typography>
+                  <Typography>Amount: ${Number(transaction.amount).toFixed(2)}</Typography>
+                  <Typography>Payment Method: {transaction.data.card_type_name}</Typography>
+                  <Typography>Card Number: {transaction.data.req_card_number}</Typography>
+                  <Typography>Auth Code: {transaction.data.auth_code}</Typography>
+                  <Typography>Transaction Time: {new Date(transaction.created_on).toLocaleString()}</Typography>
+                </>
+              )}
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="h6">Order Summary</Typography>
+              <Typography><strong>Subtotal:</strong> ${subtotal.toFixed(2)}</Typography>
+              <Typography><strong>Total Tax:</strong> ${totalTax.toFixed(2)}</Typography>
+              <Typography><strong>Total Discount:</strong> -${totalDiscount.toFixed(2)}</Typography>
+              <Typography><strong>Grand Total:</strong> ${grandTotal.toFixed(2)}</Typography>
+            </Grid>
+          </Grid>
         </div>
       </CardContent>
-      
-      <style>{`
-        @media print {
-          body * {
-            visibility: hidden;
-          }
-          #printable-area, #printable-area * {
-            visibility: visible;
-          }
-          #printable-area {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-          }
-        }
-      `}</style>
     </Card>
   );
 };
