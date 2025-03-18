@@ -24,3 +24,13 @@ Version 0.1.1
 - 6393 add product chooser to system chooser screen (#33)
 - Make dependency warnings an error (#29)
 - 6200 add order history page to the frontend (#28)
+
+Version 0.1.0
+-------------
+
+- Implement basic site footer content (#41)
+- Cleaned up stale references to xpro in docs
+- Added minimal learner dashboard
+- Fix flaky util test
+- Add courses app
+- Added Wagtail and initial model definitions
