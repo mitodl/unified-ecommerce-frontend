@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.1.1
+Version 0.1.1 (Released March 18, 2025)
 -------------
 
 - Update dependency next to v15.2.2 (#51)
@@ -25,7 +25,7 @@ Version 0.1.1
 - Make dependency warnings an error (#29)
 - 6200 add order history page to the frontend (#28)
 
-Version 0.1.0
+Version 0.1.0 (Released January 09, 2025)
 -------------
 
 - Implement basic site footer content (#41)
