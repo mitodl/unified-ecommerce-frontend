@@ -24,4 +24,3 @@ Version 0.1.1
 - 6393 add product chooser to system chooser screen (#33)
 - Make dependency warnings an error (#29)
 - 6200 add order history page to the frontend (#28)
-
