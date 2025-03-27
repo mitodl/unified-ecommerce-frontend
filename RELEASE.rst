@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.2.0
+-------------
+
+- Update dependency eslint-config-next to v15.2.3 (#56)
+- Update dependency next to v15.2.3 [SECURITY] (#55)
+- Update dependency eslint-import-resolver-typescript to v4 (#52)
+
 Version 0.1.1 (Released March 18, 2025)
 -------------
 
