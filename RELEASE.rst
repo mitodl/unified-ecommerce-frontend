@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.2.0
+Version 0.2.0 (Released March 28, 2025)
 -------------
 
 - Update dependency eslint-config-next to v15.2.3 (#56)
