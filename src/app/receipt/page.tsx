@@ -23,7 +23,10 @@ const Receipt: React.FC = () => {
   const orderId = orderParam ? Number(orderParam) : null;
 
   const { mutateAsync: fetchOrder, data: order } =
-    usePayementsOrdersHistoryRetrieve() as { mutateAsync: (id: number) => Promise<void>; data: OrderHistory | undefined };
+    usePayementsOrdersHistoryRetrieve() as {
+      mutateAsync: (id: number) => Promise<void>;
+      data: OrderHistory | undefined;
+    };
 
   const [hasFetched, setHasFetched] = useState(false);
 
@@ -147,7 +150,7 @@ const Receipt: React.FC = () => {
           </Table>
 
           <Grid2 container spacing={2} sx={{ mt: 2 }}>
-            <Grid2 size={{xs: 8}}>
+            <Grid2 size={{ xs: 8 }}>
               {transaction && (
                 <>
                   <Typography variant="subtitle1">
@@ -166,7 +169,7 @@ const Receipt: React.FC = () => {
                 </>
               )}
             </Grid2>
-            <Grid2 size={{xs: 4}}>
+            <Grid2 size={{ xs: 4 }}>
               <Typography variant="h6">Order Summary</Typography>
               <Typography>
                 <strong>Subtotal:</strong> ${subtotal.toFixed(2)}

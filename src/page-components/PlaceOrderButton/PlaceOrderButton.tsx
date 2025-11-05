@@ -15,9 +15,9 @@ const PlaceOrderButton: React.FC<PlaceOrderButtonProps> = ({ systemSlug }) => {
   const checkoutMutation = usePaymentsCheckoutStartCheckout();
 
   const handleClick = async () => {
-    const checkout = await checkoutMutation.mutateAsync({
+    const checkout = (await checkoutMutation.mutateAsync({
       system_slug: systemSlug,
-    }) as CyberSourceCheckout;
+    })) as CyberSourceCheckout;
 
     // Construct the form based on the data we got back, then submit it.
 

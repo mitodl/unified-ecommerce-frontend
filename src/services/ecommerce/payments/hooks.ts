@@ -22,7 +22,8 @@ const usePaymentsBasketList = (
   useQuery({
     queryKey: ["paymentsBaskets", options],
     queryFn: async () => {
-      const response = await paymentsApi.commerceApiV0PaymentsBasketsList(options);
+      const response =
+        await paymentsApi.commerceApiV0PaymentsBasketsList(options);
       return response.data;
     },
     ...opts,
@@ -36,7 +37,9 @@ const usePaymentsBasketRetrieve = (
   return useQuery({
     queryKey: queryKey || ["paymentsBaskets", id], // Use queryKey from opts or default
     queryFn: async () => {
-      const response = await paymentsApi.commerceApiV0PaymentsBasketsRetrieve({ id });
+      const response = await paymentsApi.commerceApiV0PaymentsBasketsRetrieve({
+        id,
+      });
       return response.data;
     },
     ...restOpts, // Spread the remaining options
@@ -114,7 +117,8 @@ const usePaymentsOrderHistory = (opts: ExtraQueryOpts = {}) =>
   useQuery({
     queryKey: ["paymentsOrders"],
     queryFn: async () => {
-      const response = await paymentsApi.commerceApiV0PaymentsOrdersHistoryList();
+      const response =
+        await paymentsApi.commerceApiV0PaymentsOrdersHistoryList();
       return response.data;
     },
     ...opts,
