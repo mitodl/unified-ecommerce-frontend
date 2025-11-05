@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, styled } from "@mitodl/smoot-design";
 import { usePaymentsCheckoutStartCheckout } from "@/services/ecommerce/payments/hooks";
+import type { CyberSourceCheckout } from "@mitodl/unified-ecommerce-api-axios/v0";
 
 type PlaceOrderButtonProps = {
   systemSlug: string;
@@ -16,7 +17,7 @@ const PlaceOrderButton: React.FC<PlaceOrderButtonProps> = ({ systemSlug }) => {
   const handleClick = async () => {
     const checkout = await checkoutMutation.mutateAsync({
       system_slug: systemSlug,
-    });
+    }) as CyberSourceCheckout;
 
     // Construct the form based on the data we got back, then submit it.
 

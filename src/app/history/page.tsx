@@ -19,6 +19,7 @@ import { getCurrentSystem, getCurrentStatus } from "@/utils/system";
 import type {
   PaginatedOrderHistoryList,
   OrderHistory,
+  IntegratedSystem,
 } from "@mitodl/unified-ecommerce-api-axios/v0";
 import { usePaymentsOrderHistory } from "@/services/ecommerce/payments/hooks";
 import { useMetaIntegratedSystemsList } from "@/services/ecommerce/meta/hooks";
@@ -158,7 +159,7 @@ const OrderHistory: React.FC = () => {
         accessorFn: (row: OrderHistory) => {
           const systemId = row.lines[0]?.product.system;
           const system = integratedSystemList.data?.results.find(
-            (sys) => sys.id === systemId,
+            (sys: IntegratedSystem) => sys.id === systemId,
           );
           return system ? system.name : "N/A";
         },

@@ -184,7 +184,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
         system_slug: selectedSystem?.slug ?? "",
       });
 
-      if (response && response.id) {
+      if (response && Object.hasOwn(response, "id")) {
         setRefreshKey((prev) => prev + 1); // Increment refreshKey to trigger updates
       }
     } catch (error) {
@@ -215,7 +215,7 @@ const Cart: React.FC<CartProps> = ({ system }) => {
             onChange={(e) => setSelectedProductId(Number(e.target.value))}
           >
             <option value="">Select a product</option>
-            {products.data.results.map((product) => (
+            {products.data.results.map((product: Product) => (
               <option key={product.id} value={product.id}>
                 {product.name}
               </option>

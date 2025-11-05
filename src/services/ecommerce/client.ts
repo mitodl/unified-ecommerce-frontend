@@ -1,11 +1,7 @@
 import invariant from "tiny-invariant";
 import axios from "axios";
 
-import {
-  PaymentsApi,
-  UsersApi,
-  MetaApi,
-} from "@mitodl/unified-ecommerce-api-axios/v0";
+import { CommerceApi } from "@mitodl/unified-ecommerce-api-axios/v0";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_UE_API_BASE_URL;
 invariant(BASE_PATH, "NEXT_PUBLIC_UE_API_BASE_URL is required.");
@@ -17,11 +13,11 @@ const instance = axios.create({
   xsrfHeaderName: "X-CSRFTOKEN",
 });
 
-const paymentsApi = new PaymentsApi(undefined, BASE_PATH, instance);
+const paymentsApi = new CommerceApi(undefined, BASE_PATH, instance);
 
-const usersApi = new UsersApi(undefined, BASE_PATH, instance);
+const usersApi = new CommerceApi(undefined, BASE_PATH, instance);
 
-const metaApi = new MetaApi(undefined, BASE_PATH, instance);
+const metaApi = new CommerceApi(undefined, BASE_PATH, instance);
 
 const devSameSiteCheck = () => {
   if (process.env.NODE_ENV === "development") {

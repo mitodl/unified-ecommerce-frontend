@@ -5,7 +5,7 @@ const useMetaIntegratedSystemsList = () =>
   useQuery({
     queryKey: ["metaIntegratedSystems"],
     queryFn: async () => {
-      const response = await metaApi.metaIntegratedSystemList();
+      const response = await metaApi.commerceApiV0MetaIntegratedSystemList();
       return response.data;
     },
   });
@@ -14,7 +14,7 @@ const useMetaProductsList = (systemSlug: string) =>
   useQuery({
     queryKey: ["metaProducts"],
     queryFn: async () => {
-      const response = await metaApi.metaProductList({
+      const response = await metaApi.commerceApiV0MetaProductList({
         system__slug: systemSlug,
       });
       return response.data;

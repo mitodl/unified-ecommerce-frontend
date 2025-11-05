@@ -6,11 +6,12 @@ import {
 } from "@tanstack/react-query";
 import { paymentsApi } from "../client";
 import type {
-  PaymentsApiPaymentsBasketsListRequest,
-  PaymentsApiPaymentsBasketsCreateFromProductCreateRequest,
-  PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
-  PaymentsApiPaymentsCheckoutCreateRequest,
+  CommerceApiCommerceApiV0PaymentsBasketsListRequest as PaymentsApiPaymentsBasketsListRequest,
+  CommerceApiCommerceApiV0PaymentsBasketsCreateFromProductCreateRequest as PaymentsApiPaymentsBasketsCreateFromProductCreateRequest,
+  CommerceApiCommerceApiV0PaymentsBasketsAddDiscountCreateRequest as PaymentsApiPaymentsBasketsAddDiscountCreateRequest,
+  CommerceApiCommerceApiV0PaymentsCheckoutCreateRequest as PaymentsApiPaymentsCheckoutCreateRequest,
 } from "@mitodl/unified-ecommerce-api-axios/v0";
+import { AxiosResponse } from "axios";
 
 type ExtraQueryOpts = Omit<UseQueryOptions, "queryKey" | "queryFn">;
 
@@ -21,7 +22,7 @@ const usePaymentsBasketList = (
   useQuery({
     queryKey: ["paymentsBaskets", options],
     queryFn: async () => {
-      const response = await paymentsApi.paymentsBasketsList(options);
+      const response = await paymentsApi.commerceApiV0PaymentsBasketsList(options);
       return response.data;
     },
     ...opts,
@@ -35,7 +36,7 @@ const usePaymentsBasketRetrieve = (
   return useQuery({
     queryKey: queryKey || ["paymentsBaskets", id], // Use queryKey from opts or default
     queryFn: async () => {
-      const response = await paymentsApi.paymentsBasketsRetrieve({ id });
+      const response = await paymentsApi.commerceApiV0PaymentsBasketsRetrieve({ id });
       return response.data;
     },
     ...restOpts, // Spread the remaining options
@@ -48,8 +49,8 @@ const usePaymentsBasketitemsDestroy = () => {
   return useMutation({
     mutationFn: (id: number) =>
       paymentsApi
-        .paymentsBasketitemsDestroy({ id })
-        .then((response) => response.data),
+        .commerceApiV0PaymentsBasketitemsDestroy({ id })
+        .then((response: AxiosResponse) => response.data),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
     },
@@ -62,10 +63,10 @@ const usePaymentsBasketsClearDestroy = () => {
   return useMutation({
     mutationFn: (systemSlug: string) =>
       paymentsApi
-        .paymentsBasketsClearDestroy({
+        .commerceApiV0PaymentsBasketsClearDestroy({
           system_slug: systemSlug,
         })
-        .then((response) => response.data),
+        .then((response: AxiosResponse) => response.data),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ["paymentsBaskets"] });
     },
@@ -79,8 +80,8 @@ const usePaymentsBasketCreateFromProduct = () => {
       slugAndSku: PaymentsApiPaymentsBasketsCreateFromProductCreateRequest,
     ) =>
       paymentsApi
-        .paymentsBasketsCreateFromProductCreate(slugAndSku)
-        .then((response) => response.data),
+        .commerceApiV0PaymentsBasketsCreateFromProductCreate(slugAndSku)
+        .then((response: AxiosResponse) => response.data),
     onSuccess: (_data) => {
       client.invalidateQueries({ queryKey: ["paymentsBaskets", _data] });
     },
@@ -92,8 +93,8 @@ const usePaymentsBasketAddDiscount = () => {
   return useMutation({
     mutationFn: (request: PaymentsApiPaymentsBasketsAddDiscountCreateRequest) =>
       paymentsApi
-        .paymentsBasketsAddDiscountCreate(request)
-        .then((response) => response.data),
+        .commerceApiV0PaymentsBasketsAddDiscountCreate(request)
+        .then((response: AxiosResponse) => response.data),
     onSuccess: (_data) => {
       client.invalidateQueries({ queryKey: ["paymentsBaskets", _data] });
     },
@@ -104,8 +105,8 @@ const usePaymentsCheckoutStartCheckout = () => {
   return useMutation({
     mutationFn: (request: PaymentsApiPaymentsCheckoutCreateRequest) =>
       paymentsApi
-        .paymentsCheckoutCreate(request)
-        .then((response) => response.data),
+        .commerceApiV0PaymentsCheckoutCreate(request)
+        .then((response: AxiosResponse) => response.data),
   });
 };
 
@@ -113,7 +114,7 @@ const usePaymentsOrderHistory = (opts: ExtraQueryOpts = {}) =>
   useQuery({
     queryKey: ["paymentsOrders"],
     queryFn: async () => {
-      const response = await paymentsApi.paymentsOrdersHistoryList();
+      const response = await paymentsApi.commerceApiV0PaymentsOrdersHistoryList();
       return response.data;
     },
     ...opts,
@@ -123,8 +124,8 @@ const usePayementsOrdersHistoryRetrieve = () => {
   return useMutation({
     mutationFn: (id: number) =>
       paymentsApi
-        .paymentsOrdersHistoryRetrieve({ id })
-        .then((response) => response.data),
+        .commerceApiV0PaymentsOrdersHistoryRetrieve({ id })
+        .then((response: AxiosResponse) => response.data),
   });
 };
 

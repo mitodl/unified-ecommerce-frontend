@@ -13,8 +13,9 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Grid,
+  Grid2,
 } from "@mui/material";
+import { OrderHistory } from "@mitodl/unified-ecommerce-api-axios/v0";
 
 const Receipt: React.FC = () => {
   const searchParams = useSearchParams();
@@ -22,7 +23,7 @@ const Receipt: React.FC = () => {
   const orderId = orderParam ? Number(orderParam) : null;
 
   const { mutateAsync: fetchOrder, data: order } =
-    usePayementsOrdersHistoryRetrieve();
+    usePayementsOrdersHistoryRetrieve() as { mutateAsync: (id: number) => Promise<void>; data: OrderHistory | undefined };
 
   const [hasFetched, setHasFetched] = useState(false);
 
@@ -145,8 +146,8 @@ const Receipt: React.FC = () => {
             </TableBody>
           </Table>
 
-          <Grid container spacing={2} sx={{ mt: 2 }}>
-            <Grid item xs={8}>
+          <Grid2 container spacing={2} sx={{ mt: 2 }}>
+            <Grid2 size={{xs: 8}}>
               {transaction && (
                 <>
                   <Typography variant="subtitle1">
@@ -164,8 +165,8 @@ const Receipt: React.FC = () => {
                   </Typography>
                 </>
               )}
-            </Grid>
-            <Grid item xs={4}>
+            </Grid2>
+            <Grid2 size={{xs: 4}}>
               <Typography variant="h6">Order Summary</Typography>
               <Typography>
                 <strong>Subtotal:</strong> ${subtotal.toFixed(2)}
@@ -179,8 +180,8 @@ const Receipt: React.FC = () => {
               <Typography>
                 <strong>Grand Total:</strong> ${grandTotal.toFixed(2)}
               </Typography>
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         </div>
       </CardContent>
     </Card>
